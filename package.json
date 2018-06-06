@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "koa": "^2.5.1",
-    "koa-static": "^4.0.3",
-    "koa-webpack": "^5.0.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
   },
@@ -16,8 +13,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "deploy": "scp -r ./public root@www.rtc9.com:/root/apps/rtc9/static",
-    "defaults": "webpack-defaults"
+    "eject": "react-scripts eject"
   }
 }
