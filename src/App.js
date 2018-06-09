@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Icon, NavBar, Tabs } from 'antd-mobile';
+import { NavBar, Tabs } from 'antd-mobile';
 import AppTabItem from './Component/AppTabItem';
+import CustomIcon from './Component/CustomIcon';
 import './App.less';
 
 class App extends Component {
@@ -25,8 +26,8 @@ class App extends Component {
           mode="dark"
           leftContent={"微信"}
           rightContent={[
-            <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
-            <Icon key="1" type="ellipsis" />,
+            <CustomIcon key="0" type="search" size="lg" style={{ marginRight: '16px' }} />,
+            <CustomIcon key="1" type="plus-s" size="lg" />,
           ]}
         ></NavBar>
         <div className="body">
