@@ -1,0 +1,87 @@
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'weicon';  /* project id 701136 */
+  src: url('//at.alicdn.com/t/font_701136_g2pqrtyzidv1v2t9.eot');
+  src: url('//at.alicdn.com/t/font_701136_g2pqrtyzidv1v2t9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_701136_g2pqrtyzidv1v2t9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_701136_g2pqrtyzidv1v2t9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_701136_g2pqrtyzidv1v2t9.svg#weicon') format('svg');
+}
+@icon-suffix: -xxs -xs -sm -md -lg;
+@icon-size: 15px 18px 21px 24px 36px;
+@icon-font-size: 10px 12px 14px 16px 24px;
+.generate-icon-size(length(@icon-suffix));
+.generate-icon-size(@n, @i: 1) when(@i <= @n) {
+  @suffix: extract(@icon-suffix, @i);
+  @size: extract(@icon-size, @i);
+  @font-zie: extract(@icon-font-size, @i);
+  .we-icon@{suffix} {
+    width: @size;
+    height: @size;
+    font-size: @font-zie;
+  }
+  .generate-icon-size(@n, (@i + 1));
+}
+
+#root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.header {
+  flex: 45px 0;
+}
+
+.body {
+  flex: 45px 1;
+}
+
+.body-pane {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+.body > .am-tabs > .am-tabs-tab-bar-wrap > .am-tabs-default-bar > .am-tabs-default-bar-content > .am-tabs-default-bar-tab {
+  height: 50px;
+}
+
+.app-tab-item {
+  display: block;
+  text-align: center;
+  .icon {
+    line-height: 1;
+    text-align: center;
+    .we-icon-lg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .text {
+    text-align: center;
+    line-height: 1;
+    font-size: 12px;
+    line-height: 12px;
+  }
+  .weicon + .am-badge-text {
+    top: 0 !important;
+  }
+  .weicon + .am-badge-dot {
+    top: 0 !important;
+  }
+}

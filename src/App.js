@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { Badge, Icon, NavBar, Tabs } from 'antd-mobile';
-import './App.css';
-
-const tabs = [
-  { title: <Badge text={'3'}>微信</Badge> },
-  { title: <Badge text={'5'}>通信录</Badge> },
-  { title: <Badge dot>发现</Badge> },
-  { title: <Badge dot>我</Badge> },
-];
+import AppTabItem from './Component/AppTabItem';
+import './App.less';
 
 class App extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      initialPage: 1
+    };
+  }
   render() {
+    const { initialPage } = this.state;
+    const tabs = [
+      { title: <AppTabItem text="微信" icon="weixin" badgeText="2" active={initialPage === 0} /> },
+      { title: <AppTabItem text="通信录" icon="contact" active={initialPage === 1} /> },
+      { title: <AppTabItem text="发现" icon="compass" badgeDot active={initialPage === 2} /> },
+      { title: <AppTabItem text="我" icon="my" active={initialPage === 3} /> },
+    ];
     return (
       <div className="app">
          <NavBar
@@ -22,25 +29,27 @@ class App extends Component {
             <Icon key="1" type="ellipsis" />,
           ]}
         ></NavBar>
-        <Tabs tabs={tabs}
-          className="body"
-          initialPage={1}
-          tabBarPosition="bottom"
-          renderTab={tab => <span>{tab.title}</span>}
-        >
-          <div className="body-pane">
-            Content of first tab
-          </div>
-          <div className="body-pane">
-            Content of second tab
-          </div>
-          <div className="body-pane">
-            Content of third tab
-          </div>
-          <div className="body-pane">
-            Content of third tab
-          </div>
-        </Tabs>
+        <div className="body">
+          <Tabs tabs={tabs}
+            initialPage={initialPage}
+            tabBarPosition="bottom"
+            renderTab={tab => tab.title }
+            onChange={(tab, index) => { this.setState({ initialPage: index }); }}
+          >
+            <div className="body-pane">
+              Content of first tab
+            </div>
+            <div className="body-pane">
+              Content of second tab
+            </div>
+            <div className="body-pane">
+              Content of third tab
+            </div>
+            <div className="body-pane">
+              Content of third tab
+            </div>
+          </Tabs>
+        </div>
       </div>
     );
   }
