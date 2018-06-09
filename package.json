@@ -64,7 +64,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
-    "babel-plugin-import": "^1.7.0"
+    "babel-plugin-import": "^1.7.0",
+    "less-loader": "^4.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
