@@ -150,8 +150,8 @@ module.exports = {
               // directory for faster rebuilds.
               cacheDirectory: true,
               plugins: [
-                ['import', { libraryName: 'antd-mobile', style: 'css'}]
-              ]
+                ['babel-plugin-import', { libraryName: 'antd-mobile', style: 'css'}]
+              ],
             },
           },
           // "postcss" loader applies autoprefixer to our CSS.
