@@ -235,6 +235,10 @@
   version "6.0.1"
   resolved "http://registry.npm.alibaba-inc.com/@types/json-schema/download/@types/json-schema-6.0.1.tgz#a761975746f1c1b2579c62e3a4b5e88f986f7e2e"
 
+"@types/less@0.0.33":
+  version "0.0.33"
+  resolved "http://registry.npm.alibaba-inc.com/@types/less/download/@types/less-0.0.33.tgz#a7236ab8f767cdb6b39bcd97f225a33e3cd412f1"
+
 "@types/mime@*":
   version "2.0.0"
   resolved "http://registry.npm.alibaba-inc.com/@types/mime/download/@types/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -2561,7 +2565,7 @@ entities@~1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.alibaba-inc.com/entities/download/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
-errno@^0.1.3, errno@~0.1.7:
+errno@^0.1.1, errno@^0.1.3, errno@~0.1.7:
   version "0.1.7"
   resolved "http://registry.npm.alibaba-inc.com/errno/download/errno-0.1.7.tgz#4684d71779ad39af177e3f007996f7c67c852618"
   dependencies:
@@ -3679,6 +3683,10 @@ ignore@^3.3.3:
   version "3.3.8"
   resolved "http://registry.npm.alibaba-inc.com/ignore/download/ignore-3.3.8.tgz#3f8e9c35d38708a3a7e0e9abb6c73e7ee7707b2b"
 
+image-size@~0.5.0:
+  version "0.5.5"
+  resolved "http://registry.npm.alibaba-inc.com/image-size/download/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
+
 import-lazy@^2.1.0:
   version "2.1.0"
   resolved "http://registry.npm.alibaba-inc.com/import-lazy/download/import-lazy-2.1.0.tgz#05698e3d45c88e8d7e9d92cb0584e77f096f3e43"
@@ -4553,6 +4561,19 @@ less-loader@^4.1.0:
     clone "^2.1.1"
     loader-utils "^1.1.0"
     pify "^3.0.0"
+
+less@^3.0.4:
+  version "3.0.4"
+  resolved "http://registry.npm.alibaba-inc.com/less/download/less-3.0.4.tgz#d27dcedbac96031c9e7b76f1da1e4b7d83760814"
+  optionalDependencies:
+    errno "^0.1.1"
+    graceful-fs "^4.1.2"
+    image-size "~0.5.0"
+    mime "^1.4.1"
+    mkdirp "^0.5.0"
+    promise "^7.1.1"
+    request "^2.83.0"
+    source-map "~0.6.0"
 
 leven@^2.1.0:
   version "2.1.0"
@@ -5864,10 +5885,6 @@ pseudomap@^1.0.2:
   version "1.0.2"
   resolved "http://registry.npm.alibaba-inc.com/pseudomap/download/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
 
-psl@^1.1.24:
-  version "1.1.27"
-  resolved "http://registry.npm.alibaba-inc.com/psl/download/psl-1.1.27.tgz#2b2c77019db86855170d903532400bf71ee085b6"
-
 public-encrypt@^4.0.0:
   version "4.0.2"
   resolved "http://registry.npm.alibaba-inc.com/public-encrypt/download/public-encrypt-4.0.2.tgz#46eb9107206bf73489f8b85b69d91334c6610994"
@@ -6351,7 +6368,7 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-request@^2.79.0:
+request@^2.79.0, request@^2.83.0:
   version "2.87.0"
   resolved "http://registry.npm.alibaba-inc.com/request/download/request-2.87.0.tgz#32f00235cd08d482b4d0d68db93a829c0ed5756e"
   dependencies:
@@ -6899,7 +6916,7 @@ source-map@^0.4.4:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
+source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   version "0.6.1"
   resolved "http://registry.npm.alibaba-inc.com/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
@@ -7267,14 +7284,7 @@ toposort@^1.0.0:
   version "1.0.7"
   resolved "http://registry.npm.alibaba-inc.com/toposort/download/toposort-1.0.7.tgz#2e68442d9f64ec720b8cc89e6443ac6caa950029"
 
-tough-cookie@^2.3.2:
-  version "2.4.2"
-  resolved "http://registry.npm.alibaba-inc.com/tough-cookie/download/tough-cookie-2.4.2.tgz#aa9133154518b494efab98a58247bfc38818c00c"
-  dependencies:
-    psl "^1.1.24"
-    punycode "^1.4.1"
-
-tough-cookie@~2.3.3:
+tough-cookie@^2.3.2, tough-cookie@~2.3.3:
   version "2.3.4"
   resolved "http://registry.npm.alibaba-inc.com/tough-cookie/download/tough-cookie-2.3.4.tgz#ec60cee38ac675063ffc97a5c18970578ee83655"
   dependencies:

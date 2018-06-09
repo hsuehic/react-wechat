@@ -225,7 +225,8 @@ module.exports = {
                 },
               },
               {
-                loader: 'less-loader', options: {
+                loader: require.resolve('less-loader'),
+                options: {
                   strictMath: true,
                   noIeCompat: true
                 }

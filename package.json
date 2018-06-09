@@ -64,7 +64,9 @@
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
+    "@types/less": "0.0.33",
     "babel-plugin-import": "^1.7.0",
+    "less": "^3.0.4",
     "less-loader": "^4.1.0"
   },
   "scripts": {
