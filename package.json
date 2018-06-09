@@ -67,7 +67,10 @@
     "@types/less": "0.0.33",
     "babel-plugin-import": "^1.7.0",
     "less": "^3.0.4",
-    "less-loader": "^4.1.0"
+    "less-loader": "^4.1.0",
+    "postcss-aspect-ratio-mini": "^0.0.2",
+    "postcss-px-to-viewport": "^0.0.3",
+    "postcss-write-svg": "^3.0.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

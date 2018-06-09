@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Icon, NavBar, Tabs } from 'antd-mobile';
+import { Icon, NavBar, Tabs } from 'antd-mobile';
 import AppTabItem from './Component/AppTabItem';
 import './App.less';
 
