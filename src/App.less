@@ -4,7 +4,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-size: 28px;
+  font-size: 14px;
 }
 
 @font-face {
@@ -16,8 +16,8 @@ html, body {
   url('//at.alicdn.com/t/font_701136_g2pqrtyzidv1v2t9.svg#weicon') format('svg');
 }
 @icon-suffix: -xxs -xs -sm -md -lg;
-@icon-size: 30px 36px 42px 48px 72px;
-@icon-font-size: 20px 24px 28px 32px 48px;
+@icon-size: 15px 18px 21px 24px 36px;
+@icon-font-size: 10px 12px 14px 16px 24px;
 .generate-icon-size(length(@icon-suffix));
 .generate-icon-size(@n, @i: 1) when(@i <= @n) {
   @suffix: extract(@icon-suffix, @i);
@@ -45,11 +45,11 @@ html, body {
 }
 
 .header {
-  flex: 90px 0;
+  flex: 45px 0;
 }
 
 .body {
-  flex: 90px 1;
+  flex: 45px 1;
 }
 
 .body-pane {
@@ -59,7 +59,7 @@ html, body {
   background: #ffffff;
 }
 .body > .am-tabs > .am-tabs-tab-bar-wrap > .am-tabs-default-bar > .am-tabs-default-bar-content > .am-tabs-default-bar-tab {
-  height: 100px;
+  height: 50px;
 }
 
 .app-tab-item {
@@ -69,15 +69,15 @@ html, body {
     line-height: 1;
     text-align: center;
     .we-icon-lg {
-      width: 48px;
-      height: 48px;
+      width: 24px;
+      height: 24px;
     }
   }
   .text {
     text-align: center;
     line-height: 1;
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 12px;
+    line-height: 12px;
   }
   .weicon + .am-badge-text {
     top: 0 !important;
@@ -85,30 +85,4 @@ html, body {
   .weicon + .am-badge-dot {
     top: 0 !important;
   }
-}
-
-@svg 1px-border {
-  height: 2px;
-  @rect {
-      fill: var(--color, black);
-      width: 100%;
-      height: 50%;
-  }
-}
-
-.example {
-  border: 1px solid transparent;
-  border-image: svg(1px-border param(--color #00b1ff)) 2 2 stretch;
-}
-
-@svg square {
-  @rect {
-      fill: var(--color, black);
-      width: 100%;
-      height: 100%;
-  }
-}
-
-#example1 {
-  background: white svg(square param(--color #00b1ff));
 }

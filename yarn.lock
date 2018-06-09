@@ -400,7 +400,7 @@ ajv-keywords@^2.0.0:
   version "2.1.1"
   resolved "http://registry.npm.alibaba-inc.com/ajv-keywords/download/ajv-keywords-2.1.1.tgz#617997fc5f60576894c435f940d819e135b80762"
 
-ajv-keywords@^3.0.0:
+ajv-keywords@^3.0.0, ajv-keywords@^3.2.0:
   version "3.2.0"
   resolved "http://registry.npm.alibaba-inc.com/ajv-keywords/download/ajv-keywords-3.2.0.tgz#e86b819c602cf8821ad637413698f1dec021847a"
 
@@ -413,7 +413,7 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5, ajv@^5.2.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.0.1:
+ajv@^6.0.1, ajv@^6.5.0:
   version "6.5.0"
   resolved "http://registry.npm.alibaba-inc.com/ajv/download/ajv-6.5.0.tgz#4c8affdf80887d8f132c9c52ab8a2dc4d0b7b24c"
   dependencies:
@@ -944,6 +944,23 @@ babel-plugin-jest-hoist@^20.0.3:
   version "20.0.3"
   resolved "http://registry.npm.alibaba-inc.com/babel-plugin-jest-hoist/download/babel-plugin-jest-hoist-20.0.3.tgz#afedc853bd3f8dc3548ea671fbe69d03cc2c1767"
 
+babel-plugin-react-css-modules@^3.4.2:
+  version "3.4.2"
+  resolved "http://registry.npm.taobao.org/babel-plugin-react-css-modules/download/babel-plugin-react-css-modules-3.4.2.tgz#4c1db8d4bc8b2973f6c689da7dbd56b0cb8f099c"
+  dependencies:
+    ajv "^6.5.0"
+    ajv-keywords "^3.2.0"
+    babel-plugin-syntax-jsx "^6.18.0"
+    babel-types "^6.26.0"
+    generic-names "^1.0.3"
+    postcss "^6.0.22"
+    postcss-modules "^1.1.0"
+    postcss-modules-extract-imports "^1.1.0"
+    postcss-modules-local-by-default "^1.2.0"
+    postcss-modules-parser "^1.1.1"
+    postcss-modules-scope "^1.1.0"
+    postcss-modules-values "^1.3.0"
+
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
   resolved "http://registry.npm.alibaba-inc.com/babel-plugin-syntax-async-functions/download/babel-plugin-syntax-async-functions-6.13.0.tgz#cad9cad1191b5ad634bf30ae0872391e0647be95"
@@ -964,7 +981,7 @@ babel-plugin-syntax-flow@^6.18.0:
   version "6.18.0"
   resolved "http://registry.npm.alibaba-inc.com/babel-plugin-syntax-flow/download/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
 
-babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
+babel-plugin-syntax-jsx@^6.18.0, babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
   version "6.18.0"
   resolved "http://registry.npm.alibaba-inc.com/babel-plugin-syntax-jsx/download/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
 
@@ -2146,6 +2163,17 @@ css-loader@0.28.7:
     postcss-value-parser "^3.3.0"
     source-list-map "^2.0.0"
 
+css-modules-loader-core@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/css-modules-loader-core/download/css-modules-loader-core-1.1.0.tgz#5908668294a1becd261ae0a4ce21b0b551f21d16"
+  dependencies:
+    icss-replace-symbols "1.1.0"
+    postcss "6.0.1"
+    postcss-modules-extract-imports "1.1.0"
+    postcss-modules-local-by-default "1.2.0"
+    postcss-modules-scope "1.1.0"
+    postcss-modules-values "1.3.0"
+
 css-select@^1.1.0:
   version "1.2.0"
   resolved "http://registry.npm.alibaba-inc.com/css-select/download/css-select-1.2.0.tgz#2b3a110539c5355f1cd8d314623e870b121ec858"
@@ -3280,6 +3308,12 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+generic-names@^1.0.2, generic-names@^1.0.3:
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/generic-names/download/generic-names-1.0.3.tgz#2d786a121aee508876796939e8e3bff836c20917"
+  dependencies:
+    loader-utils "^0.2.16"
+
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "http://registry.npm.alibaba-inc.com/get-caller-file/download/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
@@ -3659,7 +3693,7 @@ iconv-lite@^0.4.17, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-icss-replace-symbols@^1.1.0:
+icss-replace-symbols@1.1.0, icss-replace-symbols@^1.0.2, icss-replace-symbols@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.alibaba-inc.com/icss-replace-symbols/download/icss-replace-symbols-1.1.0.tgz#06ea6f83679a7749e386cfe1fe812ae5db223ded"
 
@@ -4649,6 +4683,20 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash._arrayeach@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/lodash._arrayeach/download/lodash._arrayeach-3.0.0.tgz#bab156b2a90d3f1bbd5c653403349e5e5933ef9e"
+
+lodash._baseeach@^3.0.0:
+  version "3.0.4"
+  resolved "http://registry.npm.taobao.org/lodash._baseeach/download/lodash._baseeach-3.0.4.tgz#cf8706572ca144e8d9d75227c990da982f932af3"
+  dependencies:
+    lodash.keys "^3.0.0"
+
+lodash._bindcallback@^3.0.0:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/lodash._bindcallback/download/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
+
 lodash._getnative@^3.0.0:
   version "3.9.1"
   resolved "http://registry.npm.alibaba-inc.com/lodash._getnative/download/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
@@ -4669,6 +4717,15 @@ lodash.defaults@^4.2.0:
   version "4.2.0"
   resolved "http://registry.npm.alibaba-inc.com/lodash.defaults/download/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
 
+lodash.foreach@^3.0.3:
+  version "3.0.3"
+  resolved "http://registry.npm.taobao.org/lodash.foreach/download/lodash.foreach-3.0.3.tgz#6fd7efb79691aecd67fdeac2761c98e701d6c39a"
+  dependencies:
+    lodash._arrayeach "^3.0.0"
+    lodash._baseeach "^3.0.0"
+    lodash._bindcallback "^3.0.0"
+    lodash.isarray "^3.0.0"
+
 lodash.isarguments@^3.0.0:
   version "3.1.0"
   resolved "http://registry.npm.alibaba-inc.com/lodash.isarguments/download/lodash.isarguments-3.1.0.tgz#2f573d85c6a24289ff00663b491c1d338ff3458a"
@@ -4677,7 +4734,7 @@ lodash.isarray@^3.0.0:
   version "3.0.4"
   resolved "http://registry.npm.alibaba-inc.com/lodash.isarray/download/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
 
-lodash.keys@^3.1.2:
+lodash.keys@^3.0.0, lodash.keys@^3.1.2:
   version "3.1.2"
   resolved "http://registry.npm.alibaba-inc.com/lodash.keys/download/lodash.keys-3.1.2.tgz#4dbc0472b156be50a0b286855d1bd0b0c656098a"
   dependencies:
@@ -5593,6 +5650,12 @@ postcss-flexbugs-fixes@3.2.0:
   dependencies:
     postcss "^6.0.1"
 
+postcss-less@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.taobao.org/postcss-less/download/postcss-less-2.0.0.tgz#5d190b8e057ca446d60fe2e2587ad791c9029fb8"
+  dependencies:
+    postcss "^5.2.16"
+
 postcss-load-config@^1.2.0:
   version "1.2.0"
   resolved "http://registry.npm.alibaba-inc.com/postcss-load-config/download/postcss-load-config-1.2.0.tgz#539e9afc9ddc8620121ebf9d8c3673e0ce50d28a"
@@ -5686,32 +5749,55 @@ postcss-minify-selectors@^2.0.4:
     postcss "^5.0.14"
     postcss-selector-parser "^2.0.0"
 
-postcss-modules-extract-imports@^1.0.0:
+postcss-modules-extract-imports@1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/postcss-modules-extract-imports/download/postcss-modules-extract-imports-1.1.0.tgz#b614c9720be6816eaee35fb3a5faa1dba6a05ddb"
+  dependencies:
+    postcss "^6.0.1"
+
+postcss-modules-extract-imports@^1.0.0, postcss-modules-extract-imports@^1.1.0:
   version "1.2.0"
   resolved "http://registry.npm.alibaba-inc.com/postcss-modules-extract-imports/download/postcss-modules-extract-imports-1.2.0.tgz#66140ecece38ef06bf0d3e355d69bf59d141ea85"
   dependencies:
     postcss "^6.0.1"
 
-postcss-modules-local-by-default@^1.0.1:
+postcss-modules-local-by-default@1.2.0, postcss-modules-local-by-default@^1.0.1, postcss-modules-local-by-default@^1.2.0:
   version "1.2.0"
   resolved "http://registry.npm.alibaba-inc.com/postcss-modules-local-by-default/download/postcss-modules-local-by-default-1.2.0.tgz#f7d80c398c5a393fa7964466bd19500a7d61c069"
   dependencies:
     css-selector-tokenizer "^0.7.0"
     postcss "^6.0.1"
 
-postcss-modules-scope@^1.0.0:
+postcss-modules-parser@^1.1.1:
+  version "1.1.1"
+  resolved "http://registry.npm.taobao.org/postcss-modules-parser/download/postcss-modules-parser-1.1.1.tgz#95f71ad7916f0f39207bb81c401336c8d245738c"
+  dependencies:
+    icss-replace-symbols "^1.0.2"
+    lodash.foreach "^3.0.3"
+    postcss "^5.0.10"
+
+postcss-modules-scope@1.1.0, postcss-modules-scope@^1.0.0, postcss-modules-scope@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.alibaba-inc.com/postcss-modules-scope/download/postcss-modules-scope-1.1.0.tgz#d6ea64994c79f97b62a72b426fbe6056a194bb90"
   dependencies:
     css-selector-tokenizer "^0.7.0"
     postcss "^6.0.1"
 
-postcss-modules-values@^1.1.0:
+postcss-modules-values@1.3.0, postcss-modules-values@^1.1.0, postcss-modules-values@^1.3.0:
   version "1.3.0"
   resolved "http://registry.npm.alibaba-inc.com/postcss-modules-values/download/postcss-modules-values-1.3.0.tgz#ecffa9d7e192518389f42ad0e83f72aec456ea20"
   dependencies:
     icss-replace-symbols "^1.1.0"
     postcss "^6.0.1"
+
+postcss-modules@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/postcss-modules/download/postcss-modules-1.1.0.tgz#c9f94f76ff6addf7c35b842e69ed442118156bb0"
+  dependencies:
+    css-modules-loader-core "^1.1.0"
+    generic-names "^1.0.2"
+    postcss "^6.0.1"
+    string-hash "^1.1.1"
 
 postcss-normalize-charset@^1.1.0:
   version "1.1.1"
@@ -5807,6 +5893,14 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
+postcss@6.0.1:
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/postcss/download/postcss-6.0.1.tgz#000dbd1f8eef217aa368b9a212c5fc40b2a8f3f2"
+  dependencies:
+    chalk "^1.1.3"
+    source-map "^0.5.6"
+    supports-color "^3.2.3"
+
 postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.15, postcss@^5.2.16, postcss@^5.2.6:
   version "5.2.18"
   resolved "http://registry.npm.alibaba-inc.com/postcss/download/postcss-5.2.18.tgz#badfa1497d46244f6390f58b319830d9107853c5"
@@ -5816,7 +5910,7 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.13:
+postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.13, postcss@^6.0.22:
   version "6.0.22"
   resolved "http://registry.npm.alibaba-inc.com/postcss/download/postcss-6.0.22.tgz#e23b78314905c3b90cbd61702121e7a78848f2a3"
   dependencies:
@@ -7041,6 +7135,10 @@ stream-http@^2.7.2:
 strict-uri-encode@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.alibaba-inc.com/strict-uri-encode/download/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
+
+string-hash@^1.1.1:
+  version "1.1.3"
+  resolved "http://registry.npm.taobao.org/string-hash/download/string-hash-1.1.3.tgz#e8aafc0ac1855b4666929ed7dd1275df5d6c811b"
 
 string-length@^1.0.1:
   version "1.0.1"

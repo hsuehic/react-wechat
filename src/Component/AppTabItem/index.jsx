@@ -7,7 +7,8 @@
 
 import React from 'react';
 import { Badge } from 'antd-mobile';
-import CustomIcon from './CustomIcon.jsx';
+import CustomIcon from '../CustomIcon';
+import './index.less';
 
 export default ({text, icon, badgeText, badgeDot, active = false }) => {
   let nodeIcon = <CustomIcon type={ active ? `${icon}-fill`: icon } size="lg" />;
