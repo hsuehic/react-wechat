@@ -48,13 +48,7 @@ const Component = ({ items, history }) => {
       ]}
     />
     <WhiteSpace size="lg" />
-    <IndexedList
-      dataSource={dataSource}
-      renderRow={(rowData) => <div /> }
-      style={{
-        height: '100%'
-      }}
-    />
+    
   </div>);
 };
 
