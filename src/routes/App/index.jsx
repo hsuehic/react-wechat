@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     const { initialPage } = this.state;
     const tabs = [
-      { title: <AppTabItem text="微信" icon="weixin" badgeText="2" active={initialPage === 0} /> },
+      { title: <AppTabItem text="趣聊" icon="weixin" badgeText="2" active={initialPage === 0} /> },
       { title: <AppTabItem text="通信录" icon="contact" active={initialPage === 1} /> },
       { title: <AppTabItem text="发现" icon="compass" badgeDot active={initialPage === 2} /> },
       { title: <AppTabItem text="我" icon="my" active={initialPage === 3} /> },
@@ -24,7 +24,7 @@ class App extends Component {
          <NavBar
           className="header"
           mode="dark"
-          leftContent={"微信"}
+          leftContent={"趣聊"}
           rightContent={[
             <CustomIcon key="0" type="search" size="lg" style={{ marginRight: '16px' }} />,
             <CustomIcon key="1" type="plus-s" size="lg" />,
