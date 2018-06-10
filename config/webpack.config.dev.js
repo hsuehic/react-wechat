@@ -150,7 +150,20 @@ module.exports = {
               // directory for faster rebuilds.
               cacheDirectory: true,
               plugins: [
-                ['babel-plugin-import', { libraryName: 'antd-mobile', style: 'css'}]
+                ['babel-plugin-import', { libraryName: 'antd-mobile', style: 'css'}],
+                [
+                  'babel-plugin-react-css-modules',
+                  {
+                    context: path.resolve(__dirname, '../'),
+                    exclude: 'node_modules',
+                    generateScopedName: '[path]___[name]__[local]___[hash:base64:5]',
+                    filetypes: {
+                      '.less': {
+                        syntax: "postcss-less",
+                      },
+                    },
+                  },
+                ],
               ],
             },
           },
@@ -194,6 +207,7 @@ module.exports = {
           // less file process
           {
             test: /\.less$/,
+            include: /src\/App\.less/,
             use: [
               {
                 loader: 'style-loader'
@@ -239,6 +253,62 @@ module.exports = {
                   strictMath: true,
                   noIeCompat: true
                 }
+              },
+            ],
+          },
+          // scope less file process
+          {
+            test: /\.less$/,
+            include: /src/,
+            exclude: [/node_modules/, /src\/App\.less/],
+            use: [
+              {
+                loader: 'style-loader'
+              },
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1,
+                  modules: true,
+                  sourceMap: true,
+                  localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+                },
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebookincubator/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    autoprefixer({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 9', // React doesn't support IE8 anyway
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                    // require('postcss-px-to-viewport')({
+                    //   viewportWidth: 750,
+                    //   viewportHeight: 1334,
+                    //   unitPrecision: 5,
+                    //   viewportUnit: 'vw',
+                    //   selectorBlackList: [],
+                    //   minPixelValue: 1,
+                    //   mediaQuery: false
+                    // }),
+                  ],
+                },
+              },
+              {
+                loader: require.resolve('less-loader'),
+                options: {
+                  strictMath: true,
+                  noIeCompat: true,
+                },
               },
             ],
           },
