@@ -149,8 +149,23 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
               compact: true,
+              plugins: [
+                ['babel-plugin-import', { libraryName: 'antd-mobile', style: 'css'}],
+                [
+                  'babel-plugin-react-css-modules',
+                  {
+                    context: path.resolve(__dirname, '../'),
+                    exclude: 'node_modules',
+                    generateScopedName: '[path]___[name]__[local]___[hash:base64:5]',
+                    filetypes: {
+                      '.less': {
+                        syntax: "postcss-less",
+                      },
+                    },
+                  },
+                ],
+              ],
             },
           },
           // The notation here is somewhat confusing.
@@ -213,9 +228,66 @@ module.exports = {
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },
 
+          // scope less file process
+          {
+            test: /\.less$/,
+            include: /src/,
+            exclude: [/node_modules/, /src\/App\.less/],
+
+            loader: ExtractTextPlugin.extract(
+              Object.assign(
+                {
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      hmr: false,
+                    },
+                  },
+                  use: [
+                    {
+                      loader: require.resolve('css-loader'),
+                      options: {
+                        importLoaders: 1,
+                        minimize: true,
+                        sourceMap: shouldUseSourceMap,
+                        modules: true,
+                        localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+                      },
+                    },
+                    {
+                      loader: require.resolve('postcss-loader'),
+                      options: {
+                        // Necessary for external CSS imports to work
+                        // https://github.com/facebookincubator/create-react-app/issues/2677
+                        ident: 'postcss',
+                        plugins: () => [
+                          require('postcss-flexbugs-fixes'),
+                          autoprefixer({
+                            browsers: [
+                              '>1%',
+                              'last 4 versions',
+                              'Firefox ESR',
+                              'not ie < 9', // React doesn't support IE8 anyway
+                            ],
+                            flexbox: 'no-2009',
+                          }),
+                        ],
+                      },
+                    },
+                    {
+                      loader: require.resolve('less-loader'),
+                    },
+                  ],
+                },
+                extractTextPluginOptions
+              )
+            ),
+          },
+
           // less file process         
           {
             test: /\.less$/,
+            include: /src\/App\.less/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
