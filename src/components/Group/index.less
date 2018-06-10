@@ -1,0 +1,58 @@
+.group {
+  position: relative;
+}
+.group-header {
+  position: relative;
+}
+.group-body {
+  position: relative;
+  background: #ffffff;
+  padding: 0 12px;
+}
+.group-item {
+  width: 100%;
+  padding: 5px 0;
+  border-bottom: solid 1px #e0e0e0;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.set-item, .contact-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.set-item-icon {
+  flex: 0 1 20px;
+  padding: 5px 0;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+.set-item-text {
+  padding-left: 10px;
+  flex: 1 1 auto;
+  line-height: 30px;
+  font-size: 14px;
+}
+.set-item-extra {
+  flex: 0 1 auto;
+  text-align: right;
+}
+
+
+.contact-item-icon {
+  flex: 0 1 30px;
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
+.contact-item-text {
+  padding-left: 10px;
+  flex: 1 1 auto;
+  line-height: 30px;
+  font-size: 14px;
+}

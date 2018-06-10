@@ -8,15 +8,21 @@
  */
 
 import React from 'react';
-import { List, WhiteSpace } from 'antd-mobile';
+import { Badge, List, WhiteSpace } from 'antd-mobile';
+import { SetGroup } from '../Group/index';
 import CustomIcon from '../CustomIcon';
+import ImageWallet from '../../images/wallet.png';
+import ImageFavorite from '../../images/abk.png';
+import ImageSettings from '../../images/setting.png';
+import ImageAlbum from '../../images/album.png';
+import ImageExpression from '../../images/expression.png';
 
 import './index.less';
 
 const {Item } = List;
 const { Brief } = Item;
 
-const Component = ({ id, nick, thumb }) => {
+const Component = ({ id, nick, thumb, history }) => {
   return (<div>
     <WhiteSpace size="lg" />
     <List
@@ -30,6 +36,54 @@ const Component = ({ id, nick, thumb }) => {
         <Brief>微信号:{id}</Brief>
       </Item>
     </List>
+    <WhiteSpace size="lg" />
+    <SetGroup
+      history={history}
+      settings={[
+        {
+          thumb: <img src={ImageWallet} alt="Wallet" />,
+          text: '钱包',
+          pathname: '/settings/wallet'
+        }
+      ]}
+    />
+    <WhiteSpace size="lg" />
+    <SetGroup
+      history={history}
+      settings={[
+        {
+          thumb: <img src={ImageFavorite} alt="Favorite" />,
+          text: '收藏',
+          pathname: '/settings/favorite'
+        },
+        {
+          thumb: <img src={ImageAlbum} alt="Album" />,
+          text: '相册',
+          pathname: '/settings/album'
+        },
+        {
+          thumb: <img src="" alt="" />,
+          text: '卡包',
+          pathname: '/settings/cards'
+        },
+        {
+          thumb: <img src={ImageExpression} alt="Expression" />,
+          text: '表情',
+          pathname: '/settings/expression'
+        }
+      ]}
+    />
+    <WhiteSpace size="lg" />
+    <SetGroup
+      history={history}
+      settings={[
+        {
+          thumb: <img src={ImageSettings} alt="Setting" />,
+          text: <div>设置<Badge text="next" className="ml-m" /></div>,
+          pathname: '/settings/common'
+        }
+      ]}
+    />
   </div>);
 };
 

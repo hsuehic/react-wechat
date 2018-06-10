@@ -5,6 +5,8 @@ import AppTabItem from '../../components/AppTabItem';
 import CustomIcon from '../../components/CustomIcon';
 import ContactMessage from '../../containers/ContactMessage';
 import My from '../../components/My';
+import Discovery from '../../components/Discovery';
+import Contact from '../../components/Contact';
 
 class App extends Component {
   constructor(props, context) {
@@ -17,7 +19,7 @@ class App extends Component {
     const messageCount = 2;
     const { initialPage } = this.state;
     const tabs = [
-      { title: <AppTabItem text="趣聊" icon="weixin" badgeText={messageCount} active={initialPage === 0} /> },
+      { title: <AppTabItem text="微信" icon="weixin" badgeText={messageCount} active={initialPage === 0} /> },
       { title: <AppTabItem text="通信录" icon="contact" active={initialPage === 1} /> },
       { title: <AppTabItem text="发现" icon="compass" badgeDot active={initialPage === 2} /> },
       { title: <AppTabItem text="我" icon="my" active={initialPage === 3} /> },
@@ -27,7 +29,7 @@ class App extends Component {
          <NavBar
           className="header"
           mode="dark"
-          leftContent={`趣聊(${messageCount})`}
+          leftContent={`微信(${messageCount})`}
           rightContent={[
             <CustomIcon key="0" type="search" size="lg" style={{ marginRight: '16px' }} />,
             <CustomIcon key="1" type="plus-s" size="lg" />,
@@ -44,13 +46,13 @@ class App extends Component {
               <ContactMessage />
             </div>
             <div className="body-pane">
-              Content of second tab
+              <Contact {...this.props} />
             </div>
             <div className="body-pane">
-              Content of third tab
+              <Discovery {...this.props} />
             </div>
             <div className="body-pane">
-              <My id="hsuehic" nick="Richard" thumb="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58" />
+              <My id="hsuehic" nick="Richard" thumb="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58" {...this.props} />
             </div>
           </Tabs>
         </div>
