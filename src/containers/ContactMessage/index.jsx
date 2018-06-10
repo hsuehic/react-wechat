@@ -24,7 +24,8 @@ export default class Component extends React.Component {
         extra: '我转了3000元给您，请查收',
         time: '6月5日',
         thumbnail: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58',
-        hasNew: true
+        hasNew: true,
+        notificationOff: true
       },
       {
         title: 'Richard',
@@ -40,6 +41,14 @@ export default class Component extends React.Component {
         time: '6月5日',
         thumbnail: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58',
         hasNew: true
+      },
+      {
+        title: 'Richard',
+        extra: '我转了3000元给您，请查收',
+        time: '6月3日',
+        thumbnail: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58',
+        hasNew: true,
+        messageCount: 5,
       }
     ];
     const hasMore = false;

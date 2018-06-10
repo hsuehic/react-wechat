@@ -4,6 +4,7 @@ import { NavBar, Tabs } from 'antd-mobile';
 import AppTabItem from '../../components/AppTabItem';
 import CustomIcon from '../../components/CustomIcon';
 import ContactMessage from '../../containers/ContactMessage';
+import My from '../../components/My';
 
 class App extends Component {
   constructor(props, context) {
@@ -49,7 +50,7 @@ class App extends Component {
               Content of third tab
             </div>
             <div className="body-pane">
-              Content of third tab
+              <My id="hsuehic" nick="Richard" thumb="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58" />
             </div>
           </Tabs>
         </div>

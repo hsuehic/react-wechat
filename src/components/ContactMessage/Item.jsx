@@ -13,9 +13,11 @@ import CustomIcon from '../CustomIcon';
 
 import './Item.less'
 
-const Component = ({ title, extra, thumbnail, time, hasNew, notificationOff = false }) => {
+const Component = ({ title, extra, thumbnail, time, messageCount, hasNew, notificationOff = false }) => {
   let nodeThumbnail = <img alt={title} src={thumbnail} />;
-  if (hasNew) {
+  if (messageCount > 0) {
+    nodeThumbnail = <Badge text={messageCount}>{nodeThumbnail}</Badge>
+  } else if (hasNew) {
     nodeThumbnail = <Badge dot>{nodeThumbnail}</Badge>
   }
   return (<div styleName="container">
