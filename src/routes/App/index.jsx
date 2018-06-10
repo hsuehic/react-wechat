@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import { NavBar, Tabs } from 'antd-mobile';
 import AppTabItem from '../../components/AppTabItem';
 import CustomIcon from '../../components/CustomIcon';
+import ContactMessage from '../../containers/ContactMessage';
 
 class App extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      initialPage: 1
+      initialPage: 0
     };
   }
   render() {
@@ -39,7 +40,7 @@ class App extends Component {
             onChange={(tab, index) => { this.setState({ initialPage: index }); }}
           >
             <div className="body-pane">
-              Content of first tab
+              <ContactMessage />
             </div>
             <div className="body-pane">
               Content of second tab
