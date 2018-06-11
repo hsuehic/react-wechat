@@ -25,7 +25,8 @@ cd ../product
 # commit
 echo commit
 git add .
-git commit -am '$COMMITMESSAGE'
+git commit -am "$COMMITMESSAGE"
+
 # push
 echo Push 
 git push
