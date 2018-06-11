@@ -110,7 +110,7 @@ export default class Component extends React.Component {
         r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
         r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
         r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'm'
+        name: 'M'
       },
       s_n:
       { 
