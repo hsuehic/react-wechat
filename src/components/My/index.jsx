@@ -16,6 +16,7 @@ import ImageFavorite from '../../images/abk.png';
 import ImageSettings from '../../images/setting.png';
 import ImageAlbum from '../../images/album.png';
 import ImageExpression from '../../images/expression.png';
+import ImageCard from '../../images/aoh.png';
 
 import './index.less';
 
@@ -62,7 +63,7 @@ const Component = ({ id, nick, thumb, history }) => {
           pathname: '/settings/album'
         },
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageCard} alt="Card" />,
           text: '卡包',
           pathname: '/settings/cards'
         },

@@ -15,6 +15,12 @@ import ImageFriend from '../../images/a7o.png';
 import ImageShake from '../../images/aro.png';
 import ImageGame from '../../images/ahl.png';
 import ImageLook from '../../images/apv.png';
+import ImageShopping from '../../images/youhuiquan.png';
+import ImageSearch from '../../images/ajl.png';
+import ImageScan from '../../images/ao6.png';
+import ImageNeighbor from '../../images/aok.png';
+import ImageApp from '../../images/aix.png';
+import ImageLuky from '../../images/xy.png';
 
 const Component = ({ id, nick, thumb, history }) => {
   return (<div>
@@ -35,7 +41,7 @@ const Component = ({ id, nick, thumb, history }) => {
       history={history}
       settings={[
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageScan} alt="" />,
           text: '扫一扫',
           pathname: '/new/scan'
         },
@@ -56,7 +62,7 @@ const Component = ({ id, nick, thumb, history }) => {
           pathname: '/new/look'
         },
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageSearch} alt="" />,
           text: '搜一搜',
           pathname: '/new/search'
         }
@@ -67,12 +73,12 @@ const Component = ({ id, nick, thumb, history }) => {
       history={history}
       settings={[
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageNeighbor} alt="Neighbor" />,
           text: '附近的人',
           pathname: '/new/nearby'
         },
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageLuky} alt="" />,
           text: '漂流瓶',
           pathname: '/new/floater'
         }
@@ -83,7 +89,7 @@ const Component = ({ id, nick, thumb, history }) => {
       history={history}
       settings={[
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageShopping} alt="" />,
           text: '购物',
           pathname: '/new/shopping'
         },
@@ -99,7 +105,7 @@ const Component = ({ id, nick, thumb, history }) => {
       history={history}
       settings={[
         {
-          thumb: <img src="" alt="" />,
+          thumb: <img src={ImageApp} alt="App" />,
           text: '小程序',
           pathname: '/new/apps'
         }
