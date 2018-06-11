@@ -76,11 +76,15 @@ html, body {
 }
 
 .header {
-  flex: 45px 0;
+  flex: 0 0 45px;
 }
 
 .body {
-  flex: 45px 1;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 2;
+  flex-basis: auto;
+  flex-direction: column;
 }
 
 .body-pane {
