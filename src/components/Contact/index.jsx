@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { ListView, WhiteSpace } from 'antd-mobile';
+import { ListView } from 'antd-mobile';
 import { ContactGroup, ContactItem, Group } from '../Group';
 import ImageGongzhonhao from '../../images/gongzhonghao.png';
 import ImageGroup from '../../images/group.png';
