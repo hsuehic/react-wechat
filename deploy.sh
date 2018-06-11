@@ -5,6 +5,8 @@
 # Script follows here:
 # Reference: https://www.tutorialspoint.com/unix/unix-file-management.htm
 
+echo 请输入部署信息
+read COMMITMESSAGE
 # build
 echo Build
 yarn build
@@ -23,7 +25,7 @@ cd ../product
 # commit
 echo commit
 git add .
-git commit -am 'build'
+git commit -am '$COMMITMESSAGE'
 # push
 echo Push 
 git push
