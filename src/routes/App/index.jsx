@@ -6,7 +6,7 @@ import CustomIcon from '../../components/CustomIcon';
 import ContactMessage from '../../containers/ContactMessage';
 import My from '../../components/My';
 import Discovery from '../../components/Discovery';
-import Contact from '../../components/Contact';
+import Contact from '../../containers/Contact';
 
 class App extends Component {
   constructor(props, context) {

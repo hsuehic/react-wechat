@@ -9,47 +9,86 @@
 
 import React from 'react';
 import { ListView, WhiteSpace } from 'antd-mobile';
-import { ContactGroup } from '../Group';
+import { ContactGroup, ContactItem, Group } from '../Group';
 import ImageGongzhonhao from '../../images/gongzhonghao.png';
 import ImageGroup from '../../images/group.png';
 import ImageNewFriend from '../../images/new-friend.png';
 import ImageTag from '../../images/tag.png';
 
+import './index.less';
+
 const { IndexedList } = ListView;
 
-const Component = ({ items, history }) => {
-  const dataSource = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2
-  });
-  return (<div>
-    <ContactGroup
-      history={history}
-      settings={[
-        {
-          thumb: <img src={ImageNewFriend} alt="Wallet" />,
-          text: '新的朋友',
-          pathname: '/contact/new'
-        },
-        {
-          thumb: <img src={ImageGroup} alt="Wallet" />,
-          text: '群聊',
-          pathname: '/contact/group'
-        },
-        {
-          thumb: <img src={ImageGongzhonhao} alt="Wallet" />,
-          text: '公众号',
-          pathname: '/contact/gzh'
-        },
-        {
-          thumb: <img src={ImageTag} alt="Wallet" />,
-          text: '标签',
-          pathname: '/settings/wallet'
-        }
-      ]}
-    />
-    <WhiteSpace size="lg" />
-    
-  </div>);
-};
+class Component extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    const dataSource = new ListView.DataSource({
+      getRowData: (dataBlob, sectionID, rowID) => {
+        return dataBlob[sectionID][[rowID]]
+      },
+      getSectionHeaderData: (dataBlob, sectionID) => dataBlob[sectionID].name,
+      rowHasChanged: (r1, r2) => r1 !== r2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+    });
+    this.state = {
+      dataSource
+    };
+  }
+
+  render() {
+    const { props, state } = this;
+    const { dataSource } = state;
+    const { history, items, sectionIDs, rowIDs } = props;
+    const ds = dataSource.cloneWithRowsAndSections(items, sectionIDs, rowIDs);
+
+    return (<div styleName="container">
+      <ContactGroup
+        styleName="flex-base"
+        history={history}
+        settings={[
+          {
+            thumb: <img src={ImageNewFriend} alt="Wallet" />,
+            text: '新的朋友',
+            pathname: '/contact/new'
+          },
+          {
+            thumb: <img src={ImageGroup} alt="Wallet" />,
+            text: '群聊',
+            pathname: '/contact/group'
+          },
+          {
+            thumb: <img src={ImageGongzhonhao} alt="Wallet" />,
+            text: '公众号',
+            pathname: '/contact/gzh'
+          },
+          {
+            thumb: <img src={ImageTag} alt="Wallet" />,
+            text: '标签',
+            pathname: '/settings/wallet'
+          }
+        ]}
+      />
+      <WhiteSpace styleName="flex-base" size="lg" />
+      <div
+        className="v-container"
+        styleName="flex-grow">
+        <IndexedList
+          dataSource={ds}
+          renderRow={({ text, thumb, id }, sectionID, rowID) => <ContactItem history={history} pathname={`/contact/${id}`} key={`${sectionID}-${rowID}`} text={text} thumb={<img src={thumb} alt={text} />} /> }
+          renderSectionHeader={(sectionData) => <div>{sectionData}</div>}
+          renderSectionWrapper={sectionID => (
+            <div
+              key={`s_${sectionID}_c`}
+              className="s_wrapper"
+              style={{ zIndex: 4 }}
+            />
+          )}
+          renderSectionBodyWrapper={(sectionID) => <Group key={`g_${sectionID}`} />}
+        />
+      </div>
+      
+    </div>);
+  }
+}
 
 export default Component;
