@@ -14,7 +14,8 @@ yarn build
 # delete original files
 # change dir
 cd ./product
-echo .gitignore .git CNAME | xargs -n 1 echo -not -name | xargs find . | awk 'NR>1' | xargs rm -rf
+# echo .gitignore .git CNAME | xargs -n 1 echo -not -name | xargs find . | awk 'NR>1' | xargs rm -rf
+rm -rf static
 
 # copy
 cd ../build 
