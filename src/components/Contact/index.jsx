@@ -42,37 +42,35 @@ class Component extends React.Component {
     const ds = dataSource.cloneWithRowsAndSections(items, sectionIDs, rowIDs);
 
     return (<div styleName="container">
-      <ContactGroup
-        styleName="flex-base"
-        history={history}
-        settings={[
-          {
-            thumb: <img src={ImageNewFriend} alt="Wallet" />,
-            text: '新的朋友',
-            pathname: '/contact/new'
-          },
-          {
-            thumb: <img src={ImageGroup} alt="Wallet" />,
-            text: '群聊',
-            pathname: '/contact/group'
-          },
-          {
-            thumb: <img src={ImageGongzhonhao} alt="Wallet" />,
-            text: '公众号',
-            pathname: '/contact/gzh'
-          },
-          {
-            thumb: <img src={ImageTag} alt="Wallet" />,
-            text: '标签',
-            pathname: '/settings/wallet'
-          }
-        ]}
-      />
-      <WhiteSpace styleName="flex-base" size="lg" />
       <div
         className="v-container"
         styleName="flex-grow">
         <IndexedList
+          renderHeader={() => <ContactGroup
+            history={history}
+            settings={[
+              {
+                thumb: <img src={ImageNewFriend} alt="Wallet" />,
+                text: '新的朋友',
+                pathname: '/contact/new'
+              },
+              {
+                thumb: <img src={ImageGroup} alt="Wallet" />,
+                text: '群聊',
+                pathname: '/contact/group'
+              },
+              {
+                thumb: <img src={ImageGongzhonhao} alt="Wallet" />,
+                text: '公众号',
+                pathname: '/contact/gzh'
+              },
+              {
+                thumb: <img src={ImageTag} alt="Wallet" />,
+                text: '标签',
+                pathname: '/settings/wallet'
+              }
+            ]}
+          />}
           dataSource={ds}
           renderRow={({ text, thumb, id }, sectionID, rowID) => <ContactItem history={history} pathname={`/contact/${id}`} key={`${sectionID}-${rowID}`} text={text} thumb={<img src={thumb} alt={text} />} /> }
           renderSectionHeader={(sectionData) => <div>{sectionData}</div>}
