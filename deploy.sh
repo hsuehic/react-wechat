@@ -5,7 +5,7 @@
 # Script follows here:
 # Reference: https://www.tutorialspoint.com/unix/unix-file-management.htm
 
-echo 请输入部署信息
+echo Input commit message:
 read COMMITMESSAGE
 # build
 echo Build
