@@ -81,7 +81,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "deploy": "yarn build && cd ./product && rm -rf !(CNAME|.git) && cd ../build && cp -r * ../product && cd ../product && git add . && git commit -am 'build' && git push"
+    "deploy": "yarn build && cd ./product && echo .git CNAME | xargs -n 1 echo -not -name | xargs find . | awk 'NR>1' | xargs rm -rf && cd ../build && cp -r * ../product && cd ../product && git add . && git commit -am 'build' && git push"
   },
   "jest": {
     "collectCoverageFrom": [
