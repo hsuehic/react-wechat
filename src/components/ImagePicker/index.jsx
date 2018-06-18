@@ -8,6 +8,7 @@
  */
 
 import React from 'react'
+import { Toast } from 'antd-mobile'
 import ImageCamera from '../../images/a81.png'
 
 import './index.less'
@@ -34,7 +35,15 @@ class Component extends React.Component  {
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0]
       const reader = new FileReader()
+      const { maxSize, onChange } = this.props
+      if (file.size > maxSize) {
+        Toast.fail(`请选择小于${Math.floor(maxSize / 1024)}KB的图片`)
+        return
+      }
       reader.addEventListener('load', (e) => {
+        if (typeof onChange === 'function') {
+          onChange(reader.result)
+        }
         this.setState({
           imgSource: reader.result
         })        
