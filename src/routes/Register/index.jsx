@@ -40,6 +40,7 @@ export default class Component extends React.Component {
             <div styleName="input">
               <InputItem
                 defaultValue=""
+                name="nick"
               >
                 昵称
               </InputItem>
@@ -53,8 +54,15 @@ export default class Component extends React.Component {
           </List.Item>
           <InputItem
             type="phone"
+            name="phone"
           >
             手机号
+          </InputItem>
+          <InputItem
+            type="text"
+            name="userName"
+          >
+            用户名
           </InputItem>
           <InputItem
             type="password"

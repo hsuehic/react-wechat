@@ -5,7 +5,7 @@
  * @Date   : 2018-6-18 16:01:55
  */
 
-import fetch from 'dev/fetch'
+import fetch from 'dva/fetch'
 
 
 /**

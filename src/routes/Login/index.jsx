@@ -6,17 +6,40 @@
  */
 
 import React from 'react'
-import { ActionSheet, NavBar, List, Button, InputItem } from 'antd-mobile'
+import { ActionSheet, NavBar, List, Button, InputItem, Toast } from 'antd-mobile'
 import { Link } from 'dva/router'
+
+import { request } from '../../utils/fetch'
 
 export default class Component extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      phone: '',
+      password: ''
+    }
+    this.onLogin = this.onLogin.bind(this)
     this.onShowActionSheet = this.onShowActionSheet.bind(this)
   }
 
   componentDidMount() {
+  }
+
+  onLogin() {
+    let { phone } = this.state
+    phone = phone.replace(/\s/mg, '');
+    const { password } = this.state
+    const params = { phone, password }
+    const p = request('/api/login', params)
+    p.then(res => {
+      if (res.code === 0) {
+        window.SEC_TOKEN = res.data.token
+        const { history } = this.props
+        history.push('/')
+      } else {
+        Toast.fail(res.message)
+      }
+    })
   }
 
   onShowActionSheet() {
@@ -39,10 +62,28 @@ export default class Component extends React.Component {
       />
       <div className="body" style={{ paddingBottom: '80px', justifyContent: 'center' }}>
         <List
-          renderFooter={<Button type="primary" className="wechat">登录</Button>}
+          renderFooter={<Button type="primary" className="wechat" onClick={this.onLogin}>登录</Button>}
         >
-          <InputItem name="we_user" type="phone" placeholder="Input phone number">手机号码</InputItem>
-          <InputItem name="we_password" type="password" placeholder="Input password">登录密码</InputItem>
+          <InputItem
+            name="phone"
+            type="phone"
+            placeholder="Input phone number"
+            onChange={(phone) => {
+              this.setState({
+                phone
+              })
+            }}
+          >手机号码</InputItem>
+          <InputItem
+            name="password"
+            type="password"
+            placeholder="Input password"
+            onChange={(password) => {
+              this.setState({
+                password
+              })
+            }}
+          >登录密码</InputItem>
         </List>
       </div>
       <div className="footer">
