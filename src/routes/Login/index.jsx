@@ -35,6 +35,7 @@ export default class Component extends React.Component {
       if (res.code === 0) {
         window.SEC_TOKEN = res.data.token
         const { history } = this.props
+        request('/api/info');
         history.push('/')
       } else {
         Toast.fail(res.message)
