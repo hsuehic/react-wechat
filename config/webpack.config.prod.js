@@ -165,6 +165,7 @@ module.exports = {
                     },
                   },
                 ],
+                'transform-decorators-legacy',
               ],
             },
           },

@@ -149,9 +149,6 @@ module.exports = {
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
-              presets: [
-                'es2015'
-              ],
               plugins: [
                 ['babel-plugin-import', { libraryName: 'antd-mobile', style: 'css'}],
                 [
