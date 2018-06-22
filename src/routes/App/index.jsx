@@ -52,7 +52,7 @@ class App extends Component {
               <Discovery {...this.props} />
             </div>
             <div className="body-pane">
-              <My id="hsuehic" nick="Richard" thumb="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58" {...this.props} />
+              <My {...this.props} />
             </div>
           </Tabs>
         </div>

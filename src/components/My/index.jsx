@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import { connect } from 'dva';
 import { Badge, List, WhiteSpace } from 'antd-mobile';
 import { SetGroup } from '../Group/index';
 import CustomIcon from '../CustomIcon';
@@ -23,7 +24,7 @@ import './index.less';
 const {Item } = List;
 const { Brief } = Item;
 
-const Component = ({ id, nick, thumb, history }) => {
+const Component = ({ userName, nick, thumb, history }) => {
   return (<div>
     <WhiteSpace size="lg" />
     <List
@@ -34,7 +35,7 @@ const Component = ({ id, nick, thumb, history }) => {
         styleName="item"
       >
         {nick}
-        <Brief>微信号:{id}</Brief>
+        <Brief>微信号:{userName}</Brief>
       </Item>
     </List>
     <WhiteSpace size="lg" />
@@ -88,4 +89,4 @@ const Component = ({ id, nick, thumb, history }) => {
   </div>);
 };
 
-export default Component;
+export default connect((state) => state.wechat.info)(Component);

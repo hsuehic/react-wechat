@@ -7,11 +7,31 @@
 
 import React from 'react'
 import { Button, Icon, InputItem, List, NavBar, Toast } from 'antd-mobile'
+import { connect } from 'dva'
 import ImagePicker from '../../components/ImagePicker'
-import { request } from '../../utils/fetch'
 
 import './index.less'
 
+import { NAMESPACE } from '../../constant'
+
+const mapStateToProps = state => {
+  return { 
+    isLogging: state.loading.effects[`${NAMESPACE}/isLoadingRegister`]
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    register (params) {
+      dispatch({
+        type: `${NAMESPACE}/register`,
+        payload: { params }
+      })
+    }
+  }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Component extends React.Component {
   constructor(props) {
     super(props)
@@ -42,10 +62,11 @@ export default class Component extends React.Component {
     if (password !== cpassword) {
       Toast.fail('两次输入密码不一致，请重新输入')
     } else {
+      const { register } = this.props
       let { phone } = this.state
       phone = phone.replace(/\s/mg, '')
       const params = { nick, thumb, userName, password, region, email, phone }
-      const p = request('/api/reg', params)
+      const p = register(params)
       p.then(res => {
         if (res.code === 0) {
           Toast.success('注册成功，请登录')

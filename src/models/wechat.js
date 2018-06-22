@@ -6,16 +6,36 @@
  * @Date   : 2018-6-21 15:33:31
  */
 
+import { request } from '../utils/fetch';
+import { NAMESPACE } from '../constant';
+
 export default {
-  namespace: 'wechat',
+  namespace: NAMESPACE,
   state: {
     contacts: [],
     messages: [],
-    info: {}
+    info: {},
+    isLoggedIn: false
   },
   reducers: {
     save(state, { payload: newState }) {
       return { ...state, ...newState };
+    }
+  },
+  effects: {
+    * login({ payload: { params } }, { put, call }) {
+      const res = yield call(request, '/api/login', params);
+      if (res.code === 0) {
+        yield put('save', { 
+          info: res.info,
+          isLoggedIn: true
+        })
+      }
+      return res;
+    },
+    * register({ payload: { params } }, { call }) {
+      const res = yield call(request, '/api/login', params);
+      return res;
     }
   }
 }

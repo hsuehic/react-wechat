@@ -9,10 +9,26 @@ import React from 'react'
 import { ActionSheet, NavBar, List, Button, InputItem, Toast } from 'antd-mobile'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
+import { NAMESPACE } from '../../constant'
 
-import { request } from '../../utils/fetch'
+const mapStateToProps = state => {
+  return { 
+    isLogging: state.loading.effects[`${NAMESPACE}/isLoadingLogin`]
+  }
+}
 
-@connect()
+const mapDispatchToProps = dispatch => {
+  return {
+    login (params) {
+      dispatch({
+        type: `${NAMESPACE}/login`,
+        payload: { params }
+      })
+    }
+  }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Component extends React.Component {
   constructor(props) {
     super(props)
@@ -28,16 +44,16 @@ export default class Component extends React.Component {
   }
 
   onLogin() {
+    const { login } = this.props
     let { phone } = this.state
-    phone = phone.replace(/\s/mg, '');
+    phone = phone.replace(/\s/mg, '')
     const { password } = this.state
     const params = { phone, password }
-    const p = request('/api/login', params)
+    const p = login(params)
     p.then(res => {
       if (res.code === 0) {
         window.SEC_TOKEN = res.data.token
         const { history } = this.props
-        request('/api/info');
         history.push('/')
       } else {
         Toast.fail(res.message)
