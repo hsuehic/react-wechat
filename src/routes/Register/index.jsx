@@ -23,7 +23,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     register (params) {
-      dispatch({
+      return dispatch({
         type: `${NAMESPACE}/register`,
         payload: { params }
       })

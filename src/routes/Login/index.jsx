@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     login (params) {
-      dispatch({
+      return dispatch({
         type: `${NAMESPACE}/login`,
         payload: { params }
       })
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Component extends React.Component {
+class Component extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -74,6 +74,7 @@ export default class Component extends React.Component {
   }
 
   render() {
+    const { isLogging } = this.props
     return <div className="app">
       <NavBar
         className="header"
@@ -81,7 +82,7 @@ export default class Component extends React.Component {
       />
       <div className="body" style={{ paddingBottom: '80px', justifyContent: 'center' }}>
         <List
-          renderFooter={<Button type="primary" className="wechat" onClick={this.onLogin}>登录</Button>}
+          renderFooter={<Button type="primary" className="wechat" loading={isLogging} onClick={this.onLogin}>登录</Button>}
         >
           <InputItem
             name="phone"
@@ -113,3 +114,5 @@ export default class Component extends React.Component {
     </div>
   }
 }
+
+export default Component

@@ -15,7 +15,8 @@ export default {
     contacts: [],
     messages: [],
     info: {},
-    isLoggedIn: false
+    isLoggedIn: false,
+    token: null
   },
   reducers: {
     save(state, { payload: newState }) {
@@ -26,9 +27,12 @@ export default {
     * login({ payload: { params } }, { put, call }) {
       const res = yield call(request, '/api/login', params);
       if (res.code === 0) {
-        yield put('save', { 
-          info: res.info,
-          isLoggedIn: true
+        yield put({
+          type: 'save', 
+          payload: {
+            ...res.data,
+            isLoggedIn: true
+          }
         })
       }
       return res;
