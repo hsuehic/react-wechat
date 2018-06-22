@@ -1,8 +1,8 @@
 /**
- * Copyright(c) Alibaba Group Holding Limited.
+ * 
  *
  * 
- * @Authors: 兴斋 <xingzhai.xxw@alibaba-inc.com> (https://www.gistop.com/)
+ * @Author : Richard <xiaowei.hsueh@gmail.com> (https://www.gistop.com)
  * @Link   : https://www.gistop.com
  * @Date   : 2018-6-10 19:41:44
  */

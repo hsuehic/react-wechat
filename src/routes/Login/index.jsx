@@ -1,16 +1,18 @@
 /**
- * Copyright(c) Alibaba Group Holding Limited.
+ * 
  *
  * Authors:
- *   兴斋 <xingzhai.xxw@alibaba-inc.com> (https://www.gistop.com/)
+ *  Richard <xiaowei.hsueh@gmail.com> (https://www.gistop.com)
  */
 
 import React from 'react'
 import { ActionSheet, NavBar, List, Button, InputItem, Toast } from 'antd-mobile'
+import { connect } from 'dva'
 import { Link } from 'dva/router'
 
 import { request } from '../../utils/fetch'
 
+@connect()
 export default class Component extends React.Component {
   constructor(props) {
     super(props)

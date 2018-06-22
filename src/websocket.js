@@ -1,6 +1,6 @@
 /**
  * @File   : websocket.js
- * @Author : Richard (xiaowei.hsueh@gmail.com)
+* @Author : Richard <xiaowei.hsueh@gmail.com> (https://www.gistop.com)
  * @Link   : http://www.gistop.com/
  * @Date   : 2018-6-16 17:00:25
  */

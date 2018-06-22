@@ -1,6 +1,6 @@
 /**
  * @File   : utils.js
- * @Author : Richard (xiaowei.hsueh@gmail.com)
+* @Author : Richard <xiaowei.hsueh@gmail.com> (https://www.gistop.com)
  * @Link   : http://www.gistop.com/
  * @Date   : 2018-6-18 16:01:55
  */
