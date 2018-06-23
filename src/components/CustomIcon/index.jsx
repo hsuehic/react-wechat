@@ -7,6 +7,6 @@
 
 import React from 'react';
 
-export default ({ type, size = 'md', className = '' }) => {
-  return <i className={`weicon we-icon-${type} we-icon-${size} ${className}`} />;
+export default ({ type, size = 'md', className = '', ...rest }) => {
+  return <i className={`weicon we-icon-${type} we-icon-${size} ${className}`} {...rest} />;
 }

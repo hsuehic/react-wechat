@@ -13,7 +13,11 @@ import './index.less';
 
 
 const Component = ({ thumb, text, pathname, extra, className='', history }) => {
-  return (<Item styleName="set-item" className={className} onClick={() => { history.push(pathname); }}>
+  return (<Item styleName="set-item" className={className} onClick={() => {
+      if (pathname) {
+        history.push(pathname);
+      }
+    }}>
       {!!thumb &&<div styleName="set-item-icon">{thumb}</div>}
       <div styleName="set-item-text">{text}</div>
       {!!extra && <div styleName="set-item-extra">{extra}</div>}

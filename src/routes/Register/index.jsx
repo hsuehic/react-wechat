@@ -91,11 +91,11 @@ export default class Component extends React.Component {
     return <div className="app">
       <NavBar
         className="header"
-        leftContent={<div><Icon type="left" className="mr-s back-icon" onClick={this.onGoBack} /><span className="v-middle">注册</span></div>}
+        leftContent={<div><Icon type="icleft" className="mr-m back-icon" onClick={this.onGoBack} /><span className="v-middle">注册</span></div>}
       />
       <div className="body">
         <List
-          renderFooter={<Button type="primary" className="wechat" onClick={this.onRegister}>注册</Button>}
+          renderFooter={<Button type="primary" size="median" className="wechat" onClick={this.onRegister}>注册</Button>}
         >
           <div styleName="nick">
             <div styleName="input">
