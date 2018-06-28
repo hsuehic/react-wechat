@@ -16,5 +16,8 @@
     "ReactDom": true,
     "PropTypes": true,
     "__DEV__": true
+  },
+  "rules": {
+    "react/prop-types": 0
   }
 }
