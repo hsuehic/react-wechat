@@ -14,7 +14,7 @@ import Group from './Group';
 const Component = ({ settings, className = '', history }) => {
   return (<Group className={className}>
     {
-      settings.map(setting => <SetItem {...setting} history={history} />)
+      settings.map((setting, i) => <SetItem {...setting} history={history} key={`g-${i}`} />)
     }
   </Group>);
 };

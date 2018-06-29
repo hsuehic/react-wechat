@@ -22,7 +22,7 @@ import ImageNeighbor from '../../images/aok.png';
 import ImageApp from '../../images/aix.png';
 import ImageLuky from '../../images/xy.png';
 
-const Component = ({ id, nick, thumb, history }) => {
+const Component = ({ history }) => {
   return (<div>
     <WhiteSpace size="lg" />
     <SetGroup

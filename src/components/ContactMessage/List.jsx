@@ -11,7 +11,7 @@ import React from 'react';
 import { ListView } from 'antd-mobile';
 import Item from './Item';
 
-const Component = ({ items, hasMore }) => {
+const Component = ({ items }) => {
   let dataSource = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2
   });

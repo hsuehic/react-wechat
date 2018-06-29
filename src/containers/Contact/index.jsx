@@ -6,188 +6,62 @@
  */
 
 import React from 'react';
+import { connect } from 'dva';
+
 import Contact from '../../components/Contact';
 
+const mapStateToProps = (state) => {
+  const { contacts } = state.wechat;
+  return {
+    contacts
+  };
+};
+
+@connect(mapStateToProps)
 export default class Component extends React.Component {
+  static propTypes = {
+    contacts: PropTypes.arrayOf(PropTypes.shape({
+      thumb: PropTypes.string,
+      userName: PropTypes.string,
+      phone: PropTypes.string,
+      nick: PropTypes.string,
+      group: PropTypes.string
+    }))
+  };
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {
-  }
-
   render() {
+    const { contacts } = this.props;
+    let items = {};
+    let index = 0;
+    const sectionIDs = [];
+    const rowIDs = [];
 
-    const items = { 
-      s_a: 
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'bob', text: 'Bob' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'fly', text: 'Fly' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'fly', text: 'Fly' },
-        name: 'A' 
-      },
-      s_b:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'B'
-      },
-      s_c:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'C'
-      },
-      s_d:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'D'
-      },
-      s_e:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'E'
-      },
-      s_f:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'F'
-      },
-      s_g:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'G'
-      },
-      s_h:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'H'
-      },
-      s_i:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'I'
-      },
-      s_j:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'J'
-      },
-      s_k:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'K'
-      },
-      s_l:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'L'
-      },
-      s_m:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'M'
-      },
-      s_n:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'N'
-      },
-      s_o:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'O'
-      },
-      s_p:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'p'
-      },
-      s_q:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'Q'
-      },
-      s_r:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'R'
-      },
-      s_s:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'S'
-      },
-      s_t:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'T'
-      },
-      s_u:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard1', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic2', text: 'Hsuehic' },
-        r_3: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard3', text: 'Richard' },
-        r_4: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic4', text: 'Hsuehic' },
-        name: 'U'
-      },
-      s_v:
-      { 
-        r_1: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'richard', text: 'Richard' },
-        r_2: { thumb: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3347079475,331825128&fm=58', id: 'hsuehic', text: 'Hsuehic' },
-        name: 'V'
+    contacts.forEach(({ thumb, userName, nick, group, phone }) => {
+      const sectionId = `S_${group}`
+      sectionIDs.push(sectionId)
+      let section = items[sectionId]
+      if (!section) {
+        section = {
+          name: group
+        };
+        items[sectionId] = section;
       }
-    };
-
-    const sectionIDs = []
-    const rowIDs = []
-    let even = false
-    'abcdefghijklmnopqrstu'.split('').forEach(c => {
-      sectionIDs.push(`s_${c}`);
-      if (even) {
-        rowIDs.push(['r_1', 'r_2']);
-      } else {
-        rowIDs.push(['r_1', 'r_2', 'r_3', 'r_4']);
-      }
-      even = !even;
+      index += 1;
+      const rowId = `R_${index}`;
+      rowIDs.push(rowId);
+      section[rowId] = {
+        thumb,
+        userName,
+        nick,
+        group,
+        phone
+      };
     });
+
     const props = { items, sectionIDs, rowIDs}
 
     return <Contact {...this.props} {...props} />;

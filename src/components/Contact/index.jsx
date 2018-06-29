@@ -72,7 +72,7 @@ class Component extends React.Component {
             ]}
           />}
           dataSource={ds}
-          renderRow={({ text, thumb, id }, sectionID, rowID) => <ContactItem history={history} pathname={`/contact/${id}`} key={`${sectionID}-${rowID}`} text={text} thumb={<img src={thumb} alt={text} />} /> }
+          renderRow={({ nick, thumb, phone }, sectionID, rowID) => <ContactItem history={history} pathname={`/contact/${phone}`} key={`${sectionID}-${rowID}`} text={nick} thumb={<img src={thumb} alt={nick} />} /> }
           renderSectionHeader={(sectionData) => <div>{sectionData}</div>}
           renderSectionWrapper={sectionID => (
             <div

@@ -11,7 +11,7 @@ import React from 'react'
 
 const Component = ({ theme = 'dark', leftContent, rightContent, children, className, ...rest }) => (
   <div className={`am-navbar am-navbar-${theme} ${className}`} {...rest}>
-    <div class="am-navbar-left">{leftContent}</div>
+    <div className="am-navbar-left">{leftContent}</div>
     <div className="am-navbar-title">{children}</div>
     <div className="am-navbar-right">{rightContent}</div>
   </div>

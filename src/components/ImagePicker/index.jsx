@@ -30,7 +30,7 @@ class Component extends React.Component  {
     }
   }
 
-  onImageChange(evnt) {
+  onImageChange() {
     const { fileInput } = this
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0]
@@ -40,7 +40,7 @@ class Component extends React.Component  {
         Toast.fail(`请选择小于${Math.floor(maxSize / 1024)}KB的图片`)
         return
       }
-      reader.addEventListener('load', (e) => {
+      reader.addEventListener('load', () => {
         if (typeof onChange === 'function') {
           onChange(reader.result)
         }

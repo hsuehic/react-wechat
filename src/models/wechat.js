@@ -14,6 +14,7 @@ export default {
   state: {
     contacts: [],
     messages: [],
+    conversations: [],
     info: {},
     isLoggedIn: false,
     token: null,

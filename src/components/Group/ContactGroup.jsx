@@ -14,7 +14,7 @@ import Group from './Group';
 const Component = ({ header, settings, className = '', history }) => {
   return (<Group header={header} className={className}>
     {
-      settings.map(setting => <ContactItem {...setting} history={history} />)
+      settings.map((setting, i) => <ContactItem {...setting} history={history} key={`cg-${i}`} />)
     }
   </Group>);
 };

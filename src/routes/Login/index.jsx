@@ -10,6 +10,7 @@ import { ActionSheet, NavBar, List, Button, InputItem, Toast } from 'antd-mobile
 import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { NAMESPACE } from '../../constant'
+import createWebsocket from '../../websocket';
 
 const mapStateToProps = state => {
   return { 
@@ -30,6 +31,13 @@ const mapDispatchToProps = dispatch => {
 
 @connect(mapStateToProps, mapDispatchToProps)
 class Component extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object,
+    isLogging: PropTypes.bool,
+    login: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -40,11 +48,8 @@ class Component extends React.Component {
     this.onShowActionSheet = this.onShowActionSheet.bind(this)
   }
 
-  componentDidMount() {
-  }
-
   onLogin() {
-    const { login } = this.props
+    const { login, dispatch } = this.props
     let { phone } = this.state
     phone = phone.replace(/\s/mg, '')
     const { password } = this.state
@@ -52,6 +57,11 @@ class Component extends React.Component {
     const p = login(params)
     p.then(res => {
       if (res.code === 0) {
+        const o = createWebsocket(dispatch)
+        const { websocket, addMessageHandler, removeMessageHandler } = o
+        window.websocket = websocket
+        window.addMessageHandler = addMessageHandler
+        window.removeMessageHandler = removeMessageHandler
         window.SEC_TOKEN = res.data.token
         const { history } = this.props
         history.push('/')
