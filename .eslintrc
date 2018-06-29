@@ -15,9 +15,12 @@
     "React": true,
     "ReactDom": true,
     "PropTypes": true,
+    "process": true,
     "__DEV__": true
   },
   "rules": {
-    "react/prop-types": 0
+    "no-console": 0,
+    "react/prop-types": 0,
+    "react/display-name": 0
   }
 }
