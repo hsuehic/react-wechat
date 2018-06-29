@@ -10,16 +10,19 @@ import { ActionSheet, NavBar, List, Button, InputItem, Toast } from 'antd-mobile
 import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { NAMESPACE } from '../../constant'
-import createWebsocket from '../../websocket';
+import createWebsocket from '../../websocket'
 
 const mapStateToProps = state => {
+  const { isLoggedIn } = state.wechat;
   return { 
-    isLogging: state.loading.effects[`${NAMESPACE}/isLoadingLogin`]
+    isLogging: state.loading.effects[`${NAMESPACE}/isLoadingLogin`],
+    isLoggedIn
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    dispatch,
     login (params) {
       return dispatch({
         type: `${NAMESPACE}/login`,
@@ -38,8 +41,12 @@ class Component extends React.Component {
     login: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props)
+  constructor(props, ctx) {
+    super(props, ctx)
+    const { isLoggedIn, history } = props
+    if (isLoggedIn) {
+      history.push('/')
+    }
     this.state = {
       phone: '',
       password: ''

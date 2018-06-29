@@ -49,9 +49,6 @@ export default class Component extends React.Component {
     this.onRegister = this.onRegister.bind(this)
   }
 
-  componentDidMount() {
-  }
-
   onGoBack() {
     const { history } = this.props
     history.goBack()
