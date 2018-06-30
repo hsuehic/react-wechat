@@ -29,7 +29,7 @@ class AppRouter extends React.Component {
         </Switch>
       </Router>)
     } else {
-      node = <Login />
+      node = <Login history={history} />
     }
     return node
   }

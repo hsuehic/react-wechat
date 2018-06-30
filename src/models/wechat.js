@@ -49,6 +49,19 @@ export default {
       }
       return res;
     },
+    * info({ payload: { params } }, { put, call }) {
+      const res = yield call(request, '/api/info', params);
+      if (res.code === 0) {
+        yield put({
+          type: 'save', 
+          payload: {
+            ...res.data,
+            isLoggedIn: true
+          }
+        })
+      }
+      return res;
+    },
     * register({ payload: { params } }, { call }) {
       const res = yield call(request, '/api/login', params);
       return res;

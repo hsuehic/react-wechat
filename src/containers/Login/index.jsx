@@ -28,6 +28,12 @@ const mapDispatchToProps = dispatch => {
         type: `${NAMESPACE}/login`,
         payload: { params }
       })
+    },
+    info (params) {
+      return dispatch({
+        type: `${NAMESPACE}/info`,
+        payload: { params }
+      })
     }
   }
 }
@@ -70,7 +76,8 @@ class Component extends React.Component {
         window.addMessageHandler = addMessageHandler
         window.removeMessageHandler = removeMessageHandler
         window.SEC_TOKEN = res.data.token
-        const { history } = this.props
+        const { info, history } = this.props
+        info({})
         history.push('/')
       } else {
         Toast.fail(res.message)
