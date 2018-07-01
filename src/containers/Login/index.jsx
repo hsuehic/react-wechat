@@ -70,15 +70,17 @@ class Component extends React.Component {
     const p = login(params)
     p.then(res => {
       if (res.code === 0) {
+        window.SEC_TOKEN = res.data.token
         const o = createWebsocket(dispatch)
         const { websocket, addMessageHandler, removeMessageHandler } = o
         window.websocket = websocket
         window.addMessageHandler = addMessageHandler
         window.removeMessageHandler = removeMessageHandler
-        window.SEC_TOKEN = res.data.token
-        const { info, history } = this.props
-        info({})
-        history.push('/')
+        const { history, location } = this.props
+        const { pathname } = location
+        if (pathname === '/login') {
+          history.push('/')
+        }
       } else {
         Toast.fail(res.message)
       }

@@ -24,10 +24,10 @@ export function toQueryString(obj) {
         const len = v.length
         for (let i = 0; i < len; i++) {
           const m = v[i]
-          items.push(`${encodeURI(k)}[]=${encodeURI(m)}`)
+          items.push(`${encodeURI(k)}[]=${m}`)
         }
       } else {
-        items.push(`${encodeURI(k)}=${encodeURI(v)}`)
+        items.push(`${encodeURI(k)}=${v}`)
       }
     })
   }
@@ -35,6 +35,22 @@ export function toQueryString(obj) {
   return value
 }
 
+/**
+ * 构建FormData
+ * @param {object} obj 要构建formdata的key，value对
+ */
+export function toFormData(obj) {
+  const formData = new FormData()
+  let v
+  if (obj) {
+    const keys = Object.keys(obj)
+    keys.forEach((k) => {
+      v = obj[k]
+      formData.append(k, v)
+    })
+  }
+  return formData
+}
 
 /**
  * 执行fetch请求
@@ -44,9 +60,7 @@ export function toQueryString(obj) {
  * @return {*}
  */
 export async function request(url, params, opts) {
-  const headers = {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-  };
+  const headers = {};
 
   // jwt 认证头部信息, 这个信息由两种方式返回，后台直接吐在页面中， 二是 调用登录等接口后赋值到window.SEC_TOKEN
   if (window.SEC_TOKEN) {
@@ -58,7 +72,7 @@ export async function request(url, params, opts) {
   const options = {
     method: 'POST',
     headers,
-    body: toQueryString(params),
+    body: toFormData(params),
     credentials: 'same-origin',
     ...opts
   }
@@ -69,4 +83,3 @@ export async function request(url, params, opts) {
   const resp = response.json()
   return resp
 }
-

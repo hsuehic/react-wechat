@@ -63,7 +63,7 @@ export default {
       return res;
     },
     * register({ payload: { params } }, { call }) {
-      const res = yield call(request, '/api/login', params);
+      const res = yield call(request, '/api/reg', params);
       return res;
     }
   }

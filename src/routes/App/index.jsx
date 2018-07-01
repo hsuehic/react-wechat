@@ -17,10 +17,10 @@ const mapStateToProps = state => {
 @connect(mapStateToProps)
 class AppRouter extends React.Component {
   render() {
-    const { isLoggedIn, history } = this.props
+    const { isLoggedIn } = this.props
     let node
     if (isLoggedIn) {
-      node = (<Router history={history}>
+      node = (<Router {...this.props}>
         <Switch>
           <Route path="/chat/video/:phone" component={VideoChat} />
           <Route path="/chat/generic/:phone" component={GenericChat} />
@@ -29,7 +29,7 @@ class AppRouter extends React.Component {
         </Switch>
       </Router>)
     } else {
-      node = <Login history={history} />
+      node = <Login {...this.props} />
     }
     return node
   }

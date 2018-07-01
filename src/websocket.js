@@ -14,7 +14,7 @@ const createWebsocket = (dispatch) => {
   } else {
     host = window.location.host;
   }
-  const WEBSOCKET_URL = `ws://${host}/wechat`;
+  const WEBSOCKET_URL = `ws://${host}/wechat/${window.SEC_TOKEN}`;
   
   const websocket = window.websocket = new WebSocket(WEBSOCKET_URL);
   
@@ -28,7 +28,7 @@ const createWebsocket = (dispatch) => {
       callback.call(websocket, evnt);
     });
     const { data } = evnt;
-    const { message } = JSON.parse(data);
+    const message = JSON.parse(data);
     dispatch(message)
   };
   

@@ -39,8 +39,15 @@ export default class Component extends React.Component {
     let index = 0;
     const sectionIDs = [];
     const rowIDs = [];
+    let lastGroup;
+    let lastRowIds;
 
     contacts.forEach(({ thumb, userName, nick, group, phone }) => {
+      if (group !== lastGroup) {
+        lastRowIds = [];
+        rowIDs.push(lastRowIds);
+        lastGroup = group;
+      }
       const sectionId = `S_${group}`
       sectionIDs.push(sectionId)
       let section = items[sectionId]
@@ -52,7 +59,7 @@ export default class Component extends React.Component {
       }
       index += 1;
       const rowId = `R_${index}`;
-      rowIDs.push(rowId);
+      lastRowIds.push(rowId);
       section[rowId] = {
         thumb,
         userName,

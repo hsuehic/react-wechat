@@ -56,7 +56,7 @@ class Component extends React.Component  {
     const { className, style } = this.props
     const { imgSource } = this.state
     return <div className={className} styleName="container" style={style}>
-      <img alt="" src={imgSource} onClick={this.onSelectImage} />
+      <img ref={img => { if(img) { this.img = img; } }} alt="" src={imgSource} onClick={this.onSelectImage} />
       <input
         onChange={this.onImageChange}
         ref={(node) => { if (node) { this.fileInput = node } }}
