@@ -15,7 +15,7 @@ import createWebsocket from '../../websocket'
 const mapStateToProps = state => {
   const { isLoggedIn } = state.wechat;
   return { 
-    isLogging: state.loading.effects[`${NAMESPACE}/isLoadingLogin`],
+    isLogging: state.loading.effects[`${NAMESPACE}/login`],
     isLoggedIn
   }
 }

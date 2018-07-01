@@ -16,7 +16,7 @@ import { NAMESPACE } from '../../constant'
 
 const mapStateToProps = state => {
   return { 
-    isLogging: state.loading.effects[`${NAMESPACE}/isLoadingRegister`]
+    isLoading: state.loading.effects[`${NAMESPACE}/register`]
   }
 }
 
@@ -92,7 +92,7 @@ export default class Component extends React.Component {
       />
       <div className="body">
         <List
-          renderFooter={<Button type="primary" size="median" className="wechat" onClick={this.onRegister}>注册</Button>}
+          renderFooter={<Button type="primary" size="median" className="wechat" isLoading={this.props.isLoading} onClick={this.onRegister}>注册</Button>}
         >
           <div styleName="nick">
             <div styleName="input">
