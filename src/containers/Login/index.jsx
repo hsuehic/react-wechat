@@ -13,10 +13,11 @@ import { NAMESPACE } from '../../constant'
 import createWebsocket from '../../websocket'
 
 const mapStateToProps = state => {
-  const { isLoggedIn } = state.wechat;
+  const { isLoggedIn, token } = state.wechat;
   return { 
     isLogging: state.loading.effects[`${NAMESPACE}/login`],
-    isLoggedIn
+    isLoggedIn,
+    token
   }
 }
 
@@ -49,8 +50,8 @@ class Component extends React.Component {
 
   constructor(props, ctx) {
     super(props, ctx)
-    const { isLoggedIn, history } = props
-    if (isLoggedIn) {
+    const { isLoggedIn, history, token } = props
+    if (isLoggedIn && token) {
       history.push('/')
     }
     this.state = {

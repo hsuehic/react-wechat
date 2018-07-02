@@ -7,7 +7,7 @@
  */
 
 import { request } from '../utils/fetch'
-import { getItemValue } from '../utils/storage'
+import { getItemValue, setItemValue } from '../utils/storage'
 
 import { NAMESPACE } from '../constant'
 
@@ -68,10 +68,14 @@ export default {
     * login({ payload: { params } }, { put, call }) {
       const res = yield call(request, '/api/login', params);
       if (res.code === 0) {
+        const { token, info } = res.data
+        setItemValue('token', token)
+        setItemValue('info', info)
         yield put({
           type: 'save', 
           payload: {
-            ...res.data,
+            token,
+            info,
             isLoggedIn: true
           }
         })
