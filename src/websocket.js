@@ -7,12 +7,17 @@
 
  // 加载完成创建到websocket的链接
 
+import { getItemValue } from './utils/storage'
+
 const createWebsocket = (dispatch) => {
   let host;
   if (__DEV__) {
     host = '127.0.0.1:4000';
   } else {
     host = window.location.host;
+  }
+  if (!window.SEC_TOKEN) {
+    window.SEC_TOKEN = getItemValue('token', '')
   }
   const WEBSOCKET_URL = `ws://${host}/wechat/${window.SEC_TOKEN}`;
   
