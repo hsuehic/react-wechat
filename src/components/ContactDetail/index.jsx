@@ -68,9 +68,9 @@ const Component = ({ userName, nick, thumb, phone, region, history }) => {
         />
         <WhiteSpace size="lg" />
         <Group style={{ background: 'transparent' }}>
-          <Button type="primary" className="wechat">发消息</Button>
+          <Button type="primary" className="wechat" onClick={() => { history.push(`/chat/generic/${phone}`)}}>发消息</Button>
           <WhiteSpace size="lg" />
-          <Button className="wechat">视频通话</Button>
+          <Button className="wechat" onClick={() => { history.push(`/chat/video/${phone}`)}}>视频通话</Button>
         </Group>
         
       </div>

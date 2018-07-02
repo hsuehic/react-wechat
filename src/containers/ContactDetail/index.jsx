@@ -11,7 +11,7 @@ import ContactDetail from '../../components/ContactDetail'
 
 const mapStateToProps = state => {
   return {
-    contactInfo: state.wechat.contactInfo
+    contacts: state.wechat.contacts
   }
 }
 
@@ -27,7 +27,11 @@ class Component extends React.Component {
 
   render() {
     const { props } = this
-    const { contactInfo, ...rest } = props
+    const { match, contacts, ...rest } = props
+    const { params } = match
+    const { phone } = params
+    const contactInfo = contacts.find(contact => contact.phone === phone) || {}
+
     return <ContactDetail {...contactInfo} {...rest} />
   }
 }

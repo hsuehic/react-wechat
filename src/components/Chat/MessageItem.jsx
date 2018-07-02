@@ -8,8 +8,14 @@
 
 import React from 'react'
 
-const Component = ({ }) => {
-  <div></div>
+import './index.less'
+
+const Component = ({ timestamp, thumb, content, isSend }) => {
+  const styleName = isSend ? 'item-right' : 'item-left'
+  return (<div styleName={styleName}>
+    <div>{timestamp}</div>
+    <div><div styleName="content">{content}</div><img src={thumb} alt="" /></div>
+  </div>)
 }
 
 export default Component

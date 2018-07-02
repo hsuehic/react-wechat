@@ -10,10 +10,17 @@ import React from 'react'
 
 import { ListView } from 'antd-mobile'
 
-const Component = ({ messageItems }) => {
-  const dataSource = []
+import MessageItem from './MessageItem'
+
+const Component = ({ items = [], className="" }) => {
+  let dataSource = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2
+  });
+  dataSource = dataSource.cloneWithRows(items);
   return <ListView
     dataSource={dataSource}
+    className={className}
+    renderRow={row => <MessageItem {...row} />}
   />
 }
 

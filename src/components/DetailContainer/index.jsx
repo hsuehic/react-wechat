@@ -9,6 +9,8 @@
  */
 
 import React from 'react'
+import { withRouter } from 'dva/router'
+
 import NavBar from '../NavBar'
 import Icon from '../CustomIcon'
 
@@ -36,4 +38,4 @@ const Component = ({ history, leftTitle, rightContent, children }) => (
   </div>
 )
 
-export default Component
+export default withRouter(Component)
