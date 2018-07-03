@@ -41,17 +41,17 @@ export default {
     saveMessage(state, { payload: message }) {
       const { conversations } = state
       let newConversations = [...conversations]
-      const { content, phone, timeStamp } = message
+      const { content, phone, timestamp } = message
       let conversation = newConversations.find(c => c.phone === phone)
       const newMessageItem = {
         content,
         phone,
-        timeStamp
+        timestamp
       }
       if (!conversation) {
         conversation = {
           phone,
-          timeStamp,
+          timestamp,
           items: [newMessageItem]
         }
         newConversations.unshift(conversation)

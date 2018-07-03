@@ -17,13 +17,29 @@ export default class Component extends React.Component {
     this.state = {
       content: null
     }
+    this.onClickSend = this.onClickSend.bind(this)
+  }
+
+  onClickSend() {
+    const { state, props } = this
+    const { content } = state
+    const { onSend } = props
+    if (typeof onSend === 'function') {
+      onSend(content)
+    }
   }
 
   render() {
     const { className } = this.props
     const { content } = this.state
     const nodeIconPlus = <CustomIcon size="xl" type="plus1" styleName="icon" />
-    const nodeButtonSend = <Button type="primary" className="wechat" size="small" styleName="button">发送</Button>
+    const nodeButtonSend = <Button
+      type="primary"
+      className="wechat"
+      size="small"
+      styleName="button"
+      onClick={this.onClickSend}
+    >发送</Button>
     const node = content ? nodeButtonSend : nodeIconPlus 
     return <div className={className} styleName="chat-input">
       <CustomIcon size="xl" type="yuyin" styleName="icon" />

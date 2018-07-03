@@ -19,6 +19,21 @@ export default class Component extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.onSend = this.onSend.bind(this)
+  }
+
+  onSend(content) {
+    const { dispatch, phone } = this.props
+    const now = new Date()
+    const timestamp = now.getTime()
+    dispatch({
+      type: 'wechat/saveMessage',
+      payload: {
+        phone,
+        content,
+        timestamp
+      }
+    })
   }
 
   render() {
@@ -34,6 +49,7 @@ export default class Component extends React.Component {
       />
       <ChatInput
         className="foot"
+
       />
     </DetailContainer>)
   }
