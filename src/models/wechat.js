@@ -11,7 +11,7 @@ import { getItemValue, setItemValue } from '../utils/storage'
 
 import { NAMESPACE } from '../constant'
 
-const isLoggedIn = false
+const isLoggedIn = getItemValue('isLoggedIn', false)
 let contacts = []
 let conversations = []
 let info = {}
@@ -71,6 +71,7 @@ export default {
         const { token, info } = res.data
         setItemValue('token', token)
         setItemValue('info', info)
+        setItemValue('isLoggedIn', true)
         yield put({
           type: 'save', 
           payload: {

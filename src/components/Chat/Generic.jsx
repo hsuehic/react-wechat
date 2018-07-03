@@ -25,7 +25,7 @@ export default class Component extends React.Component {
     const { props } = this
     const { nick, items } = props
     return (<DetailContainer
-      leftTitle={<span className="v-middle">{nick}</span>}
+      leftTitle={nick}
       rightContent={<div><CustomIcon size="lg" type="contact-fill" /></div>}
     >
       <MessageList
