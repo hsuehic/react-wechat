@@ -1,7 +1,25 @@
 .chat-input {
+  display: flex;
   height: 46px;
   border-top: solid 1px #ccc;
   background: #fff;
+  flex-direction: row;
+  padding: 5px 4px;
+  color: #aaa;
+  .icon {
+    flex: 0 0 auto;
+    margin: 0 4px;
+  }
+
+  .input { 
+    flex: 1 1 auto;
+    border: none;
+    height: 28px;
+    line-height: 27px;
+    border-bottom: solid 1px #ddd;
+    margin: 4px 4px;
+    font-size: 13px;
+  }
 }
 
 .item-left {

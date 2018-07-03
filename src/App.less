@@ -12,17 +12,20 @@ html, body {
 }
 
 @wechat: rgb(76, 190, 40);
-@icon-suffix: -xxs -xs -sm -md -lg;
-@icon-size: 15px 18px 21px 24px 36px;
-@icon-font-size: 10px 12px 14px 16px 24px;
+@icon-suffix: -xxs -xs -sm -md -lg -xl;
+@icon-size: 15px 18px 21px 24px 30px 36px;
+@icon-font-size: 10px 12px 14px 16px 24px 28px;
 .generate-icon-size(length(@icon-suffix));
 .generate-icon-size(@n, @i: 1) when(@i <= @n) {
   @suffix: extract(@icon-suffix, @i);
   @size: extract(@icon-size, @i);
   @font-zie: extract(@icon-font-size, @i);
   .we-icon@{suffix} {
+    display: inline-block;
+    text-align: center;
     width: @size;
     height: @size;
+    line-height: @size;
     font-size: @font-zie;
   }
   .generate-icon-size(@n, (@i + 1));
@@ -161,8 +164,6 @@ html, body {
 .am-navbar-right {
   .we-icon-lg {
     cursor: pointer;
-    line-height: 36px;
-    display: inline-block;
   }
 }
 .am-button-primary.wechat {
