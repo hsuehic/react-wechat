@@ -1,3 +1,4 @@
+@wechat: rgb(76, 190, 40);
 .chat-input {
   display: flex;
   height: 46px;
@@ -24,18 +25,59 @@
   }
 }
 
-.item-left {
-
-}
-
-.item-right {
-
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 15px;
 }
 
 .content {
+  background: #fff;
+  line-height: 24px;
+  padding: 8px;
+  border-radius: 6px;
+}
 
+.arrow {
+  box-sizing: border-box;
+  margin-top: 15px;
+  width: 8px;
+  height: 10px;
+  border-bottom: solid 5px transparent;
+  border-top: solid 5px transparent;
 }
 
 .thumb {
+  width: 40px;
+}
 
+.item-left {
+  justify-content: flex-start;
+  .arrow {
+    border-right: solid 8px #fff;
+    margin-left: 5px;
+  }
+  .content {
+    background: #fff;
+    margin-left: -1px;
+  }
+}
+
+.item-right {
+  justify-content: flex-end;
+  .arrow {
+    border-left: solid 8px @wechat;
+    margin-right: 10px;
+  }
+  .content {
+    background: @wechat;
+    margin-right: -1px;
+  }
+}
+
+.thumb {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
 }

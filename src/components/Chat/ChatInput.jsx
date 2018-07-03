@@ -26,6 +26,7 @@ export default class Component extends React.Component {
     const { onSend } = props
     if (typeof onSend === 'function') {
       onSend(content)
+      this.input.value = ''
     }
   }
 

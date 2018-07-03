@@ -13,7 +13,8 @@ import ChatGeneric from '../../components/Chat/Generic'
 const mapStateToProps = state => {
   return {
     contacts: state.wechat.contacts,
-    conversations: state.wechat.conversations
+    conversations: state.wechat.conversations,
+    info: state.wechat.info
   }
 }
 
@@ -25,7 +26,7 @@ export default class Component extends React.Component {
   }
 
   render() {
-    const { contacts, conversations, match } = this.props
+    const { contacts, conversations, info, match, dispatch } = this.props
     const { params } = match
     const { phone } = params
     const contact = contacts.find(c => c.phone === phone) || {};
@@ -33,7 +34,6 @@ export default class Component extends React.Component {
       phone,
       items: []
     } ;
-    const { nick } = contact
-    return <ChatGeneric {...conversation} nick={nick} />
+    return <ChatGeneric {...conversation} contact={contact} info={info} dispatch={dispatch} />
   }
 }

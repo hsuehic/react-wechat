@@ -10,12 +10,11 @@ import React from 'react'
 
 import './index.less'
 
-const Component = ({ timestamp, thumb, content, isSend }) => {
-  const styleName = isSend ? 'item-right' : 'item-left'
-  return (<div styleName={styleName}>
-    <div>{timestamp}</div>
-    <div><div styleName="content">{content}</div><img src={thumb} alt="" /></div>
-  </div>)
+const Component = ({ thumb, content, isSend }) => {
+  const nodeArrow = <div styleName="arrow" />
+  const nodeContent = <div styleName="content">{content}</div>
+  const nodeThumb = <img src={thumb} alt="" styleName="thumb" />
+  return isSend ? <div styleName="item item-right">{nodeContent}{nodeArrow}{nodeThumb}</div> : <div styleName="item item-left">{nodeThumb}{nodeArrow}{nodeContent}</div>
 }
 
 export default Component

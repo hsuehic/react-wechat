@@ -23,7 +23,8 @@ export default class Component extends React.Component {
   }
 
   onSend(content) {
-    const { dispatch, phone } = this.props
+    const { dispatch, contact } = this.props
+    const { phone } = contact
     const now = new Date()
     const timestamp = now.getTime()
     dispatch({
@@ -38,7 +39,8 @@ export default class Component extends React.Component {
 
   render() {
     const { props } = this
-    const { nick, items } = props
+    const { info, contact, items } = props
+    const { nick } = contact
     return (<DetailContainer
       leftTitle={nick}
       rightContent={<div><CustomIcon size="lg" type="contact-fill" /></div>}
@@ -46,10 +48,12 @@ export default class Component extends React.Component {
       <MessageList
         className="main"
         items={items}
+        info={info}
+        contact={contact}
       />
       <ChatInput
         className="foot"
-
+        onSend={this.onSend}
       />
     </DetailContainer>)
   }
