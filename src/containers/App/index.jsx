@@ -16,9 +16,6 @@ const TABS = {
 }
 
 class App extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
   render() {
     const { history, match } = this.props
     const messageCount = 2

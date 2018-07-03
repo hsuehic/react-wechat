@@ -5,7 +5,8 @@ import App from '../../containers/App'
 import Login from '../../containers/Login'
 import GenericChat from '../../containers/Chat/Generic'
 import VideoChat from '../../containers/Chat/Video'
-import ContactDetail from '../../containers/ContactDetail';
+import ContactDetail from '../../containers/ContactDetail'
+import createWebsocket from '../../websocket'
 
 const mapStateToProps = state => {
   const { isLoggedIn } = state.wechat
@@ -16,6 +17,18 @@ const mapStateToProps = state => {
 
 @connect(mapStateToProps)
 class AppRouter extends React.Component {
+  constructor(props, ctx) {
+    super(props, ctx)
+    const { isLoggedIn, dispatch } = props
+    if (isLoggedIn && !window.websocket) {
+      const o = createWebsocket(dispatch)
+      const { websocket, addMessageHandler, removeMessageHandler } = o
+      window.websocket = websocket
+      window.addMessageHandler = addMessageHandler
+      window.removeMessageHandler = removeMessageHandler
+    }
+  }
+
   render() {
     const { isLoggedIn } = this.props
     let node
