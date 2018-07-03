@@ -7,7 +7,9 @@
  */
 
 const { localStorage } = window
-const { getItem, setItem } = localStorage
+
+const getItem = localStorage.getItem.bind(localStorage)
+const setItem = localStorage.setItem.bind(localStorage)
 
 /**
  * 获取本地存储的值
