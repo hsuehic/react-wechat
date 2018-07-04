@@ -12,7 +12,7 @@ import { getItemValue } from './utils/storage'
 const createWebsocket = (dispatch) => {
   let host;
   if (__DEV__) {
-    host = '127.0.0.1:4000';
+    host = `${window.location.hostname}:4000`;
   } else {
     host = window.location.host;
   }
