@@ -41,6 +41,23 @@ export default class Component extends React.Component {
     window.websocket.send(JSON.stringify(action))
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.listView) {
+      if (prevProps.items !== this.props.items) {
+        const { scrollProperties } = this.listView
+        if (scrollProperties) {
+          const { contentLength, visibleLength } = scrollProperties
+          if (contentLength && visibleLength) {
+            const offset = contentLength - visibleLength
+            if (offset > 0) {
+              this.listView.scrollTo(0, offset)
+            }
+          }
+        }
+      }
+    }
+  }
+
   render() {
     const { props } = this
     const { info, contact, items } = props
@@ -54,6 +71,11 @@ export default class Component extends React.Component {
         items={items}
         info={info}
         contact={contact}
+        ref={listView => {
+          if (listView) {
+            this.listView = listView
+          }
+        }}
       />
       <ChatInput
         className="foot"
