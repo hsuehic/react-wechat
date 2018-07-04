@@ -43,7 +43,7 @@ class AppRouter extends React.Component {
         <Switch>
           <Route path="/chat/video/:phone" component={VideoChat} />
           <Route path="/chat/generic/:phone" component={GenericChat} />
-          <Route path="/contact/:phone" component={ContactDetail} />
+          <Route path="/contact/:phone([\d_]+)" component={ContactDetail} />
           <Route path="/:tab(contact|conversation|discovery|my)?" component={App} />
         </Switch>
       </Router>)

@@ -61,7 +61,7 @@ export default class Component extends React.Component {
           })
         }}
         onKeyPress={(e) => {
-          if (e.keyCode === 13) {
+          if (e.keyCode === 13 || e.key === 'Enter' || e.which === 13) {
             this.onClickSend()
           }
         }}
