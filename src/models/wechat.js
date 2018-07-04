@@ -87,6 +87,7 @@ export default {
       const conversation = {
         phone,
         timestamp,
+        newCount: 0,
         items: [message]
       }
       const newConversations = mergeConversations(conversations, [conversation])
