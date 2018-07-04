@@ -63,6 +63,7 @@ class Component extends React.Component  {
           this.listView = listView
         }
       }}
+      initialListSize={100}
     />
   }
 }
