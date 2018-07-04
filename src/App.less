@@ -225,3 +225,12 @@ html, body {
 a {
   color: #8888bb;
 }
+.chat-list {
+  .am-list-body {
+    background-color: transparent !important;
+  }
+}
+
+html:not([data-scale]) .chat-list .am-list-body::after {
+  display: none;
+}

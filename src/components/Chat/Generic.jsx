@@ -23,18 +23,22 @@ export default class Component extends React.Component {
   }
 
   onSend(content) {
-    const { dispatch, contact } = this.props
-    const { phone } = contact
+    const { dispatch, info, contact } = this.props
+    const { phone: to } = contact
+    const { phone: from } = info
     const now = new Date()
     const timestamp = now.getTime()
-    dispatch({
+    const action = {
       type: 'wechat/saveMessage',
       payload: {
-        phone,
+        to,
+        from,
         content,
         timestamp
       }
-    })
+    }
+    dispatch(action)
+    window.websocket.send(JSON.stringify(action))
   }
 
   render() {
@@ -46,7 +50,7 @@ export default class Component extends React.Component {
       rightContent={<div><CustomIcon size="lg" type="contact-fill" /></div>}
     >
       <MessageList
-        className="main"
+        className="main chat-list"
         items={items}
         info={info}
         contact={contact}

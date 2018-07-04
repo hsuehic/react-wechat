@@ -15,7 +15,13 @@ const mapStateToProps = state => {
   }
 }
 
-@connect(mapStateToProps)
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch
+  }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 class AppRouter extends React.Component {
   constructor(props, ctx) {
     super(props, ctx)

@@ -30,7 +30,7 @@ export default class Component extends React.Component {
     const { params } = match
     const { phone } = params
     const contact = contacts.find(c => c.phone === phone) || {};
-    const conversation = conversations.find(c => c.phone === phone) || {
+    const conversation = conversations[phone] || {
       phone,
       items: []
     } ;

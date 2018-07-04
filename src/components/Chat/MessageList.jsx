@@ -13,7 +13,7 @@ import { ListView } from 'antd-mobile'
 import MessageItem from './MessageItem'
 import './index.less'
 
-const Component = ({ contact, info, items = [], className = '' }) => {
+const Component = ({ contact, info, items = [], className = 'chat-list' }) => {
   let dataSource = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2
   });
@@ -21,9 +21,8 @@ const Component = ({ contact, info, items = [], className = '' }) => {
   return <ListView
     dataSource={dataSource}
     className={className}
-    styleName="container"
     renderRow={row => {
-      const isSend = contact.phone === row.phone
+      const isSend = contact.phone === row.to
       return <MessageItem {...row} isSend={isSend} thumb={isSend ? info.thumb : contact.thumb} />
     }}
   />

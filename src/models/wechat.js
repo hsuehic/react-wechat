@@ -11,9 +11,35 @@ import { getItemValue, setItemValue } from '../utils/storage'
 
 import { NAMESPACE } from '../constant'
 
+
+/**
+ * 合并对话列表
+ * @param {Object} c1 对话列表1
+ * @param {Array} c2 对话列表2
+ */
+const mergeConversations = (c1, c2) => {
+  const newConversations = { ...c1 }
+  c2.forEach(c => {
+    const { phone, ...rest } = c
+    let o = c1[phone] 
+    if (o) {
+      o = {
+        ...rest,
+        items: [...o.items, ...c.items]
+      }
+    } else {
+      o = {
+        ...rest
+      }
+    }
+    newConversations[phone] = o
+  })
+  return newConversations
+}
+
 const isLoggedIn = getItemValue('isLoggedIn', false)
 let contacts = []
-let conversations = []
+let conversations = {}
 let info = {}
 let token = null
 
@@ -36,31 +62,38 @@ export default {
   },
   reducers: {
     save(state, { payload: newState }) {
-      return { ...state, ...newState };
+      const { conversations, contacts } = newState
+      // 此处需要优化： 不要在接收到就保存到本地存储中，需要考虑性能
+      if (conversations) {
+        if (conversations.length > 0) {
+          newState.conversations = mergeConversations(state.conversations, conversations)
+        } else {
+          newState.conversations = state.conversations
+        }
+      }
+      if (contacts && contacts.length > 0) {
+        setItemValue('contacts', contacts)
+      }
+      return { ...state, ...newState }
     },
     saveMessage(state, { payload: message }) {
-      const { conversations } = state
-      let newConversations = [...conversations]
-      const { content, phone, timestamp } = message
-      let conversation = newConversations.find(c => c.phone === phone)
-      const newMessageItem = {
-        content,
+      const { conversations, info } = state
+      const { phone: myPhone } = info
+      const { to, from, timestamp } = message
+      let phone = to
+      if (phone === myPhone) {
+        phone = from
+      }
+      const conversation = {
         phone,
-        timestamp
+        timestamp,
+        items: [message]
       }
-      if (!conversation) {
-        conversation = {
-          phone,
-          timestamp,
-          items: [newMessageItem]
-        }
-        newConversations.unshift(conversation)
-      } else {
-        conversation.items = conversation.items.concat(newMessageItem)
-        const index = newConversations.indexOf(conversation)
-        conversations.splice(index, 1);
-        conversations.unshift(conversation);
-      }
+      const newConversations = mergeConversations(conversations, [conversation])
+      // 此处需要优化： 
+      setTimeout(() => {
+        setItemValue('conversations', newConversations)
+      }, 10)
       return { ...state, conversations: newConversations }
     }
   },

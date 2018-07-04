@@ -27,6 +27,9 @@ export default class Component extends React.Component {
     if (typeof onSend === 'function') {
       onSend(content)
       this.input.value = ''
+      this.setState({
+        content: null
+      })
     }
   }
 
@@ -56,6 +59,11 @@ export default class Component extends React.Component {
           this.setState({
             content: e.target.value
           })
+        }}
+        onKeyPress={(e) => {
+          if (e.keyCode === 13) {
+            this.onClickSend()
+          }
         }}
       />
       <CustomIcon size="xl" type="smile" styleName="icon" />
