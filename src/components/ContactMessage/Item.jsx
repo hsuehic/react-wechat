@@ -28,7 +28,7 @@ const Component = ({ phone, nick, content, thumb, timestamp, newCount, history, 
     const day = new Date(timestamp)
     time = `${day.getMonth() + 1}月${day.getDate()}`
   }
-  return (<div styleName="container" onClick={() => history.push(`/contact/${phone}`)}>
+  return (<div styleName="container" onClick={() => history.push(`/chat/generic/${phone}`)}>
     <div styleName="thumbnail">
       {nodeThumbnail}
     </div>
