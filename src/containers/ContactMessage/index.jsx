@@ -49,7 +49,7 @@ export default class Component extends React.Component {
       let content = ''
       const { timestamp, newCount, items } = conversation
       if (items && items.length > 0) {
-        content = items[0].content
+        content = items[items.length - 1].content
       }
       return {
         content,

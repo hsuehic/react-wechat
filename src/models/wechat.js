@@ -23,8 +23,11 @@ const mergeConversations = (c1, c2, currentConversation) => {
     const { phone, ...rest } = c
     let o = c1[phone]
     let { length: count } = c.items
-    if (phone !== currentConversation && !c.notificationOff) {
+    if (phone === currentConversation) {
       count = 0
+    }
+    if (!c.notificationOff) {
+      messageCount += count
     }
     if (o) {
       const { newCount = 0 } = o
@@ -102,17 +105,23 @@ export default {
       if (phone === myPhone) {
         phone = from
       }
+      const c = conversations[phone] || {}
+      const { notificationOff = false } = c
+      let newCount = 0
       if (phone !== currentConversation) {
-        newMessageCount += 1
+        newCount = 1
+      }
+      if (!notificationOff) {
+        newMessageCount += newCount
       }
       
       const conversation = {
         phone,
         timestamp,
-        newCount: 0,
+        newCount,
         items: [message]
       }
-      const { newConversations } = mergeConversations(conversations, [conversation]) 
+      const { newConversations } = mergeConversations(conversations, [conversation], currentConversation) 
       // 此处需要优化： 
       setTimeout(() => {
         setItemValue('conversations', newConversations)
