@@ -112,14 +112,32 @@ export default {
         newCount: 0,
         items: [message]
       }
-      const newConversations = mergeConversations(conversations, [conversation])
+      const { newConversations } = mergeConversations(conversations, [conversation]) 
       // 此处需要优化： 
       setTimeout(() => {
         setItemValue('conversations', newConversations)
       }, 10)
       return { ...state, newMessageCount, conversations: newConversations }
+    },
+
+    readConversationMessage(state, { payload: { currentConversation } }) {
+      const { conversations } = state
+      let { newMessageCount } = state
+      const conversation = conversations[currentConversation]
+      if (conversation) {
+        const { notificationOff, newCount } = conversation 
+        if (!notificationOff) {
+          newMessageCount -= newCount
+        }
+
+        const newConversation = { ...conversation, newCount: 0 }
+        return { ...state, conversations: {...conversations, [currentConversation]: newConversation }, newMessageCount, currentConversation }
+      } else {
+        return state
+      }
     }
   },
+
   effects: {
     * login({ payload: { params } }, { put, call }) {
       const res = yield call(request, '/api/login', params);

@@ -18,9 +18,9 @@ const Component = ({ phone, nick, content, thumb, timestamp, newCount, history, 
   let nodeThumbnail = <img alt={nick} src={thumb} />
   if (newCount > 0) {
     if (notificationOff) {
-      nodeThumbnail = <Badge text={newCount}>{nodeThumbnail}</Badge>
-    } else {
       nodeThumbnail = <Badge dot>{nodeThumbnail}</Badge>
+    } else {
+      nodeThumbnail = <Badge text={newCount}>{nodeThumbnail}</Badge>
     }
   }
   let time = ''
