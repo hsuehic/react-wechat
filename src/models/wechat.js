@@ -10,32 +10,41 @@ import { request } from '../utils/fetch'
 import { getItemValue, setItemValue } from '../utils/storage'
 
 import { NAMESPACE } from '../constant'
-import { stat } from 'fs-extra';
-
 
 /**
  * 合并对话列表
  * @param {Object} c1 对话列表1
  * @param {Array} c2 对话列表2
  */
-const mergeConversations = (c1, c2) => {
+const mergeConversations = (c1, c2, currentConversation) => {
   const newConversations = { ...c1 }
+  let messageCount = 0
   c2.forEach(c => {
     const { phone, ...rest } = c
-    let o = c1[phone] 
+    let o = c1[phone]
+    const { length: count } = c.items
     if (o) {
+      const { newCount = 0 } = o
       o = {
         ...rest,
+        newCount: newCount + count,
         items: [...o.items, ...c.items]
       }
     } else {
       o = {
+        newCount: count,
         ...rest
       }
     }
+    if (phone !== currentConversation && !c.notificationOff) {
+      messageCount += count
+    }
     newConversations[phone] = o
   })
-  return newConversations
+  return {
+    messageCount,
+    newConversations
+  }
 }
 
 const isLoggedIn = getItemValue('isLoggedIn', false)
@@ -66,20 +75,14 @@ export default {
   reducers: {
     save(state, { payload: newState }) {
       const { conversations, contacts } = newState
-      const { currentConversation } = state
       let { newMessageCount } = state
       // 此处需要优化： 不要在接收到就保存到本地存储中，需要考虑性能
       if (conversations) {
+        const { currentConversation } = state
         if (conversations.length > 0) {
-          newState.conversations = mergeConversations(state.conversations, conversations)
-          conversations.forEach(c => {
-            if (c.phone !== currentConversation) {
-              const { items } = c
-              if (items && items.length > 0) {
-                newMessageCount += items.length
-              }
-            }
-          })
+          const { messageCount, newConversations } = mergeConversations(state.conversations, conversations, currentConversation)
+          newState.conversations = newConversations
+          newMessageCount += messageCount
         } else {
           newState.conversations = state.conversations          
         }
@@ -89,6 +92,7 @@ export default {
       }
       return { ...state, ...newState, newMessageCount }
     },
+
     saveMessage(state, { payload: message }) {
       const { conversations, currentConversation, info } = state
       let { newMessageCount } = state
