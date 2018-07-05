@@ -10,14 +10,37 @@ import { connect } from "dva"
 
 import ChatVideo from '../../components/Chat/Video'
 
-@connect()
-export default class Component extends React.Component {
+const mapStateToProps = state => {
+  const { 
+    contacts = [],
+    info = {}
+  } = state.wechat
+  return {
+    contacts,
+    info
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch
+  }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
+class Component extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
 
   render() {
-    return <ChatVideo {...this.props} />
+    const { contacts, match } = this.props
+    const { params } = match
+    const { phone } = params
+    const contact = contacts.find(c => c.phone === phone) || {}
+    return <ChatVideo {...this.props} contact={contact} />
   }
 }
+
+export default Component

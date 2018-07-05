@@ -33,7 +33,7 @@ export default class Component extends React.Component {
     const conversation = conversations[phone] || {
       phone,
       items: []
-    } ;
+    }
     return <ChatGeneric {...conversation} contact={contact} info={info} dispatch={dispatch} />
   }
 }
