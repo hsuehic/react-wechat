@@ -12,7 +12,7 @@ import { getItemValue } from './utils/storage'
 const createWebsocket = (dispatch) => {
   let host;
   if (__DEV__) {
-    host = `${window.location.hostname}:4000`;
+    host = `${window.location.hostname}:8000`;
   } else {
     host = window.location.host;
   }
@@ -41,6 +41,7 @@ const createWebsocket = (dispatch) => {
   };
   
   websocket.onclose = () => {
+    
   };
   
   /**
