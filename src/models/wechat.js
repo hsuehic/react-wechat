@@ -10,6 +10,7 @@ import { request } from '../utils/fetch'
 import { getItemValue, setItemValue } from '../utils/storage'
 
 import { NAMESPACE } from '../constant'
+import { stat } from 'fs-extra';
 
 
 /**
@@ -59,31 +60,48 @@ export default {
     info,
     isLoggedIn,
     token,
+    newMessageCount: 0,
+    currentConversation: '',
   },
   reducers: {
     save(state, { payload: newState }) {
       const { conversations, contacts } = newState
+      const { currentConversation } = state
+      let { newMessageCount } = state
       // 此处需要优化： 不要在接收到就保存到本地存储中，需要考虑性能
       if (conversations) {
         if (conversations.length > 0) {
           newState.conversations = mergeConversations(state.conversations, conversations)
+          conversations.forEach(c => {
+            if (c.phone !== currentConversation) {
+              const { items } = c
+              if (items && items.length > 0) {
+                newMessageCount += items.length
+              }
+            }
+          })
         } else {
-          newState.conversations = state.conversations
+          newState.conversations = state.conversations          
         }
       }
       if (contacts && contacts.length > 0) {
         setItemValue('contacts', contacts)
       }
-      return { ...state, ...newState }
+      return { ...state, ...newState, newMessageCount }
     },
     saveMessage(state, { payload: message }) {
-      const { conversations, info } = state
+      const { conversations, currentConversation, info } = state
+      let { newMessageCount } = state
       const { phone: myPhone } = info
       const { to, from, timestamp } = message
       let phone = to
       if (phone === myPhone) {
         phone = from
       }
+      if (phone !== currentConversation) {
+        newMessageCount += 1
+      }
+      
       const conversation = {
         phone,
         timestamp,
@@ -95,7 +113,7 @@ export default {
       setTimeout(() => {
         setItemValue('conversations', newConversations)
       }, 10)
-      return { ...state, conversations: newConversations }
+      return { ...state, newMessageCount, conversations: newConversations }
     }
   },
   effects: {

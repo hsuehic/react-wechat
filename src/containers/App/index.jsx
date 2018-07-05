@@ -1,12 +1,14 @@
 
-import React, { Component } from 'react';
-import { NavBar, Tabs } from 'antd-mobile';
-import AppTabItem from '../../components/AppTabItem';
-import CustomIcon from '../../components/CustomIcon';
-import ContactMessage from '../../containers/ContactMessage';
-import My from '../../components/My';
-import Discovery from '../../components/Discovery';
-import Contact from '../../containers/Contact';
+import React, { Component } from 'react'
+import { connect } from 'dva'
+import { NavBar, Tabs } from 'antd-mobile'
+
+import AppTabItem from '../../components/AppTabItem'
+import CustomIcon from '../../components/CustomIcon'
+import ContactMessage from '../../containers/ContactMessage'
+import My from '../../components/My'
+import Discovery from '../../components/Discovery'
+import Contact from '../../containers/Contact'
 
 const TABS = {
   CONVERSATION: 'conversation',
@@ -15,11 +17,18 @@ const TABS = {
   MY: 'my'
 }
 
+const mapStateToProps = state => {
+  const { newMessageCount } = state.wechat
+  return {
+    newMessageCount
+  }
+}
+
+@connect(mapStateToProps)
 class App extends Component {
   render() {
-    const { history, match } = this.props
-    const messageCount = 2
-    const messageCountStr = messageCount > 0 ? `(${messageCount})` : ''
+    const { history, match, newMessageCount } = this.props
+    const messageCountStr = newMessageCount > 0 ? `(${newMessageCount})` : ''
     let matchParams = { tab: 'conversation' }
     if (match && match.params) {
       matchParams = match.params
@@ -46,7 +55,7 @@ class App extends Component {
     }
 
     const tabs = [
-      { title: <AppTabItem text="微信" icon="weixin" badgeText={messageCount} active={initialPage === 0} />, name: TABS.CONVERSATION },
+      { title: <AppTabItem text="微信" icon="weixin" badgeText={newMessageCount} active={initialPage === 0} />, name: TABS.CONVERSATION },
       { title: <AppTabItem text="通信录" icon="contact" active={initialPage === 1} />, name: TABS.CONTACT },
       { title: <AppTabItem text="发现" icon="compass" badgeDot active={initialPage === 2} />, name: TABS.DISCOVERY },
       { title: <AppTabItem text="我" icon="my" active={initialPage === 3} />, name: TABS.MY },

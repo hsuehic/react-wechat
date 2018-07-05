@@ -22,6 +22,17 @@ export default class Component extends React.Component {
     this.onSend = this.onSend.bind(this)
   }
 
+  componentDidMount() {
+    const { dispatch, contact } = this.props
+    const { phone: currentConversation } = contact
+    dispatch({
+      type: 'wechat/save',
+      payload: {
+        currentConversation
+      }
+    }) 
+  }
+
   onSend(content) {
     const { dispatch, info, contact } = this.props
     const { phone: to } = contact
@@ -56,6 +67,16 @@ export default class Component extends React.Component {
         }
       }
     }
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'wechat/save',
+      payload: {
+        currentConversation: ''
+      }
+    })
   }
 
   render() {
