@@ -22,7 +22,10 @@ const mergeConversations = (c1, c2, currentConversation) => {
   c2.forEach(c => {
     const { phone, ...rest } = c
     let o = c1[phone]
-    const { length: count } = c.items
+    let { length: count } = c.items
+    if (phone !== currentConversation && !c.notificationOff) {
+      count = 0
+    }
     if (o) {
       const { newCount = 0 } = o
       o = {
@@ -35,9 +38,6 @@ const mergeConversations = (c1, c2, currentConversation) => {
         newCount: count,
         ...rest
       }
-    }
-    if (phone !== currentConversation && !c.notificationOff) {
-      messageCount += count
     }
     newConversations[phone] = o
   })
@@ -128,6 +128,9 @@ export default {
         const { notificationOff, newCount } = conversation 
         if (!notificationOff) {
           newMessageCount -= newCount
+          if (newMessageCount < 0) {
+            newMessageCount = 0
+          }
         }
 
         const newConversation = { ...conversation, newCount: 0 }

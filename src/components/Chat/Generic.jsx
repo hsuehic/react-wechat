@@ -26,7 +26,7 @@ export default class Component extends React.Component {
     const { dispatch, contact } = this.props
     const { phone: currentConversation } = contact
     dispatch({
-      type: 'wechat/save',
+      type: 'wechat/readConversationMessage',
       payload: {
         currentConversation
       }
