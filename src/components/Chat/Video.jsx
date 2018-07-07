@@ -23,6 +23,7 @@ const sendToServer = msg => {
   window.websocket.send(JSON.stringify(msg))
 }
 
+// video properties
 const mediaConstraints = {
   audio: true,            // We want an audio track
   video: true             // ...and we want a video track
@@ -110,7 +111,7 @@ export default class Component extends React.Component {
     })
     .then(function() {
       sendToServer({
-        type: "video-offer",
+        type: 'video-offer',
         payload: {
           from,
           to,
@@ -163,7 +164,7 @@ export default class Component extends React.Component {
     const { candidate } = event
     if (event.candidate) {
       sendToServer({
-        type: "new-ice-candidate",
+        type: 'new-ice-candidate',
         payload: {
           candidate,
           from,
@@ -180,9 +181,9 @@ export default class Component extends React.Component {
   handleICEConnectionStateChangeEvent() {
     const { myPeerConnection } = this
     switch(myPeerConnection.iceConnectionState) {
-      case "closed":
-      case "failed":
-      case "disconnected":
+      case 'closed':
+      case 'failed':
+      case 'disconnected':
         this.closeVideoCall();
         break;
     }
@@ -198,7 +199,7 @@ export default class Component extends React.Component {
   handleSignalingStateChangeEvent() {
     const { myPeerConnection } = this
     switch(myPeerConnection.signalingState) {
-      case "closed":
+      case 'closed':
         this.closeVideoCall();
         break;
     }
@@ -216,7 +217,7 @@ export default class Component extends React.Component {
 
   handleICEGatheringStateChangeEvent() {
     const { myPeerConnection } = this
-    console.log("*** ICE gathering state changed to: " + myPeerConnection.iceGatheringState)
+    console.log('*** ICE gathering state changed to: ' + myPeerConnection.iceGatheringState)
   }
 
   closeVideoCall() {
@@ -263,7 +264,7 @@ export default class Component extends React.Component {
     const { phone: to } = contact
     const { phone: from } = info
     sendToServer({
-      type: "hang-up",
+      type: 'hang-up',
       payload: {
         from,
         to
@@ -280,24 +281,25 @@ export default class Component extends React.Component {
   invite() {
     let { myPeerConnection } = this
     if (myPeerConnection) {
-      alert("You can't start a call because you already have one open!");
+      alert('You can not start a call because you already have one open!');
     } else {
 
       this.createPeerConnection()
       myPeerConnection = this.myPeerConnection
       const hasAddTrack =  myPeerConnection.addTrack !== undefined
       navigator.mediaDevices.getUserMedia(mediaConstraints)
-      .then(function(localStream) {
-        document.getElementById("local_video").src = window.URL.createObjectURL(localStream);
-        document.getElementById("local_video").srcObject = localStream;
+      .then(() => {
+        const { localVideo, localStream} = this
+        localVideo.src = window.URL.createObjectURL(localStream)
+        localVideo.srcObject = localStream;
 
         if (hasAddTrack) {
-          localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
+          localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream))
         } else {
-          myPeerConnection.addStream(localStream);
+          myPeerConnection.addStream(localStream)
         }
       })
-      .catch(this.handleGetUserMediaError);
+      .catch(this.handleGetUserMediaError)
     }
   }
 
@@ -322,17 +324,16 @@ export default class Component extends React.Component {
     myPeerConnection.setRemoteDescription(desc).then(function () {
       return navigator.mediaDevices.getUserMedia(mediaConstraints);
     })
-    .then(function(stream) {
-      localStream = stream;
-      document.getElementById("local_video").src = window.URL.createObjectURL(localStream);
-      document.getElementById("local_video").srcObject = localStream;
+    .then(stream => {
+      const { localVideo } = this
+      localStream = stream
+      localVideo.src = window.URL.createObjectURL(localStream)
+      localVideo.srcObject = localStream
 
       if (hasAddTrack) {
-        localStream.getTracks().forEach(track =>
-              myPeerConnection.addTrack(track, localStream)
-        );
+        localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream))
       } else {
-        myPeerConnection.addStream(localStream);
+        myPeerConnection.addStream(localStream)
       }
     })
     .then(function() {
@@ -340,30 +341,30 @@ export default class Component extends React.Component {
       // start our stream up locally then create an SDP answer. This SDP
       // data describes the local end of our call, including the codec
       // information, options agreed upon, and so forth.
-      return myPeerConnection.createAnswer();
+      return myPeerConnection.createAnswer()
     })
     .then(function(answer) {
       // We now have our answer, so establish that as the local description.
       // This actually configures our end of the call to match the settings
       // specified in the SDP.
-      return myPeerConnection.setLocalDescription(answer);
+      return myPeerConnection.setLocalDescription(answer)
     })
     .then(function() {
       var msg = {
-        type: "video-answer",
+        type: 'video-answer',
         payload: {
           from,
           to,
           sdp: myPeerConnection.localDescription
         }
-      };
+      }
 
       // We've configured our end of the call now. Time to send our
       // answer back to the caller so they know that we want to talk
       // and how to talk to us.
-      sendToServer(msg);
+      sendToServer(msg)
     })
-    .catch(this.handleGetUserMediaError);
+    .catch(this.handleGetUserMediaError)
   }
 
   // Responds to the "video-answer" message sent to the caller
@@ -396,16 +397,15 @@ export default class Component extends React.Component {
 
   handleGetUserMediaError(e) {
     switch(e.name) {
-      case "NotFoundError":
-        alert("Unable to open your call because no camera and/or microphone" +
-              "were found.");
+      case 'NotFoundError':
+        alert('Unable to open your call because no camera and/or microphone were found.');
         break;
-      case "SecurityError":
-      case "PermissionDeniedError":
+      case 'SecurityError':
+      case 'PermissionDeniedError':
         // Do nothing; this is the same as the user canceling the call.
         break;
       default:
-        alert("Error opening your camera and/or microphone: " + e.message);
+        alert(`Error opening your camera and/or microphone: ${e.message}`);
         break;
     }
 
@@ -426,7 +426,7 @@ export default class Component extends React.Component {
     const { localVideo } = this
     const gotLocalMediaStream = mediaStream => {
       this.localStream = mediaStream;
-      localVideo.srcObject = mediaStream;
+      localVideo.srcObject = mediaStream
     }
     navigator.mediaDevices
       .getUserMedia(mediaStreamConstraints)
