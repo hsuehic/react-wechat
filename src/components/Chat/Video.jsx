@@ -1,3 +1,5 @@
+// eslint react/no-deprecated: "off"
+
 /**
  * 音视频聊天窗口
  * 
@@ -42,10 +44,16 @@ export default class Component extends React.Component {
     this.handleTrackEvent = this.handleTrackEvent.bind(this)
     this.handleAddStreamEvent = this.handleAddStreamEvent.bind(this)
     this.handleGetUserMediaError = this.handleGetUserMediaError.bind(this)
+    this.onMessage = this.onMessage.bind(this)
   }
 
   componentDidMount() {
     this.getUserMediaStream()
+    window.addMessageHandler(this.onMessage)
+  }
+
+  componentWillUnmount() {
+    window.removeMessageHandler(this.onMessage)
   }
 
   /**
@@ -93,6 +101,13 @@ export default class Component extends React.Component {
     } else {
       myPeerConnection.onaddstream = handleAddStreamEvent;
     }
+  }
+
+  /**
+   * 协议消息处理
+   */
+  onMessage() {
+
   }
 
   // Called by the WebRTC layer to let us know when it's time to

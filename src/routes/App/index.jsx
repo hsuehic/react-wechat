@@ -26,12 +26,34 @@ class AppRouter extends React.Component {
   constructor(props, ctx) {
     super(props, ctx)
     const { isLoggedIn, dispatch } = props
+    this.onMessage = this.onMessage.bind(this)
     if (isLoggedIn && !window.websocket) {
       const o = createWebsocket(dispatch)
       const { websocket, addMessageHandler, removeMessageHandler } = o
       window.websocket = websocket
       window.addMessageHandler = addMessageHandler
       window.removeMessageHandler = removeMessageHandler
+    }
+  }
+
+  componentDidMount() {
+    window.addMessageHandler(this.onMessage)
+  }
+
+  componentWillUnmount() {
+    window.removeMessageHandler(this.onMessage)
+  }
+
+  onMessage(msg) {
+    const { history } = this.props
+    const { payload } = msg
+    const { from } = payload
+    switch(msg.type) {
+      case 'video-offer': // 联系人发起视频聊天
+        history.push(`/chat/video/${from}`)
+        break
+      default:
+        break
     }
   }
 
