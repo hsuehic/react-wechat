@@ -73,8 +73,7 @@ class Component extends React.Component {
       if (res.code === 0) {
         window.SEC_TOKEN = res.data.token
         const o = createWebsocket(dispatch)
-        const { websocket, addMessageHandler, removeMessageHandler } = o
-        window.websocket = websocket
+        const { addMessageHandler, removeMessageHandler } = o
         window.addMessageHandler = addMessageHandler
         window.removeMessageHandler = removeMessageHandler
         const { history, location } = this.props

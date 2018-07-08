@@ -38,8 +38,7 @@ export default class Component extends React.Component {
     this.onMessage = this.onMessage.bind(this)
     if (isLoggedIn && !window.websocket) {
       const o = createWebsocket(dispatch)
-      const { websocket, addMessageHandler, removeMessageHandler } = o
-      window.websocket = websocket
+      const { addMessageHandler, removeMessageHandler } = o
       window.addMessageHandler = addMessageHandler
       window.removeMessageHandler = removeMessageHandler
     }

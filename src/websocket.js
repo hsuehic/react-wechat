@@ -10,25 +10,36 @@
 import { getItemValue } from './utils/storage'
 
 const createWebsocket = (dispatch) => {
-  let host;
+  let host
   if (__DEV__) {
     host = `${window.location.hostname}:8000`
   } else {
     host = window.location.host
   }
-  if (!window.SEC_TOKEN) {
-    window.SEC_TOKEN = getItemValue('token', '')
-  }
-  const WEBSOCKET_URL = `ws://${host}/wechat/${window.SEC_TOKEN}`
-  
-  const websocket = window.websocket = new WebSocket(WEBSOCKET_URL)
   
   const _messageHandlers = new Set()
-  
-  websocket.onopen= () => {
-  };
-  
-  websocket.onmessage= evnt => {
+
+  let timer
+
+  // 发送心跳包，防止websocket 断开
+  const sendHeartBeat = () => {
+    const heartbeatMessage = JSON.stringify({
+      type: 'heartbeat',
+      payload: {
+        time: (new Date()).getTime()
+      }
+    })
+    window.websocket.send(heartbeatMessage)
+  }
+
+  // 连接上后开始发送心跳
+  const openHandle = () => {
+    console.log('WebSocket connected!')
+    timer = setInterval(sendHeartBeat, 1000)
+  }
+
+  // 消息处理
+  const messageHandle = evnt => {
     const { data } = evnt
     const message = JSON.parse(data);
     _messageHandlers.forEach(callback => {
@@ -37,13 +48,42 @@ const createWebsocket = (dispatch) => {
     dispatch(message)
   }
   
-  websocket.onerror = () => {
+  // 错误日志
+  const errorHandle = evnt => {
+    console.error(`WebSocket error:${evnt.message}`)
+  }
+
+  let createTimer
+  // 链接断开后，尝试重连
+  const closeHandle = () => {
+    window.clearInterval(timer)
+    createTimer = setInterval(() => {
+      if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
+        window.clearInterval(createTimer)
+      } else {
+        doCreateWebSocket()
+      }
+      
+    }, 5000)
+    ()
+  }
+
+  function doCreateWebSocket() {
+    if (!window.SEC_TOKEN) {
+      window.SEC_TOKEN = getItemValue('token', '')
+    }
+    const WEBSOCKET_URL = `ws://${host}/wechat/${window.SEC_TOKEN}`
+    const websocket = window.websocket = new WebSocket(WEBSOCKET_URL)
+    websocket.onmessage = messageHandle
+    websocket.onopen= openHandle
+    websocket.onerror = errorHandle
+    websocket.onclose = closeHandle
+    window.websocket = websocket
+    return websocket
   }
   
-  websocket.onclose = () => {
-    
-  }
-  
+  doCreateWebSocket()
+
   /**
    * 添加消息处理函数
    * @param {function} handler 消息处理函数
@@ -61,7 +101,6 @@ const createWebsocket = (dispatch) => {
   }
 
   return {
-    websocket,
     addMessageHandler,
     removeMessageHandler
   }
