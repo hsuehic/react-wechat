@@ -26,7 +26,7 @@ export default class Component extends React.Component {
   }
 
   render() {
-    const { contacts, conversations, info, match, dispatch } = this.props
+    const { contacts, conversations, info, match, dispatch, history } = this.props
     const { params } = match
     const { phone } = params
     const contact = contacts.find(c => c.phone === phone) || {};
@@ -34,6 +34,6 @@ export default class Component extends React.Component {
       phone,
       items: []
     }
-    return <ChatGeneric {...conversation} contact={contact} info={info} dispatch={dispatch} />
+    return <ChatGeneric {...conversation} contact={contact} info={info} dispatch={dispatch} history={history} />
   }
 }

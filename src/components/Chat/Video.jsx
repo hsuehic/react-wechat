@@ -451,11 +451,11 @@ export default class Component extends React.Component {
 
   render() {
     const { props } = this
-    const { contact} = props
-    const { nick } = contact
+    const { contact, history} = props
+    const { nick, phone } = contact
     return (<DetailContainer
       leftTitle={nick}
-      rightContent={<div><CustomIcon size="lg" type="contact-fill" /></div>}
+      rightContent={<div><CustomIcon size="lg" type="contact-fill" onClick={() => { history.push(`/contact/${phone}`) }} /></div>}
     >
       <div styleName="container">
         <video

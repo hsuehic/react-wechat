@@ -35,11 +35,11 @@ class Component extends React.Component {
   }
 
   render() {
-    const { contacts, match } = this.props
+    const { contacts, match, history } = this.props
     const { params } = match
     const { phone } = params
     const contact = contacts.find(c => c.phone === phone) || {}
-    return <ChatVideo {...this.props} contact={contact} />
+    return <ChatVideo {...this.props} contact={contact} history={history} />
   }
 }
 
