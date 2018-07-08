@@ -8,7 +8,10 @@
   扫一扫 <br />
   ![](./res/wechat.png)
 * 大致效果，后面完整实现了再贴一个demo <br />
- <img src="./res/wechat.gif" alt="" style="width:350px;" />
+ <img src="./res/wechat-1.gif" alt="" style="width:350px;" />
+ <br />
+
+ <img src="./res/wechat-2.gif" alt="" style="width:350px;" />
  <br />
 
  <img src="./res/chat.png" alt="" style="width:350px;" />
