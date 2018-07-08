@@ -150,7 +150,7 @@ export default {
         saveToLocal('conversations', newConversations)
         return { ...state, conversations: newConversations, newMessageCount, currentConversation }
       } else {
-        return state
+        return { ...state, currentConversation }
       }
     }
   },
