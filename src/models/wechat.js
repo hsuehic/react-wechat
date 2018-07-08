@@ -50,6 +50,12 @@ const mergeConversations = (c1, c2, currentConversation) => {
   }
 }
 
+const saveToLocal = (key, value) => {
+  setTimeout(() => {
+    setItemValue(key, value)
+  })
+}
+
 const isLoggedIn = getItemValue('isLoggedIn', false)
 let contacts = []
 let conversations = {}
@@ -91,7 +97,7 @@ export default {
         }
       }
       if (contacts && contacts.length > 0) {
-        setItemValue('contacts', contacts)
+        saveToLocal('contacts', contacts)
       }
       return { ...state, ...newState, newMessageCount }
     },
@@ -122,10 +128,7 @@ export default {
         items: [message]
       }
       const { newConversations } = mergeConversations(conversations, [conversation], currentConversation) 
-      // 此处需要优化： 
-      setTimeout(() => {
-        setItemValue('conversations', newConversations)
-      }, 10)
+      saveToLocal('conversation', newConversations)
       return { ...state, newMessageCount, conversations: newConversations }
     },
 
@@ -143,7 +146,9 @@ export default {
         }
 
         const newConversation = { ...conversation, newCount: 0 }
-        return { ...state, conversations: {...conversations, [currentConversation]: newConversation }, newMessageCount, currentConversation }
+        const newConversations = {...conversations, [currentConversation]: newConversation }
+        saveToLocal('conversations', newConversations)
+        return { ...state, conversations: newConversations, newMessageCount, currentConversation }
       } else {
         return state
       }
