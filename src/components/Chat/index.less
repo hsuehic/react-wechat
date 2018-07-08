@@ -1,8 +1,18 @@
 @wechat: rgb(76, 190, 40);
 .chat-input {
+  position: relative;
   display: flex;
   height: 46px;
-  border-top: solid 1px #ccc;
+  &::before {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    transform: scaleY(0.5);
+    content: ' ';
+    background: #ddd;
+    left: 0;
+    top: 0;
+  }
   background: #fff;
   flex-direction: row;
   padding: 5px 4px;
