@@ -68,11 +68,13 @@ const createWebsocket = (dispatch) => {
     ()
   }
 
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+
   function doCreateWebSocket() {
     if (!window.SEC_TOKEN) {
       window.SEC_TOKEN = getItemValue('token', '')
     }
-    const WEBSOCKET_URL = `ws://${host}/wechat/${window.SEC_TOKEN}`
+    const WEBSOCKET_URL = `${protocol}//${host}/wechat/${window.SEC_TOKEN}`
     const websocket = window.websocket = new WebSocket(WEBSOCKET_URL)
     websocket.onmessage = messageHandle
     websocket.onopen= openHandle
