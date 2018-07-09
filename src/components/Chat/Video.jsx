@@ -14,6 +14,7 @@ import DetailContainer from '../../components/DetailContainer'
 import { RTC_MESSAGE_TYPE } from '../../constant'
 
 import './index.less'
+import { Button } from 'antd-mobile';
 
 const reportError = (errMessage) => {
   console.error("Error " + errMessage.name + ": " + errMessage.message)
@@ -29,7 +30,7 @@ const sendToServer = msg => {
 
 // video properties
 const mediaConstraints = {
-  audio: true,            // We want an audio track
+  audio: false,            // We want an audio track
   video: true             // ...and we want a video track
 }
 
@@ -51,13 +52,6 @@ export default class Component extends React.Component {
 
   componentDidMount() {
     window.addMessageHandler(this.onMessage)
-    const { state = {} } = this.props.history.location
-    const { offerMessage } = state
-    if (offerMessage) {
-      this.handleVideoOfferMsg(offerMessage.payload)
-    } else {
-      this.invite()
-    }
   }
 
   componentWillUnmount() {
@@ -84,9 +78,6 @@ export default class Component extends React.Component {
       myPeerConnection,
       handleICECandidateEvent,
       handleRemoveStreamEvent,
-      handleICEConnectionStateChangeEvent,
-      handleICEGatheringStateChangeEvent,
-      handleSignalingStateChangeEvent,
       // handleNegotiationNeededEvent,
       // handleTrackEvent,
       handleAddStreamEvent
@@ -97,9 +88,9 @@ export default class Component extends React.Component {
   
     myPeerConnection.onicecandidate = handleICECandidateEvent
     myPeerConnection.onnremovestream = handleRemoveStreamEvent
-    myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
-    myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent
-    myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent
+    // myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
+    // myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent
+    // myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent
     // send offer immediately after connection created while the negotiationneeded event compatiblity.
     // myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
   
@@ -164,7 +155,7 @@ export default class Component extends React.Component {
         }
       })
     })
-    .catch(reportError);
+    .catch(reportError)
   }
 
   // Called by the WebRTC layer when events occur on the media tracks
@@ -185,7 +176,6 @@ export default class Component extends React.Component {
   // remote peer. We use this to update our user interface, in this
   // example.
   handleAddStreamEvent(event) {
-    console.log('remote stream arriving')
     const { remoteVideo } = this
     const { stream } = event
     remoteVideo.src = window.URL.createObjectURL(stream)
@@ -229,12 +219,14 @@ export default class Component extends React.Component {
   // This is called when the state of the ICE agent changes.
   handleICEConnectionStateChangeEvent() {
     const { myPeerConnection } = this
-    switch(myPeerConnection.iceConnectionState) {
-      case 'closed':
-      case 'failed':
-      case 'disconnected':
-        this.closeVideoCall();
-        break;
+    if (myPeerConnection) {
+      switch(myPeerConnection.iceConnectionState) {
+        case 'closed':
+        case 'failed':
+        case 'disconnected':
+          this.closeVideoCall();
+          break
+      }
     }
   }
   
@@ -348,9 +340,7 @@ export default class Component extends React.Component {
         // } else {
         myPeerConnection.addStream(stream)
         // }
-        setTimeout(() => {
-          this.sendOffer()
-        }, 2000)
+        this.sendOffer()
       })
       .catch(this.handleGetUserMediaError)
     }
@@ -483,6 +473,8 @@ export default class Component extends React.Component {
           autoPlay
           playsInline
         />
+
+        <Button onClick={ () => { this.invite() }}>Call</Button>
         <video
           ref={el => {
             if (el) {
