@@ -7,3 +7,12 @@
 
 
 export const NAMESPACE = 'wechat'
+
+
+// 消息定义
+export const RTC_MESSAGE_TYPE = {
+  CANDIDATE: 'new-ice-candidate',
+  HANG_UP: 'hang-up',
+  VIDEO_OFFER: 'video-offer',
+  VIDEO_ANSWER: 'video-answer'
+}

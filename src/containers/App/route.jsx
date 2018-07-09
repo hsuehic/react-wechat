@@ -15,6 +15,8 @@ import VideoChat from '../Chat/Video'
 import ContactDetail from '../ContactDetail'
 import createWebsocket from '../../websocket'
 
+import { RTC_MESSAGE_TYPE } from '../../constant'
+
 
 const mapStateToProps = state => {
   const { isLoggedIn } = state.wechat
@@ -42,7 +44,9 @@ export default class Component extends React.Component {
       window.addMessageHandler = addMessageHandler
       window.removeMessageHandler = removeMessageHandler
     }
-  }componentDidMount() {
+  }
+
+  componentDidMount() {
     const { isLoggedIn } = this.props
     if (isLoggedIn) {
       window.addMessageHandler(this.onMessage)
@@ -61,8 +65,13 @@ export default class Component extends React.Component {
     const { payload } = msg
     const { from } = payload
     switch(msg.type) {
-      case 'video-offer': // 联系人发起视频聊天
-        history.push(`/chat/video/${from}`)
+      case RTC_MESSAGE_TYPE.VIDEO_OFFER: // 联系人发起视频聊天
+        history.push({
+          pathname: `/chat/video/${from}`,
+          state: {
+          offerMessage: msg
+          }
+        })
         break
       default:
         break

@@ -11,6 +11,8 @@
 import React from 'react'
 import CustomIcon from '../../components/CustomIcon'
 import DetailContainer from '../../components/DetailContainer'
+import { RTC_MESSAGE_TYPE } from '../../constant'
+
 import './index.less'
 
 const reportError = (errMessage) => {
@@ -48,12 +50,23 @@ export default class Component extends React.Component {
   }
 
   componentDidMount() {
-    this.getUserMediaStream()
     window.addMessageHandler(this.onMessage)
+    const { state = {} } = this.props.history.location
+    const { offerMessage } = state
+    if (offerMessage) {
+      this.handleVideoOfferMsg(offerMessage.payload)
+    } else {
+      this.doCall()
+    }
   }
 
   componentWillUnmount() {
     window.removeMessageHandler(this.onMessage)
+  }
+
+  doCall() {
+    this.createPeerConnection()
+    this.sendOffer()
   }
 
   /**
@@ -78,7 +91,7 @@ export default class Component extends React.Component {
       handleICEConnectionStateChangeEvent,
       handleICEGatheringStateChangeEvent,
       handleSignalingStateChangeEvent,
-      handleNegotiationNeededEvent,
+      // handleNegotiationNeededEvent,
       handleTrackEvent,
       handleAddStreamEvent
     } = this
@@ -86,12 +99,13 @@ export default class Component extends React.Component {
   
     // Set up event handlers for the ICE negotiation process.
   
-    myPeerConnection.onicecandidate = handleICECandidateEvent;
-    myPeerConnection.onnremovestream = handleRemoveStreamEvent;
-    myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent;
-    myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent;
-    myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
-    myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
+    myPeerConnection.onicecandidate = handleICECandidateEvent
+    myPeerConnection.onnremovestream = handleRemoveStreamEvent
+    myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
+    myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent
+    myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent
+    // send offer immediately after connection created while the negotiationneeded event compatiblity.
+    // myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
   
     // Because the deprecation of addStream() and the addstream event is recent,
     // we need to use those if addTrack() and track aren't available.
@@ -106,8 +120,23 @@ export default class Component extends React.Component {
   /**
    * 协议消息处理
    */
-  onMessage() {
-
+  onMessage(msg) {
+    const { type, payload } = msg
+    switch(type) {
+      case RTC_MESSAGE_TYPE.CANDIDATE:
+        this.handleNewICECandidateMsg(payload)
+        break
+      case RTC_MESSAGE_TYPE.HANG_UP:
+        break
+      case RTC_MESSAGE_TYPE.VIDEO_ANSWER:
+        this.handleVideoAnswerMsg(payload)
+        break
+      case RTC_MESSAGE_TYPE.VIDEO_OFFER:
+        this.handleVideoOfferMsg(payload)
+        break
+      default:
+        break
+    }
   }
 
   // Called by the WebRTC layer to let us know when it's time to
@@ -117,6 +146,13 @@ export default class Component extends React.Component {
   // description to the callee as an offer. This is a proposed media
   // format, codec, resolution, etc.
   handleNegotiationNeededEvent() {
+    this.sendOffer()
+  }
+
+  /**
+   * 发送视频对话邀请
+   */
+  sendOffer() {
     const { myPeerConnection } = this
     const { contact, info } = this.props
     const { phone: to } = contact
@@ -126,7 +162,7 @@ export default class Component extends React.Component {
     })
     .then(function() {
       sendToServer({
-        type: 'video-offer',
+        type: RTC_MESSAGE_TYPE.VIDEO_OFFER,
         payload: {
           from,
           to,
@@ -179,7 +215,7 @@ export default class Component extends React.Component {
     const { candidate } = event
     if (event.candidate) {
       sendToServer({
-        type: 'new-ice-candidate',
+        type: RTC_MESSAGE_TYPE.CANDIDATE,
         payload: {
           candidate,
           from,
@@ -322,10 +358,9 @@ export default class Component extends React.Component {
   // create our RTCPeerConnection, get and attach our local camera
   // stream, then create and send an answer to the caller.
 
-  handleVideoOfferMsg(msg) {
+  handleVideoOfferMsg(payload) {
     let localStream = null;
-    const { payload } = msg
-    const { to, from } = payload
+    const { to, from, sdp } = payload
 
     // Call createPeerConnection() to create the RTCPeerConnection.
     this.createPeerConnection();
@@ -333,7 +368,7 @@ export default class Component extends React.Component {
     // We need to set the remote description to the received SDP offer
     // so that our local WebRTC layer knows how to talk to the caller.
 
-    const desc = new RTCSessionDescription(msg.sdp);
+    const desc = new RTCSessionDescription(sdp);
     const { myPeerConnection } = this
     const hasAddTrack =  myPeerConnection.addTrack !== undefined
     myPeerConnection.setRemoteDescription(desc).then(function () {
@@ -385,20 +420,20 @@ export default class Component extends React.Component {
   // Responds to the "video-answer" message sent to the caller
   // once the callee has decided to accept our request to talk.
 
-  handleVideoAnswerMsg(msg) {
+  handleVideoAnswerMsg(payload) {
     // Configure the remote description, which is the SDP payload
     // in our "video-answer" message.
-
-    const desc = new RTCSessionDescription(msg.sdp);
-    this.myPeerConnection.setRemoteDescription(desc).catch(reportError);
+  
+    const desc = new RTCSessionDescription(payload.sdp)
+    this.myPeerConnection.setRemoteDescription(desc).catch(reportError)
   }
 
   // A new ICE candidate has been received from the other peer. Call
   // RTCPeerConnection.addIceCandidate() to send it along to the
   // local ICE framework.
 
-  handleNewICECandidateMsg(msg) {
-    const candidate = new RTCIceCandidate(msg.candidate)
+  handleNewICECandidateMsg(payload) {
+    const candidate = new RTCIceCandidate(payload.candidate)
     const { myPeerConnection } = this
     myPeerConnection.addIceCandidate(candidate).catch(reportError);
   }
@@ -474,7 +509,7 @@ export default class Component extends React.Component {
           }}
           styleName="my-video"
           autoPlay
-          playsinline
+          playsInline
         />
       </div>
     </DetailContainer>)
