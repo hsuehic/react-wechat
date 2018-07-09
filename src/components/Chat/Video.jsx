@@ -67,8 +67,8 @@ export default class Component extends React.Component {
       iceServers: [     // Information about ICE servers - Use your own!
         {
           urls: 'turn:www.gismall.com:3478',  // A TURN server
-          username: "gismall",
-          credential: "78361251234"
+          username: "root",
+          credential: "123456"
         }
       ]
     })
