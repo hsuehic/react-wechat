@@ -72,7 +72,13 @@ export default class Component extends React.Component {
           "turn:www.gismall.com:3478?transport=tcp"
         ]
       },{
-          urls:["STUN:www.gismall.com:3478"]
+        urls:["stun:www.gismall.com:3478"]
+      },{
+        url: 'stun:23.21.150.121'
+      },{
+        "url": "stun:193.112.85.61:19302"
+      }, {
+        "url": "stun:stun.1.google.com:19302"
       }]
     })
   
