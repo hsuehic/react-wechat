@@ -35,7 +35,7 @@ const createWebsocket = (dispatch) => {
   // 连接上后开始发送心跳
   const openHandle = () => {
     console.log('WebSocket connected!')
-    timer = setInterval(sendHeartBeat, 1000)
+    timer = window.setInterval(sendHeartBeat, 1000)
   }
 
   // 消息处理
@@ -57,7 +57,7 @@ const createWebsocket = (dispatch) => {
   // 链接断开后，尝试重连
   const closeHandle = () => {
     window.clearInterval(timer)
-    createTimer = setInterval(() => {
+    createTimer = window.setInterval(() => {
       if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
         window.clearInterval(createTimer)
       } else {
