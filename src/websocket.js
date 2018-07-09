@@ -20,7 +20,6 @@ const createWebsocket = (dispatch) => {
   const _messageHandlers = new Set()
 
   let timer
-
   // 发送心跳包，防止websocket 断开
   const sendHeartBeat = () => {
     const heartbeatMessage = JSON.stringify({
@@ -35,6 +34,7 @@ const createWebsocket = (dispatch) => {
   // 连接上后开始发送心跳
   const openHandle = () => {
     console.log('WebSocket connected!')
+    window.clearInterval(timer)
     timer = window.setInterval(sendHeartBeat, 1000)
   }
 
@@ -56,7 +56,7 @@ const createWebsocket = (dispatch) => {
   let createTimer
   // 链接断开后，尝试重连
   const closeHandle = () => {
-    window.clearInterval(timer)
+    window.clearInterval(createTimer)
     createTimer = window.setInterval(() => {
       if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
         window.clearInterval(createTimer)
@@ -65,7 +65,6 @@ const createWebsocket = (dispatch) => {
       }
       
     }, 5000)
-    ()
   }
 
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
