@@ -64,13 +64,16 @@ export default class Component extends React.Component {
    */
   createPeerConnection() {
     this.myPeerConnection = new RTCPeerConnection({
-      iceServers: [     // Information about ICE servers - Use your own!
-        {
-          urls: 'turn:www.gismall.com:3478',  // A TURN server
-          username: "root",
-          credential: "123456"
-        }
-      ]
+      iceServers: [{
+        credential: "root",
+        username: "123456",
+        urls: [
+          "turn:www.gismall.com:3478?transport=udp",
+          "turn:www.gismall.com:3478?transport=tcp"
+        ]
+      },{
+          urls:["STUN:www.gismall.com:3478"]
+      }]
     })
   
     // Do we have addTrack()? If not, we will use streams instead.

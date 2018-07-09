@@ -40,9 +40,9 @@
  
   }
   checkTURNServer({
-    url: 'turn:www.gismall.com:3478',
-    username: 'root',
-    credential: '123456',
+    urls: 'turn:www.gismall.com:3478',  // A TURN server
+    username: "root",
+    credential: "123456"
   }).then(function(bool){
     console.log('is my TURN server active? ', bool? 'yes':'no');
   }).catch(console.error.bind(console));
