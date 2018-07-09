@@ -129,6 +129,11 @@ class Component extends React.Component {
                 password
               })
             }}
+            onKeyPress={(e) => {
+              if (e.keyCode === 13 || e.key === 'Enter' || e.which === 13) {
+                this.onLogin()
+              }
+            }}
           >登录密码</InputItem>
         </List>
       </div>
