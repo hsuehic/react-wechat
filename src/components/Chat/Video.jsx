@@ -56,17 +56,13 @@ export default class Component extends React.Component {
     if (offerMessage) {
       this.handleVideoOfferMsg(offerMessage.payload)
     } else {
-      this.doCall()
+      this.invite()
     }
   }
 
   componentWillUnmount() {
     window.removeMessageHandler(this.onMessage)
-  }
-
-  doCall() {
-    this.createPeerConnection()
-    this.sendOffer()
+    this.closeVideoCall()
   }
 
   /**
@@ -81,7 +77,7 @@ export default class Component extends React.Component {
           credential: "78361251234"
         }
       ]
-    });
+    })
   
     // Do we have addTrack()? If not, we will use streams instead.
     const {
@@ -92,10 +88,10 @@ export default class Component extends React.Component {
       handleICEGatheringStateChangeEvent,
       handleSignalingStateChangeEvent,
       // handleNegotiationNeededEvent,
-      handleTrackEvent,
+      // handleTrackEvent,
       handleAddStreamEvent
     } = this
-    const hasAddTrack = (myPeerConnection.addTrack !== undefined);
+    // const hasAddTrack = (myPeerConnection.addTrack !== undefined);
   
     // Set up event handlers for the ICE negotiation process.
   
@@ -110,11 +106,11 @@ export default class Component extends React.Component {
     // Because the deprecation of addStream() and the addstream event is recent,
     // we need to use those if addTrack() and track aren't available.
   
-    if (hasAddTrack) {
-      myPeerConnection.ontrack = handleTrackEvent;
-    } else {
-      myPeerConnection.onaddstream = handleAddStreamEvent;
-    }
+    // if (hasAddTrack) {
+    //   myPeerConnection.ontrack = handleTrackEvent
+    // } else {
+    myPeerConnection.onaddstream = handleAddStreamEvent
+    // }
   }
 
   /**
@@ -158,9 +154,7 @@ export default class Component extends React.Component {
     const { phone: to } = contact
     const { phone: from } = info
     myPeerConnection.createOffer().then(function(offer) {
-      return myPeerConnection.setLocalDescription(offer);
-    })
-    .then(function() {
+      myPeerConnection.setLocalDescription(offer)
       sendToServer({
         type: RTC_MESSAGE_TYPE.VIDEO_OFFER,
         payload: {
@@ -168,7 +162,7 @@ export default class Component extends React.Component {
           to,
           sdp: myPeerConnection.localDescription
         }
-      });
+      })
     })
     .catch(reportError);
   }
@@ -191,7 +185,11 @@ export default class Component extends React.Component {
   // remote peer. We use this to update our user interface, in this
   // example.
   handleAddStreamEvent(event) {
-    this.remoteVideo.srcObject = event.stream;
+    console.log('remote stream arriving')
+    const { remoteVideo } = this
+    const { stream } = event
+    remoteVideo.src = window.URL.createObjectURL(stream)
+    remoteVideo.srcObject = stream
   }
 
   // An event handler which is called when the remote end of the connection
@@ -213,7 +211,7 @@ export default class Component extends React.Component {
     const { phone: to } = contact
     const { phone: from } = info
     const { candidate } = event
-    if (event.candidate) {
+    if (candidate) {
       sendToServer({
         type: RTC_MESSAGE_TYPE.CANDIDATE,
         payload: {
@@ -252,7 +250,7 @@ export default class Component extends React.Component {
     switch(myPeerConnection.signalingState) {
       case 'closed':
         this.closeVideoCall();
-        break;
+        break
     }
   }
 
@@ -337,18 +335,22 @@ export default class Component extends React.Component {
 
       this.createPeerConnection()
       myPeerConnection = this.myPeerConnection
-      const hasAddTrack =  myPeerConnection.addTrack !== undefined
+      // const hasAddTrack =  myPeerConnection.addTrack !== undefined
       navigator.mediaDevices.getUserMedia(mediaConstraints)
-      .then(() => {
-        const { localVideo, localStream} = this
-        localVideo.src = window.URL.createObjectURL(localStream)
-        localVideo.srcObject = localStream;
+      .then(stream => {
+        const { localVideo } = this
+        this.localStream = stream
+        localVideo.src = window.URL.createObjectURL(stream)
+        localVideo.srcObject = stream
 
-        if (hasAddTrack) {
-          localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream))
-        } else {
-          myPeerConnection.addStream(localStream)
-        }
+        // if (hasAddTrack) {
+        //   stream.getTracks().forEach(track => myPeerConnection.addTrack(track, stream))
+        // } else {
+        myPeerConnection.addStream(stream)
+        // }
+        setTimeout(() => {
+          this.sendOffer()
+        }, 2000)
       })
       .catch(this.handleGetUserMediaError)
     }
@@ -359,32 +361,31 @@ export default class Component extends React.Component {
   // stream, then create and send an answer to the caller.
 
   handleVideoOfferMsg(payload) {
-    let localStream = null;
     const { to, from, sdp } = payload
 
     // Call createPeerConnection() to create the RTCPeerConnection.
-    this.createPeerConnection();
+    this.createPeerConnection()
 
     // We need to set the remote description to the received SDP offer
     // so that our local WebRTC layer knows how to talk to the caller.
 
     const desc = new RTCSessionDescription(sdp);
     const { myPeerConnection } = this
-    const hasAddTrack =  myPeerConnection.addTrack !== undefined
+    // const hasAddTrack =  myPeerConnection.addTrack !== undefined
     myPeerConnection.setRemoteDescription(desc).then(function () {
       return navigator.mediaDevices.getUserMedia(mediaConstraints);
     })
-    .then(stream => {
+    .then(localStream => {
       const { localVideo } = this
-      localStream = stream
+      this.localStream = localStream
       localVideo.src = window.URL.createObjectURL(localStream)
       localVideo.srcObject = localStream
 
-      if (hasAddTrack) {
-        localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream))
-      } else {
-        myPeerConnection.addStream(localStream)
-      }
+      // if (hasAddTrack) {
+      //   localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream))
+      // } else {
+      myPeerConnection.addStream(localStream)
+      // }
     })
     .then(function() {
       // Now that we've successfully set the remote description, we need to
@@ -397,15 +398,12 @@ export default class Component extends React.Component {
       // We now have our answer, so establish that as the local description.
       // This actually configures our end of the call to match the settings
       // specified in the SDP.
-      return myPeerConnection.setLocalDescription(answer)
-    })
-    .then(function() {
-      var msg = {
+      const msg = {
         type: 'video-answer',
         payload: {
-          from,
-          to,
-          sdp: myPeerConnection.localDescription
+          to: from,
+          from: to,
+          sdp: answer
         }
       }
 
@@ -413,6 +411,7 @@ export default class Component extends React.Component {
       // answer back to the caller so they know that we want to talk
       // and how to talk to us.
       sendToServer(msg)
+      return myPeerConnection.setLocalDescription(answer)
     })
     .catch(this.handleGetUserMediaError)
   }
@@ -465,25 +464,6 @@ export default class Component extends React.Component {
     this.closeVideoCall();
   }
 
-  // get user video
-  getUserMediaStream() {
-    const mediaStreamConstraints = {
-      video: {
-        width: 750,
-        height: 1000
-      }
-    }
-    const { localVideo } = this
-    const gotLocalMediaStream = mediaStream => {
-      this.localStream = mediaStream;
-      localVideo.srcObject = mediaStream
-    }
-    navigator.mediaDevices
-      .getUserMedia(mediaStreamConstraints)
-      .then(gotLocalMediaStream)
-      .catch(this.handleGetUserMediaError)
-  }
-
   render() {
     const { props } = this
     const { contact, history} = props
@@ -500,6 +480,8 @@ export default class Component extends React.Component {
             }
           }}
           styleName="video"
+          autoPlay
+          playsInline
         />
         <video
           ref={el => {
