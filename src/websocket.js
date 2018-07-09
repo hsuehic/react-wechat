@@ -34,8 +34,10 @@ const createWebsocket = (dispatch) => {
   // 连接上后开始发送心跳
   const openHandle = () => {
     console.log('WebSocket connected!')
-    window.clearInterval(timer)
-    timer = window.setInterval(sendHeartBeat, 1000)
+    if (!__DEV__) {
+      window.clearInterval(timer)
+      timer = window.setInterval(sendHeartBeat, 10000)
+    }
   }
 
   // 消息处理
