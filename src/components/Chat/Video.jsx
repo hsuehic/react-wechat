@@ -68,8 +68,7 @@ export default class Component extends React.Component {
         credential: "root",
         username: "123456",
         urls: [
-          "turn:www.gismall.com:3478?transport=udp",
-          "turn:www.gismall.com:3478?transport=tcp"
+          "turn:www.gismall.com:3478"
         ]
       },{
         urls:["stun:www.gismall.com:3478"]
