@@ -9,12 +9,11 @@
  */
 
 import React from 'react'
-import CustomIcon from '../../components/CustomIcon'
-import DetailContainer from '../../components/DetailContainer'
-import { RTC_MESSAGE_TYPE } from '../../constant'
+import { Toast } from 'antd-mobile'
+import { FillIcon } from '../../components/CustomIcon'
+import { RTC_MESSAGE_TYPE, VIDEO_CONVERSATION_STATE } from '../../constant'
 
 import './index.less'
-import { Button } from 'antd-mobile';
 
 const reportError = (errMessage) => {
   console.error("Error " + errMessage.name + ": " + errMessage.message)
@@ -37,7 +36,14 @@ const mediaConstraints = {
 export default class Component extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    const { history } = props
+    const { location } = history
+    const { state = {} } = location
+    const { inviteMessage } = state
+    this.state = {
+      inviteMessage,
+      conversationState: inviteMessage ? VIDEO_CONVERSATION_STATE.INVITE_RECEIVED : VIDEO_CONVERSATION_STATE.INVITE_SENDED // 通话状态， 详情见VIDEO_CONVERSATION_STATE 定义
+    }
     this.handleICECandidateEvent = this.handleICECandidateEvent.bind(this)
     this.handleRemoveStreamEvent = this.handleRemoveStreamEvent.bind(this)
     this.handleICEConnectionStateChangeEvent = this.handleICEConnectionStateChangeEvent.bind(this)
@@ -48,15 +54,112 @@ export default class Component extends React.Component {
     this.handleAddStreamEvent = this.handleAddStreamEvent.bind(this)
     this.handleGetUserMediaError = this.handleGetUserMediaError.bind(this)
     this.onMessage = this.onMessage.bind(this)
+    this.onCancelInvite = this.onCancelInvite.bind(this)
+    this.onAcceptInvite = this.onAcceptInvite.bind(this)
+    this.onRefuseInvite = this.onRefuseInvite.bind(this)
   }
 
   componentDidMount() {
     window.addMessageHandler(this.onMessage)
+    const { inviteMessage } = this.state
+    // 发果非应答，则需要发送邀请
+    if (!inviteMessage) {
+      this.sendInvite()
+    }
   }
 
   componentWillUnmount() {
     window.removeMessageHandler(this.onMessage)
     this.closeVideoCall()
+  }
+
+  /**
+   * 取消息视频通话邀请
+   */
+  onCancelInvite() {
+    this.sendRTCMessage(RTC_MESSAGE_TYPE.INVITE_CANCEL)
+  }
+
+  /**
+   * 接受视频通话邀请
+   */
+  onAcceptInvite() {
+    this.sendRTCMessage(RTC_MESSAGE_TYPE.INVITE_ACCEPT)
+  }
+
+  /**
+   * 拒绝视频通话邀请
+   */
+  onRefuseInvite() {
+    this.sendRTCMessage(RTC_MESSAGE_TYPE.INVITE_REFUSE)
+  }
+
+  /**
+   * 协议消息处理
+   */
+  onMessage(msg) {
+    const { type, payload } = msg
+    switch(type) {
+      case RTC_MESSAGE_TYPE.CANDIDATE:
+        this.handleNewICECandidateMsg(payload)
+        break
+      case RTC_MESSAGE_TYPE.HANG_UP:
+        break
+      case RTC_MESSAGE_TYPE.VIDEO_ANSWER:
+        this.handleVideoAnswerMsg(payload)
+        break
+      case RTC_MESSAGE_TYPE.INVITE_ACCEPT:
+        this.handleInviteAcceptMsg()
+        break
+      case RTC_MESSAGE_TYPE.INVITE_REFUSE:
+        this.handleInviteRefuseMsg()
+        break
+      case RTC_MESSAGE_TYPE.INVITE_CANCEL:
+        this.handleInviteCancelMsg()
+        break
+      case RTC_MESSAGE_TYPE.VIDEO_OFFER:
+        this.handleVideoOfferMsg(payload)
+        break
+      default:
+        break
+    }
+  }
+
+  /**
+   * 发送rtc 请求
+   */
+  sendRTCMessage(type, payload = {}) {
+    const { contact, info } = this.props
+    const { phone: from } = info
+    const { phone: to } = contact
+    const msg = {
+      type: RTC_MESSAGE_TYPE.INVITE_OFFER,
+      payload: {
+        from,
+        to,
+        ...payload
+      }
+    }
+    sendToServer(msg)
+  }
+
+  // Called by the WebRTC layer to let us know when it's time to
+  // begin (or restart) ICE negotiation. Starts by creating a WebRTC
+  // offer, then sets it as the description of our local media
+  // (which configures our local media stream), then sends the
+  // description to the callee as an offer. This is a proposed media
+  // format, codec, resolution, etc.
+  handleNegotiationNeededEvent() {
+    this.sendOffer()
+  }
+
+  // 发送视频邀请
+  sendInvite() {
+    this.sendRTCMessage(RTC_MESSAGE_TYPE.INVITE_OFFER)
+    // 会话状态改变为 邀请已经发起
+    this.setState({
+      conversationState: VIDEO_CONVERSATION_STATE.INVITE_SENDED
+    })
   }
 
   /**
@@ -113,38 +216,6 @@ export default class Component extends React.Component {
   }
 
   /**
-   * 协议消息处理
-   */
-  onMessage(msg) {
-    const { type, payload } = msg
-    switch(type) {
-      case RTC_MESSAGE_TYPE.CANDIDATE:
-        this.handleNewICECandidateMsg(payload)
-        break
-      case RTC_MESSAGE_TYPE.HANG_UP:
-        break
-      case RTC_MESSAGE_TYPE.VIDEO_ANSWER:
-        this.handleVideoAnswerMsg(payload)
-        break
-      case RTC_MESSAGE_TYPE.VIDEO_OFFER:
-        this.handleVideoOfferMsg(payload)
-        break
-      default:
-        break
-    }
-  }
-
-  // Called by the WebRTC layer to let us know when it's time to
-  // begin (or restart) ICE negotiation. Starts by creating a WebRTC
-  // offer, then sets it as the description of our local media
-  // (which configures our local media stream), then sends the
-  // description to the callee as an offer. This is a proposed media
-  // format, codec, resolution, etc.
-  handleNegotiationNeededEvent() {
-    this.sendOffer()
-  }
-
-  /**
    * 发送视频对话邀请
    */
   sendOffer() {
@@ -188,6 +259,9 @@ export default class Component extends React.Component {
     const { stream } = event
     remoteVideo.src = window.URL.createObjectURL(stream)
     remoteVideo.srcObject = stream
+    this.setState({
+      conversationState: VIDEO_CONVERSATION_STATE.CHATING
+    })
   }
 
   // An event handler which is called when the remote end of the connection
@@ -205,19 +279,9 @@ export default class Component extends React.Component {
   // ICE candidate (created by our local ICE agent) to the other
   // peer through the signaling server.
   handleICECandidateEvent(event) {
-    const { contact, info } = this.props
-    const { phone: to } = contact
-    const { phone: from } = info
     const { candidate } = event
     if (candidate) {
-      sendToServer({
-        type: RTC_MESSAGE_TYPE.CANDIDATE,
-        payload: {
-          candidate,
-          from,
-          to
-        }
-      })
+      this.sendRTCMessage(RTC_MESSAGE_TYPE.CANDIDATE, { candidate })
     }
   }
 
@@ -327,7 +391,7 @@ export default class Component extends React.Component {
   // a |notificationneeded| event, so we'll let our handler for that
   // make the offer.
 
-  invite() {
+  offer() {
     let { myPeerConnection } = this
     if (myPeerConnection) {
       alert('You can not start a call because you already have one open!');
@@ -352,6 +416,39 @@ export default class Component extends React.Component {
       })
       .catch(this.handleGetUserMediaError)
     }
+  }
+
+  /**
+   * 处理视频邀请取消
+   */
+  handleInviteCancelMsg() {
+    Toast.info('对方取消了视频邀请')
+    setTimeout(() => {
+      const { history } = this
+      history.goBack()
+    }, 1000)
+  }
+
+
+  /**
+   * 处理视频邀请接受消息
+   */
+  handleInviteRefuseMsg() {
+    const { history } = this.props
+    Toast.info('对方拒绝了您的请求')
+    setTimeout(() => {
+      history.goBack()
+    }, 3000)
+  }
+
+  /**
+   * 处理视频邀请接受消息
+   */
+  handleInviteAcceptMsg() {
+    this.offer() // 发起视频offer
+    this.setState({
+      conversationState: VIDEO_CONVERSATION_STATE.CONNECTING // 聊天状态改为连接中
+    })
   }
 
   // Accept an offer to video chat. We configure our local settings,
@@ -464,13 +561,35 @@ export default class Component extends React.Component {
 
   render() {
     const { props } = this
-    const { contact, history} = props
-    const { nick, phone } = contact
-    return (<DetailContainer
-      leftTitle={nick}
-      rightContent={<div><CustomIcon size="lg" type="contact-fill" onClick={() => { history.push(`/contact/${phone}`) }} /></div>}
-    >
+    const { contact, history } = props
+    const { nick, thumb } = contact
+    const { conversationState } = this.state
+    let stateMessage
+    switch (conversationState) {
+      case VIDEO_CONVERSATION_STATE.CONNECTING:
+        stateMessage = '连接中...'
+        break
+      case VIDEO_CONVERSATION_STATE.INVITE_RECEIVED:
+        stateMessage = '邀请您视频通话...'
+        break
+      case VIDEO_CONVERSATION_STATE.INVITE_SENDED:
+        stateMessage = '正在等待对方接受邀请...'
+        break
+      default:
+        break
+    }
+    return (<div className="app">
       <div styleName="container">
+        {
+          conversationState !== VIDEO_CONVERSATION_STATE.CHATING &&
+          <div styleName="info">
+            <div className="t-c">
+              <img src={thumb} style={{ width: '120px', height: '120px' }} alt="" />
+            </div>
+            <div className="t-c" styleName="nick">{nick}</div>
+            <div className="t-c" styleName="hint">{stateMessage}</div>
+          </div>
+        }
         <video
           ref={el => {
             if (el) {
@@ -481,8 +600,6 @@ export default class Component extends React.Component {
           autoPlay
           playsInline
         />
-
-        <Button onClick={ () => { this.invite() }}>Call</Button>
         <video
           ref={el => {
             if (el) {
@@ -493,7 +610,58 @@ export default class Component extends React.Component {
           autoPlay
           playsInline
         />
+        {
+          conversationState === VIDEO_CONVERSATION_STATE.INVITE_SENDED && 
+          <div styleName="action">
+            <div styleName="action-item">
+              <FillIcon type="jingyin1" size="xxl" styleName="icon icon-disabled" />
+              <div styleName="text disabled">静音</div>
+            </div>
+            <div styleName="action-item" onClick={() => { history.goBack() }}>
+              <FillIcon type="hangup" size="xxl" styleName="icon icon-warning" />
+              <div styleName="text">取消</div>
+            </div>
+            <div styleName="action-item">
+              <FillIcon type="mianti1" size="xxl" styleName="icon icon-secondary" />
+              <div styleName="text">免提</div>
+            </div>
+          </div>
+        }
+
+        {
+          conversationState === VIDEO_CONVERSATION_STATE.INVITE_RECEIVED && 
+          <div styleName="action">
+            <div styleName="action-item">
+              <FillIcon type="jingyin1" size="xxl" styleName="icon icon-success" />
+              <div styleName="text">接听</div>
+            </div>
+            <div styleName="action-item" onClick={() => { history.goBack() }}>
+              <FillIcon type="hangup" size="xxl" styleName="icon icon-warning" />
+              <div styleName="text">挂断</div>
+            </div>
+          </div>
+        }
+
+
+
+        {
+          conversationState === VIDEO_CONVERSATION_STATE.CHATING && 
+          <div styleName="action">
+            <div styleName="action-item">
+              <FillIcon type="jingyin1" size="xxl" styleName="icon icon-secondary" />
+              <div styleName="text">静音</div>
+            </div>
+            <div styleName="action-item" onClick={() => { history.goBack() }}>
+              <FillIcon type="hangup" size="xxl" styleName="icon icon-warning" />
+              <div styleName="text">挂断</div>
+            </div>
+            <div styleName="action-item" onClick={() => { history.goBack() }}>
+              <FillIcon type="mianti1" size="xxl" styleName="icon icon-secondary" />
+              <div styleName="text">免提</div>
+            </div>
+          </div>
+        }
       </div>
-    </DetailContainer>)
+    </div>)
   }
 }

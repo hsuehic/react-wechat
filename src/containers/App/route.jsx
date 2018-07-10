@@ -65,11 +65,11 @@ export default class Component extends React.Component {
     const { payload } = msg
     const { from } = payload
     switch(msg.type) {
-      case RTC_MESSAGE_TYPE.VIDEO_OFFER: // 联系人发起视频聊天
+      case RTC_MESSAGE_TYPE.INVITE_OFFER: // 联系人发起视频聊天
         history.push({
           pathname: `/chat/video/${from}`,
           state: {
-          offerMessage: msg
+            inviteMessage: msg
           }
         })
         break

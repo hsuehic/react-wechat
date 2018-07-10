@@ -14,5 +14,18 @@ export const RTC_MESSAGE_TYPE = {
   CANDIDATE: 'new-ice-candidate',
   HANG_UP: 'hang-up',
   VIDEO_OFFER: 'video-offer',
-  VIDEO_ANSWER: 'video-answer'
+  VIDEO_ANSWER: 'video-answer',
+  INVITE_OFFER: 'invite-offer',
+  INVITE_ACCEPT: 'invite-accept',
+  INVITE_REFUSE: 'invite-refuse',
+  INVITE_CANCEL: 'invite-cancel'
+}
+
+// 视频对话状态
+export const VIDEO_CONVERSATION_STATE = {
+  INVITE_SENDED: 'sended',
+  INVITE_RECEIVED: 'received',
+  CONNECTING: 'connecting',
+  CHATING: 'chating',
+  HANGUP: 'hangup'
 }

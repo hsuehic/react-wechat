@@ -95,17 +95,88 @@
 .container {
   flex: 1 1;
   position: relative;
+  display: flex;
 }
 
 .video {
   width: 100%;
-  height: 100;
-}
+  height: 100%;
+  background: rgb(76, 68, 63);
+} 
 
 .my-video {
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 10;
   width: 75px;
   height: 100px;
+  background: rgb(76, 68, 63);
+}
+
+.action {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  .action-item {
+    flex: 0 0 auto;
+    text-align: center;
+    width: 68px;
+    position: relative;
+  }
+  .icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 58px;
+    line-height: 58px;
+  }
+  .icon-warning {
+    background-color: rgb(216, 73, 79);
+    color: #fff;
+  }
+  .icon-success {
+    background-color: @wechat;
+    color: #fff;
+  }
+  .icon-secondary {
+    background-color: transparent;
+    border: solid 1px #fff;
+    color: #fff;
+  }
+  .icon-disabled {
+    background-color: transparent;
+    border: solid 1px rgb(148, 142, 136);
+    color: rgb(148, 142, 136);
+  }
+  .text {
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    line-height: 30px;
+  }
+  .text.disabled {
+    color: rgb(148, 142, 136);
+  }
+}
+.info {
+  position: absolute;
+  width: 100%;
+  top: 100px;
+  left: 0;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+}
+.nick {
+  line-height: 52px;
+  font-size: 26px;
+  color: #fff;
+}
+.hint {
+  line-height: 20px;
+  font-size: 14px;
+  color: #ddd;
 }

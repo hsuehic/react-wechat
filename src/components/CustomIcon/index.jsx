@@ -1,13 +1,14 @@
 /**
- * 自定义图标组件
- *
- * Authors:
- *  Richard <xiaowei.hsueh@gmail.com> (https://www.gistop.com)
+ * @File   : index.js
+ * @Author : 兴斋 <xingzhai.xxw@alibaba-inc.com> (https://www.gistop.com/)
+ * @Link   : http://www.gistop.com/
+ * @Date   : 2018-7-10 19:04:18
  */
 
-import React from 'react';
+ import Icon from './Icon'
+ import FillIcon from './FillIcon'
 
-export default ({ type, size = 'md', className = '', ...rest }) => {
-  return <i className={`weicon we-icon-${type} we-icon-${size} ${className}`} {...rest} />;
-};
-
+ export default Icon
+ export {
+   FillIcon
+ }
