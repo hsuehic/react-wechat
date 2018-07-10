@@ -24,7 +24,8 @@ const reportError = (errMessage) => {
  * @param {*} msg msg to be send and before send it will be stringfied using JSON
  */
 const sendToServer = msg => {
-  window.websocket.send(JSON.stringify(msg))
+  const message = JSON.stringify(msg)
+  window.sendMessage(message)
 }
 
 // video properties
@@ -133,7 +134,7 @@ export default class Component extends React.Component {
     const { phone: from } = info
     const { phone: to } = contact
     const msg = {
-      type: RTC_MESSAGE_TYPE.INVITE_OFFER,
+      type,
       payload: {
         from,
         to,
@@ -189,30 +190,33 @@ export default class Component extends React.Component {
       myPeerConnection,
       handleICECandidateEvent,
       handleRemoveStreamEvent,
+      handleICEConnectionStateChangeEvent,
+      handleICEGatheringStateChangeEvent,
+      handleSignalingStateChangeEvent,
       // handleNegotiationNeededEvent,
-      // handleTrackEvent,
+      handleTrackEvent,
       handleAddStreamEvent
     } = this
-    // const hasAddTrack = (myPeerConnection.addTrack !== undefined);
+    const hasAddTrack = (myPeerConnection.addTrack !== undefined);
   
     // Set up event handlers for the ICE negotiation process.
   
     myPeerConnection.onicecandidate = handleICECandidateEvent
     myPeerConnection.onnremovestream = handleRemoveStreamEvent
-    // myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
-    // myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent
-    // myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent
+    myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
+    myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent
+    myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent
     // send offer immediately after connection created while the negotiationneeded event compatiblity.
     // myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
   
     // Because the deprecation of addStream() and the addstream event is recent,
     // we need to use those if addTrack() and track aren't available.
   
-    // if (hasAddTrack) {
-    //   myPeerConnection.ontrack = handleTrackEvent
-    // } else {
-    myPeerConnection.onaddstream = handleAddStreamEvent
-    // }
+    if (hasAddTrack) {
+      myPeerConnection.ontrack = handleTrackEvent
+    } else {
+      myPeerConnection.onaddstream = handleAddStreamEvent
+    }
   }
 
   /**
@@ -296,7 +300,8 @@ export default class Component extends React.Component {
         case 'closed':
         case 'failed':
         case 'disconnected':
-          this.closeVideoCall();
+          Toast.info('连接挂断')
+          this.closeVideoCall()
           break
       }
     }
@@ -632,7 +637,7 @@ export default class Component extends React.Component {
           conversationState === VIDEO_CONVERSATION_STATE.INVITE_RECEIVED && 
           <div styleName="action">
             <div styleName="action-item">
-              <FillIcon type="jingyin1" size="xxl" styleName="icon icon-success" />
+              <FillIcon type="dianhua" size="xxl" styleName="icon icon-success" onClick={this.onAcceptInvite} />
               <div styleName="text">接听</div>
             </div>
             <div styleName="action-item" onClick={() => { history.goBack() }}>

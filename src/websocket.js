@@ -18,6 +18,7 @@ const createWebsocket = (dispatch) => {
   }
   
   const _messageHandlers = new Set()
+  const _messages = new Set()
 
   let timer
   // 发送心跳包，防止websocket 断开
@@ -37,6 +38,12 @@ const createWebsocket = (dispatch) => {
     if (!__DEV__) {
       window.clearInterval(timer)
       timer = window.setInterval(sendHeartBeat, 10000)
+    }
+    if (_messages.size > 0) {
+      _messages.forEach(msg => {
+        window.websocket.send(msg)
+        _messages.delete(msg)
+      })
     }
   }
 
@@ -59,6 +66,7 @@ const createWebsocket = (dispatch) => {
   // 链接断开后，尝试重连
   const closeHandle = () => {
     window.clearInterval(createTimer)
+    window.clearInterval(timer)
     createTimer = window.setInterval(() => {
       if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
         window.clearInterval(createTimer)
@@ -76,7 +84,7 @@ const createWebsocket = (dispatch) => {
       window.SEC_TOKEN = getItemValue('token', '')
     }
     const WEBSOCKET_URL = `${protocol}//${host}/wechat/${window.SEC_TOKEN}`
-    const websocket = window.websocket = new WebSocket(WEBSOCKET_URL)
+    const websocket = new WebSocket(WEBSOCKET_URL)
     websocket.onmessage = messageHandle
     websocket.onopen= openHandle
     websocket.onerror = errorHandle
@@ -103,9 +111,24 @@ const createWebsocket = (dispatch) => {
     _messageHandlers.delete(handler)
   }
 
+  /**
+   * 发送消息
+   * @param {string} message 
+   * @param {function} callback 
+   */
+  const sendMessage = (message) => {
+    if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
+      window.websocket.send(message)
+    } else {
+      _messages.add(message)
+    }
+  }
+
+  window.sendMessage = sendMessage
   return {
     addMessageHandler,
-    removeMessageHandler
+    removeMessageHandler,
+    sendMessage
   }
 }
 

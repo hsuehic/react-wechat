@@ -49,7 +49,7 @@ export default class Component extends React.Component {
       }
     }
     dispatch(action)
-    window.websocket.send(JSON.stringify(action))
+    window.sendMessage(JSON.stringify(action))
   }
 
   componentDidUpdate(prevProps) {
