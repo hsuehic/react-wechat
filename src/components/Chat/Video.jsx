@@ -30,7 +30,7 @@ const sendToServer = msg => {
 
 // video properties
 const mediaConstraints = {
-  audio: false,            // We want an audio track
+  audio: true,            // We want an audio track
   video: true             // ...and we want a video track
 }
 
@@ -252,7 +252,10 @@ export default class Component extends React.Component {
   // MediaStream[]        streams
   // RTCRtpTransceiver    transceiver
   handleTrackEvent(event) {
-    this.remoteVideo.srcObject = event.streams[0];
+    this.remoteVideo.srcObject = event.streams[0]
+    this.setState({
+      conversationState: VIDEO_CONVERSATION_STATE.CHATING
+    })
   }
   
   // Called by the WebRTC layer when a stream starts arriving from the
@@ -300,8 +303,7 @@ export default class Component extends React.Component {
         case 'closed':
         case 'failed':
         case 'disconnected':
-          Toast.info('连接挂断')
-          this.closeVideoCall()
+          this.handleConnectionCloseEvent()
           break
       }
     }
@@ -318,9 +320,16 @@ export default class Component extends React.Component {
     const { myPeerConnection } = this
     switch(myPeerConnection.signalingState) {
       case 'closed':
-        this.closeVideoCall();
+        this.handleConnectionCloseEvent()
         break
     }
+  }
+
+  handleConnectionCloseEvent() {
+    const { history } = this.props
+    Toast.info('连接挂断')
+    this.closeVideoCall()
+    history.goBack()
   }
 
   // Handle the |icegatheringstatechange| event. This lets us know what the
@@ -499,7 +508,7 @@ export default class Component extends React.Component {
       // This actually configures our end of the call to match the settings
       // specified in the SDP.
       const msg = {
-        type: 'video-answer',
+        type: RTC_MESSAGE_TYPE.VIDEO_ANSWER,
         payload: {
           to: from,
           from: to,
