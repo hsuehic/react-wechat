@@ -16,7 +16,7 @@
 
  <img src="./res/chat.png" alt="" style="width:350px;" />
 * 前端仓库地址： [https://github.com/hsuehic/react-wechat](https://github.com/hsuehic/react-wechat)
-* 后台他库地址： [https://github.com/hsuehic/react-wechat-backend](https://github.com/hsuehic/react-wechat-backend)
+* 后台仓库地址： [https://github.com/hsuehic/react-wechat-backend](https://github.com/hsuehic/react-wechat-backend)
 
 ## Features
 
