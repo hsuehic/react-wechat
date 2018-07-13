@@ -102,6 +102,19 @@ export default {
       return { ...state, ...newState, newMessageCount }
     },
 
+    // 接收新的离线会话
+    saveConversation(state, { payload: { conversations: offLineConversations } }) {
+      const keys = Object.keys(offLineConversations)
+      const conversations = []
+      keys.forEach(phone => {
+        const conversation = {phone, ...offLineConversations[phone]}
+        conversations.push(conversation)
+      })
+      const { messageCount, newConversations } = mergeConversations(state.conversations, conversations, state.currentConversation)
+      const newMessageCount = state.newMessageCount + messageCount
+      return { ...state, newMessageCount, conversations: newConversations }
+    },
+
     saveMessage(state, { payload: message }) {
       const { conversations, currentConversation, info } = state
       let { newMessageCount } = state
