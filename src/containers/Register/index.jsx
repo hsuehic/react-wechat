@@ -100,6 +100,7 @@ export default class Component extends React.Component {
                 defaultValue=""
                 name="nick"
                 onChange={stateChangeHandle('nick')}
+                placeholder="请输入昵称"
               >
                 昵称
               </InputItem>
@@ -115,6 +116,7 @@ export default class Component extends React.Component {
             type="phone"
             name="phone"
             onChange={stateChangeHandle('phone')}
+            placeholder="请输入手机号"
           >
             手机号
           </InputItem>
@@ -122,6 +124,7 @@ export default class Component extends React.Component {
             type="text"
             name="email"
             onChange={stateChangeHandle('email')}
+            placeholder="请输入Email"
           >
             Email
           </InputItem>
@@ -129,6 +132,7 @@ export default class Component extends React.Component {
             type="text"
             name="userName"
             onChange={stateChangeHandle('userName')}
+            placeholder="请输入用户名"
           >
             用户名
           </InputItem>
@@ -137,6 +141,7 @@ export default class Component extends React.Component {
             defaultValue=""
             name="password"
             onChange={stateChangeHandle('password')}
+            placeholder="请输入密码"
           >
             密码
           </InputItem>
@@ -145,6 +150,7 @@ export default class Component extends React.Component {
             name="cpassword"
             defaultValue=""
             onChange={stateChangeHandle('cpassword')}
+            placeholder="再次输入密码"
           >
             确认密码
           </InputItem>
