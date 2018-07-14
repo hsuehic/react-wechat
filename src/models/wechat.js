@@ -165,12 +165,29 @@ export default {
       } else {
         return { ...state, currentConversation }
       }
+    },
+    logout() {
+      window.localStorage.removeItem('contacts')
+      window.localStorage.removeItem('conversations')
+      window.localStorage.removeItem('isLoggedIn')
+      window.localStorage.removeItem('info')
+      window.localStorage.removeItem('token')
+      window.websocket.close(4000, 'logout')
+      return {
+        contacts: [],
+        conversations: {},
+        info: {},
+        isLoggedIn: false,
+        token: null,
+        newMessageCount: 0,
+        currentConversation: ''
+      }
     }
   },
 
   effects: {
     * login({ payload: { params } }, { put, call }) {
-      const res = yield call(request, '/api/login', params);
+      const res = yield call(request, '/api/login', params)
       if (res.code === 0) {
         const { token, info } = res.data
         setItemValue('token', token)
@@ -188,7 +205,7 @@ export default {
       return res;
     },
     * info({ payload: { params } }, { put, call }) {
-      const res = yield call(request, '/api/info', params);
+      const res = yield call(request, '/api/info', params)
       if (res.code === 0) {
         yield put({
           type: 'save', 
@@ -201,7 +218,7 @@ export default {
       return res;
     },
     * register({ payload: { params } }, { call }) {
-      const res = yield call(request, '/api/reg', params);
+      const res = yield call(request, '/api/reg', params)
       return res;
     }
   }

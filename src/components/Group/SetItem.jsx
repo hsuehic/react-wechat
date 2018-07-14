@@ -12,10 +12,12 @@ import Item from './Item';
 import './index.less';
 
 
-const Component = ({ thumb, text, pathname, extra, className='', history }) => {
+const Component = ({ thumb, text, pathname, extra, history, className='', onClick = null }) => {
   return (<Item styleName="set-item" className={className} onClick={() => {
       if (pathname) {
         history.push(pathname);
+      } else if (typeof onClick === 'function') {
+        onClick()
       }
     }}>
       {!!thumb &&<div styleName="set-item-icon">{thumb}</div>}

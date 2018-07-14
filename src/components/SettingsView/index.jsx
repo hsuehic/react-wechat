@@ -6,21 +6,25 @@
  */
 
 import React from 'react'
-import { Badge, WhiteSpace } from 'antd-mobile';
+import { Badge, WhiteSpace } from 'antd-mobile'
 
 import { SetGroup } from '../Group/index';
 import DetailContainer from '../DetailContainer'
 
-export default class Component extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
-  componentDidMount() {
+class Component extends React.Component {
+  logout() {
+    const { dispatch, history } = this.props
+    dispatch({
+      type: 'wechat/logout',
+      payload: {}
+    })
+    window.setTimeout(() => {
+      history.push('login')
+    }, 300)
   }
 
   render() {
+    const { history } = this.props
     return <DetailContainer
       title={<div>设置</div>}
     >
@@ -96,10 +100,14 @@ export default class Component extends React.Component {
         },
         {
           text: '退出',
-          pathname: '/logout'
+          onClick: () => {
+            this.logout()
+          }
         }
       ]}
     />
     </DetailContainer>
   }
 }
+
+export default Component

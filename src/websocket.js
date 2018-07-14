@@ -64,17 +64,18 @@ const createWebsocket = (dispatch) => {
 
   let createTimer
   // 链接断开后，尝试重连
-  const closeHandle = () => {
-    window.clearInterval(createTimer)
-    window.clearInterval(timer)
-    createTimer = window.setInterval(() => {
-      if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
-        window.clearInterval(createTimer)
-      } else {
-        doCreateWebSocket()
-      }
-      
-    }, 5000)
+  const closeHandle = (evnt) => {
+    if (evnt.code !== 4000 && evnt.reason !== 'logout') {
+      window.clearInterval(createTimer)
+      window.clearInterval(timer)
+      createTimer = window.setInterval(() => {
+        if (window.websocket && window.websocket.readyState === WebSocket.OPEN) {
+          window.clearInterval(createTimer)
+        } else {
+          doCreateWebSocket()
+        }
+      }, 5000)
+    }
   }
 
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
