@@ -9,11 +9,13 @@
 
 import React from 'react'
 
+import './index.less'
+
 const Component = ({ theme = 'dark', leftContent, rightContent, children, className, ...rest }) => (
   <div className={`am-navbar am-navbar-${theme} ${className}`} {...rest}>
-    <div className="am-navbar-left">{leftContent}</div>
-    <div className="am-navbar-title">{children}</div>
-    <div className="am-navbar-right">{rightContent}</div>
+    <div styleName="left">{leftContent}</div>
+    <div styleName="center">{children}</div>
+    <div styleName="right">{rightContent}</div>
   </div>
 )
 

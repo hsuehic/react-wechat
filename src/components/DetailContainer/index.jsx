@@ -14,7 +14,7 @@ import { withRouter } from 'dva/router'
 import NavBar from '../NavBar'
 import Icon from '../CustomIcon'
 
-const Component = ({ history, leftTitle, rightContent, children }) => (
+const Component = ({ history, leftTitle, title, rightContent, children, className = '' }) => (
   <div className="app">
     <NavBar
       className="header"
@@ -31,8 +31,10 @@ const Component = ({ history, leftTitle, rightContent, children }) => (
       </div>
       }
       rightContent={rightContent}
-    />
-    <div className="body">
+    >
+      {title}
+    </NavBar>
+    <div className={`body ${className}`}>
       {children}
     </div>
   </div>

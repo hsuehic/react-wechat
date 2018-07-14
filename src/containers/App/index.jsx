@@ -67,7 +67,7 @@ class App extends Component {
           mode="dark"
           leftContent={`微信${messageCountStr}`}
           rightContent={[
-            <CustomIcon key="0" type="search" size="lg" style={{ marginRight: '16px' }} />,
+            <CustomIcon key="0" type="search" size="lg" style={{ marginRight: '16px' }} onClick={() => { history.push('/search') }} />,
             <CustomIcon key="1" type="plus-s" size="lg" />,
           ]}
         ></NavBar>

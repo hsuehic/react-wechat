@@ -13,6 +13,8 @@ import App from './index'
 import GenericChat from '../Chat/Generic'
 import VideoChat from '../Chat/Video'
 import ContactDetail from '../ContactDetail'
+import Search from '../Search'
+import Settings from '../Settings'
 import createWebsocket from '../../websocket'
 
 import { RTC_MESSAGE_TYPE } from '../../constant'
@@ -84,6 +86,8 @@ export default class Component extends React.Component {
         <Route path="/chat/video/:phone" component={VideoChat} />
         <Route path="/chat/generic/:phone" component={GenericChat} />
         <Route path="/contact/:phone([\d_]+)" component={ContactDetail} />
+        <Route path="/search" component={Search} />
+        <Route path="/my/settings" component={Settings} />
         <Route path="/:tab(contact|conversation|discovery|my)?" component={App} />
       </Switch>
     </Router>)

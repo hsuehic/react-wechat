@@ -1,0 +1,49 @@
+
+@wechat: rgb(76, 190, 40);
+.search-input {
+  position: relative;
+  height: 31px;
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  &::after {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 1px;
+    content: ' ';
+    transform: scaleY(0.5);
+    background-color: @wechat;
+  }
+  input {
+    flex: 1 1 auto;
+    border: none;
+    background: #393a41;
+    color: #fff;
+  }
+}
+.search-title {
+  line-height: 60px;
+  height: 60px;
+  flex: 0 0 auto;
+  color: #8888bb;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.search-category {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  padding: 0 20px;
+  justify-content: space-around;
+}
+.category-item {
+  line-height: 50px;
+  height: 50px;
+  text-align: center;
+  padding: 0 15px;
+  color: @wechat;
+  font-size: 12px;
+}
