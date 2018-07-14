@@ -81,7 +81,7 @@ const Component = ({ userName, nick, thumb, history }) => {
       settings={[
         {
           thumb: <img src={ImageSettings} alt="Setting" />,
-          text: <div>设置<Badge text="next" className="ml-m" /></div>,
+          text: <div>设置<Badge text="New" className="ml-m" /></div>,
           pathname: '/my/settings'
         }
       ]}
