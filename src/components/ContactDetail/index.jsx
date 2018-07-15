@@ -7,7 +7,7 @@
  */
 
 import React from 'react'
-import { Button, List, WhiteSpace } from 'antd-mobile'
+import { Button, List, WhiteSpace, Toast } from 'antd-mobile'
 import { SetGroup, Group } from '../Group/index'
 import CustomIcon from '../CustomIcon'
 import DetailContainer from '../DetailContainer'
@@ -17,11 +17,11 @@ import './index.less'
 const {Item } = List
 const { Brief } = Item
 
-const Component = ({ userName, nick, thumb, phone, region, history }) => {
+const Component = ({ userName, nick, thumb, phone, region, history, dispatch, isContact }) => {
   return (
     <DetailContainer
       history={history}
-      leftTitle={nick}
+      leftTitle={isContact ? nick : '详细资料'}
       rightContent={<CustomIcon size="lg" type="more2" />}
     >
       <div>
@@ -67,11 +67,42 @@ const Component = ({ userName, nick, thumb, phone, region, history }) => {
           ]}
         />
         <WhiteSpace size="lg" />
-        <Group style={{ background: 'transparent' }}>
-          <Button type="primary" className="wechat" onClick={() => { history.push(`/chat/generic/${phone}`)}}>发消息</Button>
-          <WhiteSpace size="lg" />
-          <Button className="wechat" onClick={() => { history.push(`/chat/video/${phone}`)}}>视频通话</Button>
-        </Group>
+        {
+          isContact ? 
+          <Group style={{ background: 'transparent' }}>
+            <Button type="primary" className="wechat" onClick={() => { history.push(`/chat/generic/${phone}`)}}>发消息</Button>
+            <WhiteSpace size="lg" />
+            <Button className="wechat" onClick={() => { history.push(`/chat/video/${phone}`)}}>视频通话</Button>
+          </Group> :
+          <Group style={{ background: 'transparent' }}>
+            <Button type="primary" className="wechat" onClick={() => {
+              const p = dispatch({
+                type: 'wechat/addContact',
+                payload: {
+                  params: {
+                    phone
+                  }
+                }
+              })
+              p.then(res => {
+                if (res.code === 0) {
+                  Toast.success('添加成功')
+                  dispatch({
+                    type: 'wechat/addToContacts',
+                    payload: {
+                      phone
+                    }
+                  })
+                  window.setTimeout(() => {
+                    history.push('/contacts')
+                  }, 3000)
+                } else {
+                  Toast.info('添加失败')
+                }
+              })
+            }}>添加到通讯录</Button>
+          </Group> 
+        }
         
       </div>
     </DetailContainer>

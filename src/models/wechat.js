@@ -80,6 +80,8 @@ export default {
     token,
     newMessageCount: 0,
     currentConversation: '',
+    searchResult: [],
+    searchContent: ''
   },
   reducers: {
     save(state, { payload: newState }) {
@@ -182,6 +184,15 @@ export default {
         newMessageCount: 0,
         currentConversation: ''
       }
+    },
+    addToContacts(state, { payload: { phone }}) {
+      const { contacts, searchResult } = state
+      const contact = searchResult.find(c => c.phone === phone)
+
+      return {
+        ...state,
+        contacts: contacts.concat(contact)
+      }
     }
   },
 
@@ -215,6 +226,22 @@ export default {
           }
         })
       }
+      return res;
+    },
+    * search({ payload: { params } }, { put, call }) {
+      const res = yield call(request, '/api/search', params)
+      if (res.code === 0) {
+        yield put({
+          type: 'save', 
+          payload: {
+            ...res.data
+          }
+        })
+      }
+      return res;
+    },
+    * addContact({ payload: { params } }, { call }) {
+      const res = yield call(request, '/api/contact/add', params)
       return res;
     },
     * register({ payload: { params } }, { call }) {

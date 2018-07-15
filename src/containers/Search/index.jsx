@@ -8,10 +8,14 @@
 import React from 'react'
 import { connect } from 'dva'
 
+import { NAMESPACE } from '../../constant'
 import SearchView from '../../components/SearchView'
 const mapStateToProps = state => {
+  const { searchResult, searchContent } = state.wechat
   return {
-    searchResult: state.wechat.searchResult
+    isLoading: state.loading.effects[`${NAMESPACE}/search`],
+    searchResult,
+    searchContent
   }
 }
 
