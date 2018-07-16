@@ -175,10 +175,10 @@ export default class Component extends React.Component {
           urls: [
             "turn:www.gismall.com:3478"
           ]
+        },
+        {
+          url: 'stun:64.233.188.127:19302'
         }
-        // {
-        //   url: 'stun:64.233.188.127:19302'
-        // }
       ]
     })
   
