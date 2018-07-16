@@ -169,16 +169,16 @@ export default class Component extends React.Component {
   createPeerConnection() {
     this.myPeerConnection = new RTCPeerConnection({
       iceServers: [
-        // {
-        //   credential: "root",
-        //   username: "123456",
-        //   urls: [
-        //     "turn:www.gismall.com:3478"
-        //   ]
-        // },
         {
-          url: 'stun:64.233.188.127:19302'
+          credential: "root",
+          username: "123456",
+          urls: [
+            "turn:www.gismall.com:3478"
+          ]
         }
+        // {
+        //   url: 'stun:64.233.188.127:19302'
+        // }
       ]
     })
   
