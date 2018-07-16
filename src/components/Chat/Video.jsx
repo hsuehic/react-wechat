@@ -168,21 +168,18 @@ export default class Component extends React.Component {
    */
   createPeerConnection() {
     this.myPeerConnection = new RTCPeerConnection({
-      iceServers: [{
-        credential: "root",
-        username: "123456",
-        urls: [
-          "turn:www.gismall.com:3478"
-        ]
-      },{
-        urls:["stun:www.gismall.com:3478"]
-      },{
-        url: 'stun:23.21.150.121'
-      },{
-        "url": "stun:193.112.85.61:19302"
-      }, {
-        "url": "stun:stun.1.google.com:19302"
-      }]
+      iceServers: [
+        // {
+        //   credential: "root",
+        //   username: "123456",
+        //   urls: [
+        //     "turn:www.gismall.com:3478"
+        //   ]
+        // },
+        {
+          url: 'stun:64.233.188.127:19302'
+        }
+      ]
     })
   
     // Do we have addTrack()? If not, we will use streams instead.
