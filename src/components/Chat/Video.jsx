@@ -202,8 +202,8 @@ export default class Component extends React.Component {
     // Set up event handlers for the ICE negotiation process.
   
     myPeerConnection.onicecandidate = handleICECandidateEvent
-    myPeerConnection.onnremovestream = handleRemoveStreamEvent
-    myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
+    // myPeerConnection.onnremovestream = handleRemoveStreamEvent
+    // myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent
     myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent
     myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent
     // send offer immediately after connection created while the negotiationneeded event compatiblity.
