@@ -177,7 +177,10 @@ export default class Component extends React.Component {
           ]
         },
         {
-          url: 'stun:64.233.188.127:19302'
+          url: 'stun:www.gismall.com:3478'
+        },
+        {
+          url: 'stun:stun.l.google.com:19302'
         }
       ]
     })
