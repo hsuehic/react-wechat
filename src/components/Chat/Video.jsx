@@ -189,8 +189,8 @@ export default class Component extends React.Component {
     const {
       myPeerConnection,
       handleICECandidateEvent,
-      handleRemoveStreamEvent,
-      handleICEConnectionStateChangeEvent,
+      // handleRemoveStreamEvent,
+      // handleICEConnectionStateChangeEvent,
       handleICEGatheringStateChangeEvent,
       handleSignalingStateChangeEvent,
       // handleNegotiationNeededEvent,
