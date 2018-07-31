@@ -318,10 +318,8 @@ export default class Component extends React.Component {
 
   handleSignalingStateChangeEvent() {
     const { myPeerConnection } = this
-    switch(myPeerConnection.signalingState) {
-      case 'closed':
-        this.handleConnectionCloseEvent()
-        break
+    if (myPeerConnection.signalingState === 'closed') {
+      this.handleConnectionCloseEvent()
     }
   }
 
