@@ -85,7 +85,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "deploy": "./deploy-server.sh",
-    "dev": "HTTPS=true npm start"
+    "dev": "npm start"
   },
   "jest": {
     "collectCoverageFrom": [
