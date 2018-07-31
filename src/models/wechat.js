@@ -122,7 +122,7 @@ export default {
       const { conversations, currentConversation, info } = state
       let { newMessageCount } = state
       const { phone: myPhone } = info
-      const { to, from, timestamp } = message
+      const { to, from, timestamp, content } = message
       let phone = to
       if (phone === myPhone) {
         phone = from
@@ -132,7 +132,11 @@ export default {
       let newCount = 0
       if (phone !== currentConversation) {
         newCount = 1
-        notify('您有新的消息！')
+        notify('您有新的消息！', {
+          body: content,
+          icon: '/favicon.png',
+          vibrate: [500, 100, 500]
+        })
       }
       if (!notificationOff) {
         newMessageCount += newCount
