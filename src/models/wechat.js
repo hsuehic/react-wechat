@@ -6,6 +6,7 @@
  * @Date   : 2018-6-21 15:33:31
  */
 
+import { notify } from '../utils/notification'
 import { request } from '../utils/fetch'
 import { getItemValue, setItemValue } from '../utils/storage'
 
@@ -131,6 +132,7 @@ export default {
       let newCount = 0
       if (phone !== currentConversation) {
         newCount = 1
+        notify('您有新的消息！')
       }
       if (!notificationOff) {
         newMessageCount += newCount
