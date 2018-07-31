@@ -43,13 +43,13 @@ export default class Component extends React.Component {
     let lastRowIds;
 
     contacts.forEach(({ thumb, userName, nick, group, phone }) => {
+      const sectionId = `S_${group}`
       if (group !== lastGroup) {
         lastRowIds = [];
         rowIDs.push(lastRowIds);
         lastGroup = group;
+        sectionIDs.push(sectionId)
       }
-      const sectionId = `S_${group}`
-      sectionIDs.push(sectionId)
       let section = items[sectionId]
       if (!section) {
         section = {
