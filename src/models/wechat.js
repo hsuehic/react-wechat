@@ -135,7 +135,8 @@ export default {
         notify('您有新的消息！', {
           body: content,
           icon: '/favicon.png',
-          vibrate: [500, 100, 500]
+          vibrate: [500, 100, 500],
+          tag: 'wechat-notification'
         })
       }
       if (!notificationOff) {

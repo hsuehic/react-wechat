@@ -9,9 +9,13 @@ function showNotification(title, options) {
   try {
     new Notification(title, options)
   } catch(ex) {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification(title, options)
-    })
+    try {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(title, options)
+      })
+    } catch(e) {
+      console.error(e)
+    }
   }
 }
 
