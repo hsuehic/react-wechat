@@ -17,6 +17,7 @@ import ImageFavorite from '../../images/abk.png';
 import ImageSettings from '../../images/setting.png';
 import ImageAlbum from '../../images/album.png';
 import ImageExpression from '../../images/expression.png';
+import ImageNoPicture from '../../images/a80.png';
 import ImageCard from '../../images/aoh.png';
 
 import './index.less';
@@ -30,7 +31,7 @@ const Component = ({ userName, nick, thumb, history }) => {
     <List
     >
       <Item
-        thumb={<img alt="" src={thumb} style={{ width: '50px', height: '50px'}} />}
+        thumb={<img alt="" src={thumb || ImageNoPicture} style={{ width: '50px', height: '50px'}} />}
         extra={<CustomIcon size="lg" type="qrcode" />}
         styleName="item"
       >

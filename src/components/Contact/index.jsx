@@ -14,6 +14,7 @@ import ImageGongzhonhao from '../../images/gongzhonghao.png';
 import ImageGroup from '../../images/group.png';
 import ImageNewFriend from '../../images/new-friend.png';
 import ImageTag from '../../images/tag.png';
+import ImageNoPicture from '../../images/a80.png';
 
 import './index.less';
 
@@ -72,7 +73,7 @@ class Component extends React.Component {
             ]}
           />}
           dataSource={ds}
-          renderRow={({ nick, thumb, phone }, sectionID, rowID) => <ContactItem history={history} pathname={`/contact/${phone}`} key={`${sectionID}-${rowID}`} text={nick} thumb={<img src={thumb} alt={nick} />} /> }
+          renderRow={({ nick, thumb, phone }, sectionID, rowID) => <ContactItem history={history} pathname={`/contact/${phone}`} key={`${sectionID}-${rowID}`} text={nick} thumb={<img src={thumb || ImageNoPicture} alt={nick} />} /> }
           renderSectionHeader={(sectionData) => <div>{sectionData}</div>}
           renderSectionWrapper={sectionID => (
             <div

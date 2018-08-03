@@ -11,6 +11,8 @@ import { Button, List, WhiteSpace, Toast } from 'antd-mobile'
 import { SetGroup, Group } from '../Group/index'
 import CustomIcon from '../CustomIcon'
 import DetailContainer from '../DetailContainer'
+import ImageNoPicture from '../../images/a80.png'
+
 
 import './index.less'
 
@@ -29,7 +31,7 @@ const Component = ({ userName, nick, thumb, phone, region, history, dispatch, is
         <List
         >
           <Item
-            thumb={<img alt="" src={thumb} style={{ width: '60px', height: '60px', marginRight: '20px'}} />}
+            thumb={<img alt="" src={thumb || ImageNoPicture} style={{ width: '60px', height: '60px', marginRight: '20px'}} />}
             styleName="item"
           >
             {nick}

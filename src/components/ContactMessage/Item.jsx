@@ -11,11 +11,12 @@ import React from 'react'
 import { Badge } from 'antd-mobile'
 import { withRouter } from 'dva/router'
 import CustomIcon from '../CustomIcon'
+import ImageNoPicture from '../../images/a80.png';
 
 import './Item.less'
 
 const Component = ({ phone, nick, content, thumb, timestamp, newCount, history, notificationOff = false }) => {
-  let nodeThumbnail = <img alt={nick} src={thumb} />
+  let nodeThumbnail = <img alt={nick} src={thumb || ImageNoPicture} />
   if (newCount > 0) {
     if (notificationOff) {
       nodeThumbnail = <Badge dot>{nodeThumbnail}</Badge>
